@@ -1,6 +1,8 @@
 {
   "name": "happykiller/oda",
   "description": "Server for the full framework Oda",
+  "keywords": ["oda"],
+  "license": "MIT",
   "type": "library",
   "homepage": "http://perso-happykiller.rhcloud.com/LFJFR/"
   ,"authors": [
