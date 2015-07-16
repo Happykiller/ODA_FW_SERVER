@@ -24,12 +24,3 @@ error_reporting(-1);
 ini_set('xdebug.var_display_max_depth', -1);
 ini_set('xdebug.var_display_max_children', -1);
 ini_set('xdebug.var_display_max_data', -1);
-
-///////////////////
-// Variables globales
-///////////////////
-//Config : Les informations personnels de l'instance (log, pass, etc)
-require_once(dirname(__FILE__) . "/class/AutoLoader.php");
-AutoLoader::register();
-
-require_once(dirname(__FILE__)."/../../include/config.php");
