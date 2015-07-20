@@ -10,7 +10,6 @@ use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaConfi
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new OdaPrepareInterface();
-$params->interface = "API/scriptphp/send_mail";
 $params->arrayInput = array("email_mails_dest","message_html", "sujet");
 $params->arrayInputOpt = array(
     "email_mail_ori" => "oda-service-mail@oda.com",

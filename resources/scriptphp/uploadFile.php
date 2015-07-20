@@ -10,7 +10,6 @@ use \stdClass, \DateTime, \Oda\SimpleObject\OdaPrepareInterface;
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new OdaPrepareInterface();
-$params->interface = "API/scriptphp/uploadFile";
 $params->arrayInput = array("dossier","nom");
 $params->arrayInputOpt = array("replace" => true);
 $ODA_INTERFACE = new OdaLibInterface($params);
