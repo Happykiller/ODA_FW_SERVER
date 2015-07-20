@@ -1,16 +1,17 @@
 <?php
-namespace Oda;
-use stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
+namespace Project;
 
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+require '../header.php';
+require '../vendor/autoload.php';
+require '../include/config.php';
+
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new OdaPrepareInterface();
 $params->arrayInput = array("param_name");
-$ODA_INTERFACE = new OdaLibInterface($params);
+$INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
 // API/phpsql/exemple.php?milis=123450&ctrl=ok&param_name=nom_site
@@ -24,15 +25,15 @@ $params->sql = "SELECT *
     AND a.`param_name` = :param_name
 ;";
 $params->bindsValue = [
-    "param_name" => $ODA_INTERFACE->inputs["param_name"]
+    "param_name" => $INTERFACE->inputs["param_name"]
 ];
 $params->typeSQL = OdaLibBd::SQL_GET_ONE;
-$retour = $ODA_INTERFACE->BD_ENGINE->reqODASQL($params);
+$retour = $INTERFACE->BD_ENGINE->reqODASQL($params);
 
-$params = new \stdClass();
+$params = new stdClass();
 $params->label = "resultat_get_one";
 $params->retourSql = $retour;
-$ODA_INTERFACE->addDataReqSQL($params);
+$INTERFACE->addDataReqSQL($params);
 
 //--------------------------------------------------------------------------
 //EXEMPLE SELECT N ROWS
@@ -42,12 +43,12 @@ $params->sql = "SELECT *
     WHERE 1=1
 ;";
 $params->typeSQL = OdaLibBd::SQL_GET_ALL;
-$retour = $ODA_INTERFACE->BD_ENGINE->reqODASQL($params);
+$retour = $INTERFACE->BD_ENGINE->reqODASQL($params);
 
-$params = new \stdClass();
+$params = new stdClass();
 $params->label = "resultat_get_all";
 $params->retourSql = $retour;
-$ODA_INTERFACE->addDataReqSQL($params);
+$INTERFACE->addDataReqSQL($params);
 
 //--------------------------------------------------------------------------
 //EXEMPLE CLASS
@@ -72,12 +73,12 @@ $params->bindsValue = [
 ];
 $params->typeSQL = OdaLibBd::SQL_GET_ONE;
 $params->className = "\Oda\objRetour";
-$retour = $ODA_INTERFACE->BD_ENGINE->reqODASQL($params);
+$retour = $INTERFACE->BD_ENGINE->reqODASQL($params);
 
-$params = new \stdClass();
+$params = new stdClass();
 $params->label = "resultat_class";
 $params->value = $retour->data->getHello();
-$ODA_INTERFACE->addDataStr($params);
+$INTERFACE->addDataStr($params);
 
 //--------------------------------------------------------------------------
 //EXEMPLE EXEC
@@ -90,16 +91,16 @@ $params->sql = "CREATE TEMPORARY TABLE coucou (
     SELECT a.`id` as 'idElem', a.`param_name` as 'nature' FROM `api_tab_parametres` a
 ;";
 $params->typeSQL = OdaLibBd::SQL_SCRIPT;
-$retour = $ODA_INTERFACE->BD_ENGINE->reqODASQL($params);
+$retour = $INTERFACE->BD_ENGINE->reqODASQL($params);
 
 $params = new \stdClass();
 $params->label = "resultat_exec";
 $params->value = $retour->nombre;
-$ODA_INTERFACE->addDataStr($params);
+$INTERFACE->addDataStr($params);
 
 //--------------------------------------------------------------------------
 //EXEMPLE INSERT 1 DATA
-$params = new SimpleObject\OdaPrepareReqSql();
+$params = new OdaPrepareReqSql();
 $params->sql = "INSERT INTO  `coucou` (
         `idElem` ,
         `nature` 
@@ -112,12 +113,12 @@ $params->bindsValue = [
     "nature" => [ "value" => "coucou"]
 ];
 $params->typeSQL = OdaLibBd::SQL_INSERT_ONE;
-$retour = $ODA_INTERFACE->BD_ENGINE->reqODASQL($params);
+$retour = $INTERFACE->BD_ENGINE->reqODASQL($params);
 
-$params = new \stdClass();
+$params = new stdClass();
 $params->label = "resultat_insert";
 $params->value = $retour->data;
-$ODA_INTERFACE->addDataStr($params);
+$INTERFACE->addDataStr($params);
 
 //--------------------------------------------------------------------------
 //EXEMPLE UPDATE
@@ -129,9 +130,9 @@ $params->sql = "UPDATE `coucou`
 ;";
 $params->typeSQL = OdaLibBd::SQL_SCRIPT;
 $params->debug = true;
-$retour = $ODA_INTERFACE->BD_ENGINE->reqODASQL($params);
+$retour = $INTERFACE->BD_ENGINE->reqODASQL($params);
 
-$params = new \stdClass();
+$params = new stdClass();
 $params->label = "resultat_update";
 $params->value = $retour->nombre;
-$ODA_INTERFACE->addDataStr($params);
+$INTERFACE->addDataStr($params);

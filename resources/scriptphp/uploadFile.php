@@ -1,12 +1,15 @@
 <?php
 namespace Oda;
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+
+require '../../../header.php';
+require '../../../vendor/autoload.php';
+require '../../../include/config.php';
+
+use \stdClass, \DateTime, \Oda\SimpleObject\OdaPrepareInterface;
 
 //--------------------------------------------------------------------------
 //Build the interface
-$params = new SimpleObject\OdaPrepareInterface();
+$params = new OdaPrepareInterface();
 $params->interface = "API/scriptphp/uploadFile";
 $params->arrayInput = array("dossier","nom");
 $params->arrayInputOpt = array("replace" => true);
@@ -87,7 +90,7 @@ if(is_null($config->resourcesPath)){
         //Vérification existance
         if(file_exists($path)) {
             if($ODA_INTERFACE->inputs["replace"] == true){
-                $now = new \DateTime();
+                $now = new DateTime();
                 $new = $path.".old-".$now->format('YmdHis');
                 rename($path, $new);
             }else{
@@ -113,7 +116,7 @@ if(is_null($config->resourcesPath)){
         }
 
         //------------------------------------
-        $params = new \stdClass();
+        $params = new stdClass();
         $params->label = "resultat_".$key;
         $params->value = $retour_array;
         $ODA_INTERFACE->addDataStr($params);

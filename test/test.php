@@ -1,8 +1,10 @@
 <?php
 namespace Oda;
-use stdClass;
+
+use \stdClass;
+
 //--------------------------------------------------------------------------
-require '../../../autoload.php';
+require '../vendor/autoload.php';
 
 //--------------------------------------------------------------------------
 $retours = array();
@@ -15,7 +17,7 @@ $retours[] = OdaLib::test("get_string_between",function() {
 );
 
 //--------------------------------------------------------------------------
-$resultats = new \stdClass();
+$resultats = new stdClass();
 $resultats->details = $retours;
 $resultats->succes = 0;
 $resultats->echec = 0;

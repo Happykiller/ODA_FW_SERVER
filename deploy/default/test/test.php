@@ -1,21 +1,24 @@
 <?php
-namespace Oda;
-use stdClass;
-//--------------------------------------------------------------------------
-require '../../../autoload.php';
+namespace Project;
+
+require '../header.php';
+require '../vendor/autoload.php';
+require '../include/config.php';
+
+use stdClass, \Oda\OdaLib;
 
 //--------------------------------------------------------------------------
 $retours = array();
 
 //--------------------------------------------------------------------------
-$retours[] = OdaLib::test("get_string_between",function() {
-    $v_test = OdaLib::get_string_between("01234", "1", "3");
-    OdaLib::equal($v_test, "2", "Test OK : Passed!");
+$retours[] = OdaLib::test("sayHello",function() {
+    $v_test = sayHello();
+    OdaLib::equal($v_test, "hello", "Test OK : Passed!");
 }
 );
 
 //--------------------------------------------------------------------------
-$resultats = new \stdClass();
+$resultats = new stdClass();
 $resultats->details = $retours;
 $resultats->succes = 0;
 $resultats->echec = 0;

@@ -1,6 +1,12 @@
 <?php
 namespace Project;
-use stdClass;
+
+require '../header.php';
+require '../vendor/autoload.php';
+require '../include/config.php';
+
+use \stdClass, \Oda\SimpleObject\OdaLibInterface;
+
 /**
  * Project class
  *
@@ -9,7 +15,7 @@ use stdClass;
  * @author  Fabrice Rosito <rosito.fabrice@gmail.com>
  * @version 0.150221
  */
-class ProjectInterface extends \Oda\OdaLibInterface {
+class ProjectInterface extends OdaLibInterface {
     /**
      * sayHello
      * @return string

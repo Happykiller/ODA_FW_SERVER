@@ -1,4 +1,6 @@
 <?php
+namespace Oda;
+
 // scriptphp/download.php?milis=123456789&fic=../outils/page_script_outils.zip
 if(isset($_GET["fic"])){
     $Fichier_a_telecharger=basename($_GET["fic"]);

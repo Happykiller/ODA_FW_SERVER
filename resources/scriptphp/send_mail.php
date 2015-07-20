@@ -1,12 +1,15 @@
 <?php
 namespace Oda;
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+
+require '../header.php';
+require '../vendor/autoload.php';
+require '../include/config.php';
+
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaConfig;
 
 //--------------------------------------------------------------------------
 //Build the interface
-$params = new SimpleObject\OdaPrepareInterface();
+$params = new OdaPrepareInterface();
 $params->interface = "API/scriptphp/send_mail";
 $params->arrayInput = array("email_mails_dest","message_html", "sujet");
 $params->arrayInputOpt = array(
@@ -24,7 +27,7 @@ $ODA_INTERFACE = new OdaLibInterface($params);
 // API/scriptphp/send_mail.php?milis=123450&email_mail_ori=admin@mail.com&email_labelle_ori=ServiceMailOda&email_mail_reply=admin@mail.com&email_labelle_reply=ServiceMailOda&email_mails_dest=fabrice.rosito@gmail.com&email_mails_copy=fabrice.rosito@gmail.com&email_mails_cache=fabrice.rosito@gmail.com&message_txt=Anomalie avec le support du HTML.&message_html=<html><head></head><body><b>Merci</b> de repondre à ce mail en moins de 37min</body></html>&sujet=Hey mon ami !
 
 //--------------------------------------------------------------------------
-$config = SimpleObject\OdaConfig::getInstance();
+$config = OdaConfig::getInstance();
 
 if($config->MAILGUN->isOK()){
     $result = OdaLib::sendMailGun($ODA_INTERFACE->inputs);
@@ -33,7 +36,7 @@ if($config->MAILGUN->isOK()){
 }
 
 //--------------------------------------------------------------------------
-$params = new \stdClass();
+$params = new stdClass();
 $params->label = "resultat";
 $params->value = $result;
 $ODA_INTERFACE->addDataStr($params);
