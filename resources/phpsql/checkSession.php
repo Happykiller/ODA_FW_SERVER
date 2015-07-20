@@ -1,8 +1,11 @@
 <?php
 namespace Oda;
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+
+require '../../../../../header.php';
+require '../../../../../vendor/autoload.php';
+require '../../../../../include/config.php';
+
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
 //--------------------------------------------------------------------------
 //Build the interface
@@ -11,7 +14,7 @@ $params->arrayInput = array("code_user", "key");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// API/phpsql/checkSession.php?milis=123450&code_user=FRO&key=e6fff655cb3121c08a8219497ba9358e
+// vendor/happykiller/oda/resources/phpsql/checkSession.php?milis=123450&code_user=FRO&key=e6fff655cb3121c08a8219497ba9358e
 
 //--------------------------------------------------------------------------
 $retour = $ODA_INTERFACE->checkSession($ODA_INTERFACE->inputs);

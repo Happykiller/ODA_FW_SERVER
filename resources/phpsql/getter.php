@@ -1,18 +1,20 @@
 <?php
 namespace Oda;
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+
+require '../../../../../header.php';
+require '../../../../../vendor/autoload.php';
+require '../../../../../include/config.php';
+
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new SimpleObject\OdaPrepareInterface();
-$params->interface = "API/phpsql/getter";
 $params->arrayInput = array("table","get","filtre");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// API/phpsql/getter.php?milis=123450&table=api_tab_utilisateurs&get={"champ":"prenom","type":"PARAM_STR"}&filtre={"champ":"code_user","valeur":"VIS","type":"PARAM_STR"}
+// vendor/happykiller/oda/resources/phpsql/getter.php?milis=123450&table=api_tab_utilisateurs&get={"champ":"prenom","type":"PARAM_STR"}&filtre={"champ":"code_user","valeur":"VIS","type":"PARAM_STR"}
 
 //--------------------------------------------------------------------------
 $jsonGet = json_decode(stripslashes($ODA_INTERFACE->inputs["get"]),true);

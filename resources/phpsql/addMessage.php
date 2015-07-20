@@ -1,18 +1,20 @@
 <?php
 namespace Oda;
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+
+require '../../../../../header.php';
+require '../../../../../vendor/autoload.php';
+require '../../../../../include/config.php';
+
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new SimpleObject\OdaPrepareInterface();
-$params->interface = "API/phpsql/addMessage";
 $params->arrayInput = array("message","niveau","profile","date_expiration","code_user");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// addMessage.php?milis=123450&ctrl=ok&message=Hello&niveau=ALERT&profile=30&date_expiration=2014-01-26&code_user=FRO
+// vendor/happykiller/oda/resources/phpsql/addMessage.php?milis=123450&ctrl=ok&message=Hello&niveau=ALERT&profile=30&date_expiration=2014-01-26&code_user=FRO
     
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

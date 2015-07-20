@@ -1,18 +1,20 @@
 <?php
 namespace Oda;
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+
+require '../../../../../header.php';
+require '../../../../../vendor/autoload.php';
+require '../../../../../include/config.php';
+
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new SimpleObject\OdaPrepareInterface();
-$params->interface = "phpsql/getAuth";
 $params->arrayInput = array("login", "mdp");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// API/phpsql/getAuth.php?milis=123450&login=VIS&mdp=VIS
+// vendor/happykiller/oda/resources/phpsql/getAuth.php?milis=123450&login=VIS&mdp=VIS
 
 //--------------------------------------------------------------------------
 if(OdaLib::startsWith($ODA_INTERFACE->inputs["mdp"],"authByGoogle-")){

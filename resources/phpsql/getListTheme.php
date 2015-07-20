@@ -1,18 +1,20 @@
 <?php
 namespace Oda;
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+
+require '../../../../../header.php';
+require '../../../../../vendor/autoload.php';
+require '../../../../../include/config.php';
+
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new SimpleObject\OdaPrepareInterface();
-$params->interface = "API/phpsql/getListTheme";
 $params->arrayInput = array("code_user");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// API/phpsql/getListTheme.php?milis=123450&code_user=VIS
+// vendor/happykiller/oda/resources/phpsql/getListTheme.php?milis=123450&code_user=VIS
 
 //--------------------------------------------------------------------------
 $theme_defaut = $ODA_INTERFACE->getParameter("theme_defaut");
@@ -49,7 +51,7 @@ $liste_theme = array();
 
 $theme = new \stdClass();
 $theme -> nom = 'default';
-$theme -> path = 'API/css/themes/';
+$theme -> path = 'vendor/happykiller/oda/resources/phpsql/css/themes/';
 $liste_theme[] = $theme;
 
 $dir = opendir($path); 

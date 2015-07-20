@@ -1,19 +1,21 @@
 <?php
 namespace Oda;
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+
+require '../../../../../header.php';
+require '../../../../../vendor/autoload.php';
+require '../../../../../include/config.php';
+
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new SimpleObject\OdaPrepareInterface();
-$params->interface = "API/phpsql/addStat";
 $params->arrayInput = array("user","page","action");
 $params->modeDebug = false;
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// addStat.php?milis=123450&ctrl=ok&user=ADMI&page=page_home.html&action=checkAuth%20:%20ok
+// vendor/happykiller/oda/resources/phpsql/addStat.php?milis=123450&ctrl=ok&user=ADMI&page=page_home.html&action=checkAuth%20:%20ok
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

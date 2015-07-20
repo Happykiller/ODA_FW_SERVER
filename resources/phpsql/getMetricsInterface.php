@@ -1,17 +1,19 @@
 <?php
 namespace Oda;
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+
+require '../../../../../header.php';
+require '../../../../../vendor/autoload.php';
+require '../../../../../include/config.php';
+
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new SimpleObject\OdaPrepareInterface();
-$params->interface = "API/phpsql/getMetricsInterface";
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// API/phpsql/getMetricsInterface.php?milis=123450&ctrl=ok
+// vendor/happykiller/oda/resources/phpsql/getMetricsInterface.php?milis=123450&ctrl=ok
     
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

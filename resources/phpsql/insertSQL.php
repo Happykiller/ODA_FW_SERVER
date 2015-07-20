@@ -1,19 +1,21 @@
 <?php
 namespace Oda;
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+
+require '../../../../../header.php';
+require '../../../../../vendor/autoload.php';
+require '../../../../../include/config.php';
+
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new SimpleObject\OdaPrepareInterface();
-$params->interface = "API/phpsql/insertSQL";
 $params->modePublic = false;
 $params->arrayInput = array("sql");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// API/phpsql/insertSQL.php?milis=123456789&sql=INSERT INTO `api_tab_log` (`id` ,`dateTime` ,`type` ,`commentaires`)VALUES (NULL ,  NOW(),  '1',  'essai');
+// vendor/happykiller/oda/resources/phpsql/insertSQL.php?milis=123456789&sql=INSERT INTO `api_tab_log` (`id` ,`dateTime` ,`type` ,`commentaires`)VALUES (NULL ,  NOW(),  '1',  'essai');
 
 //--------------------------------------------------------------------------
 if (preg_match("/\bDELETE\b/i", $ODA_INTERFACE->inputs["sql"])) {

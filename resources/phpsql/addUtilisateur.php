@@ -1,17 +1,19 @@
 <?php
 namespace Oda;
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+
+require '../../../../../header.php';
+require '../../../../../vendor/autoload.php';
+require '../../../../../include/config.php';
+
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new SimpleObject\OdaPrepareInterface();
-$params->interface = "API/phpsql/addUtilisateur";
 $params->arrayInput = array("nom","prenom","email","motDePasse","codeUtilisateur");
 $ODA_INTERFACE = new OdaLibInterface($params);
 //--------------------------------------------------------------------------
-// addUtilisateur.php?milis=123450&nom=nom&prenom=prenom&email=email@mail.com&motDePasse=mdp&codeUtilisateur=NOP
+// vendor/happykiller/oda/resources/phpsql/addUtilisateur.php?milis=123450&nom=nom&prenom=prenom&email=email@mail.com&motDePasse=mdp&codeUtilisateur=NOP
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

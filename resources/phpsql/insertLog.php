@@ -1,18 +1,20 @@
 <?php
 namespace Oda;
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+
+require '../../../../../header.php';
+require '../../../../../vendor/autoload.php';
+require '../../../../../include/config.php';
+
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new SimpleObject\OdaPrepareInterface();
-$params->interface = "API/phpsql/insertLog";
 $params->arrayInput = array("type","msg");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// API/phpsql/insertLog.php?milis=123450&type=0&msg=wtf
+// vendor/happykiller/oda/resources/phpsql/insertLog.php?milis=123450&type=0&msg=wtf
 
 //--------------------------------------------------------------------------
 $id = $ODA_INTERFACE->BD_ENGINE->logTrace($ODA_INTERFACE->inputs["type"], addslashes($ODA_INTERFACE->inputs["msg"]));

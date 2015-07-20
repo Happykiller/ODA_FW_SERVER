@@ -1,10 +1,11 @@
 <?php
 namespace Oda;
-use stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+require '../../../../../header.php';
+require '../../../../../vendor/autoload.php';
+require '../../../../../include/config.php';
+
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
 //--------------------------------------------------------------------------
 //Build the interface
@@ -13,7 +14,7 @@ $params->arrayInput = array("email");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// API/phpsql/getAccountsFromEmail.php?email=test@mail.com
+// vendor/happykiller/oda/resources/phpsql/getAccountsFromEmail.php?email=test@mail.com
 
 //--------------------------------------------------------------------------
 $params = new OdaPrepareReqSql();

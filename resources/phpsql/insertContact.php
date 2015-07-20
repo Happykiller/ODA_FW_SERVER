@@ -1,18 +1,20 @@
 <?php
 namespace Oda;
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+
+require '../../../../../header.php';
+require '../../../../../vendor/autoload.php';
+require '../../../../../include/config.php';
+
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new SimpleObject\OdaPrepareInterface();
-$params->interface = "API/phpsql/insertContact";
 $params->arrayInput = array("reponse","message","code_user");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// API/phpsql/insertContact.php?milis=123456789&reponse=moi@gma.com&message=Ecrit moi !&code_user=FRO
+// vendor/happykiller/oda/resources/phpsql/insertContact.php?milis=123456789&reponse=moi@gma.com&message=Ecrit moi !&code_user=FRO
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

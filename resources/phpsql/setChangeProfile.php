@@ -1,18 +1,20 @@
 <?php
 namespace Oda;
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+
+require '../../../../../header.php';
+require '../../../../../vendor/autoload.php';
+require '../../../../../include/config.php';
+
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new SimpleObject\OdaPrepareInterface();
-$params->interface = "API/phpsql/setChangeProfile";
 $params->arrayInput = array("code_user","mdp","champs","value");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// API/phpsql/setChangeProfile.php?milis=123450&code_user=VIS&mdp=VIS&champs=prenom&value=kikoo
+// vendor/happykiller/oda/resources/phpsql/setChangeProfile.php?milis=123450&code_user=VIS&mdp=VIS&champs=prenom&value=kikoo
     
 //--------------------------------------------------------------------------
 $params = new \stdClass();

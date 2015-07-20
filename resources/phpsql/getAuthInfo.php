@@ -1,18 +1,20 @@
 <?php
 namespace Oda;
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+
+require '../../../../../header.php';
+require '../../../../../vendor/autoload.php';
+require '../../../../../include/config.php';
+
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new SimpleObject\OdaPrepareInterface();
-$params->interface = "phpsql/getAuthInfo";
 $params->arrayInput = array("code_user");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// API/phpsql/getAuthInfo.php?milis=123456789&code_user=VIS
+// vendor/happykiller/oda/resources/phpsql/getAuthInfo.php?milis=123456789&code_user=VIS
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

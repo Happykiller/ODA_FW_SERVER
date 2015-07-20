@@ -1,19 +1,21 @@
 <?php
 namespace Oda;
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+
+require '../../../../../header.php';
+require '../../../../../vendor/autoload.php';
+require '../../../../../include/config.php';
+
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new SimpleObject\OdaPrepareInterface();
-$params->interface = "API/phpsql/getMenu";
 $params->arrayInput = array("rang");
 $params->arrayInputOpt = array("id_page" => 0);
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// API/phpsql/getMenu.php?milis=123450&rang=30&id_page=1
+// vendor/happykiller/oda/resources/phpsql/getMenu.php?milis=123450&rang=30&id_page=1
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

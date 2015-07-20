@@ -1,11 +1,11 @@
 <?php
 namespace Oda;
-use stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
-//--------------------------------------------------------------------------
-//Header
-require("../php/header.php");
+require '../../../../../header.php';
+require '../../../../../vendor/autoload.php';
+require '../../../../../include/config.php';
 
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new OdaPrepareInterface();
@@ -13,7 +13,7 @@ $params->arrayInput = array("param_name");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// API/phpsql/exemple.php?milis=123450&ctrl=ok&param_name=nom_site
+// vendor/happykiller/oda/resources/phpsql/exemple.php?milis=123450&ctrl=ok&param_name=nom_site
 
 //--------------------------------------------------------------------------
 //EXEMPLE SELECT 1 ROW
