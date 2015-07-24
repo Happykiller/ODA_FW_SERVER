@@ -5,7 +5,7 @@ require '../header.php';
 require '../vendor/autoload.php';
 require '../include/config.php';
 
-use \stdClass, \Oda\SimpleObject\OdaLibInterface;
+use \stdClass, \Oda\OdaLibInterface;
 
 /**
  * Project class
@@ -20,13 +20,11 @@ class ProjectInterface extends OdaLibInterface {
      * sayHello
      * @return string
      */
-    function sayHello() {
+    static function sayHello() {
         try {
             return "hello";
         } catch (Exception $ex) {
-            $this->object_retour->strErreur = $ex.'';
-            $this->object_retour->statut = self::STATE_ERROR;
-            die();
+            return null;
         }
     }
 }

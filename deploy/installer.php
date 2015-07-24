@@ -15,4 +15,4 @@ $longopts  = array(
 );
 $options = getopt($shortopts, $longopts);
 
-\Oda\OdaLib::recurse_copy("default","../../../");
+\Oda\OdaLib::recurse_copy("default","../../../../");

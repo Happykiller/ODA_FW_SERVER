@@ -12,7 +12,7 @@ $retours = array();
 
 //--------------------------------------------------------------------------
 $retours[] = OdaLib::test("sayHello",function() {
-    $v_test = sayHello();
+    $v_test = ProjectInterface::sayHello();
     OdaLib::equal($v_test, "hello", "Test OK : Passed!");
 }
 );
