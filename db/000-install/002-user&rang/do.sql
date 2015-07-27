@@ -2,7 +2,7 @@
 --
 -- Structure de la table `tab_rangs`
 --
-CREATE TABLE IF NOT EXISTS `@prefix@tab_rangs` (
+CREATE TABLE IF NOT EXISTS `@prefix@api_tab_rangs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `labelle` varchar(250) NOT NULL,
   `indice` int(11) NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `@prefix@tab_rangs` (
 --
 -- Datas
 --
-INSERT INTO `@prefix@tab_rangs` (`id`, `labelle`, `indice`) VALUES
+INSERT INTO `@prefix@api_tab_rangs` (`id`, `labelle`, `indice`) VALUES
   (1, 'Administrateur', 1),
   (2, 'Superviseur', 10),
   (3, 'Responsable', 20),
@@ -23,13 +23,13 @@ INSERT INTO `@prefix@tab_rangs` (`id`, `labelle`, `indice`) VALUES
 --
 -- Reserve
 --
-ALTER TABLE `@prefix@tab_rangs` AUTO_INCREMENT = 20;
+ALTER TABLE `@prefix@api_tab_rangs` AUTO_INCREMENT = 20;
 
 -- --------------------------------------------------------
 --
 -- Structure de la table `tab_utilisateurs`
 --
-CREATE TABLE IF NOT EXISTS `@prefix@tab_utilisateurs` (
+CREATE TABLE IF NOT EXISTS `@prefix@api_tab_utilisateurs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code_user` varchar(10) NOT NULL,
   `password` varchar(20) NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `@prefix@tab_utilisateurs` (
 --
 -- Datas
 --
-INSERT INTO `@prefix@tab_utilisateurs` (`code_user`, `password`, `nom`, `prenom`, `id_rang`, `mail`) VALUES
+INSERT INTO `@prefix@api_tab_utilisateurs` (`code_user`, `password`, `nom`, `prenom`, `id_rang`, `mail`) VALUES
   ('ADMI', 'pass', 'Administrateur', 'Administrateur', 1, 'admin@mail.com'),
   ('VIS', 'VIS', 'Visiteur', 'Visiteur', 5, 'vis@mail.com');
 
@@ -59,4 +59,4 @@ INSERT INTO `@prefix@tab_utilisateurs` (`code_user`, `password`, `nom`, `prenom`
 --
 -- Contraites
 --
-ALTER TABLE  `@prefix@tab_utilisateurs` ADD CONSTRAINT fk_rang FOREIGN KEY (  `id_rang` ) REFERENCES  `@prefix@tab_rangs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION ;
+ALTER TABLE  `@prefix@api_tab_utilisateurs` ADD CONSTRAINT fk_rang FOREIGN KEY (  `id_rang` ) REFERENCES  `@prefix@api_tab_rangs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION ;

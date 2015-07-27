@@ -1,5 +1,5 @@
-ALTER TABLE `@prefix@tab_utilisateurs` DROP FOREIGN KEY fk_rang;
+ALTER TABLE `@prefix@api_tab_utilisateurs` DROP FOREIGN KEY fk_rang;
 
-DROP TABLE `@prefix@tab_utilisateurs`;
+DROP TABLE `@prefix@api_tab_utilisateurs`;
 
-DROP TABLE `@prefix@tab_rangs`;
+DROP TABLE `@prefix@api_tab_rangs`;

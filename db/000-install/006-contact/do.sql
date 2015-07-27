@@ -15,4 +15,4 @@ CREATE TABLE IF NOT EXISTS `@prefix@api_tab_contact` (
 --
 -- Contraites
 --
-ALTER TABLE  `@prefix@api_tab_contact` ADD CONSTRAINT fk_user FOREIGN KEY (  `id` ) REFERENCES  `@prefix@tab_utilisateurs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION ;
+ALTER TABLE  `@prefix@api_tab_contact` ADD CONSTRAINT fk_user FOREIGN KEY (  `id` ) REFERENCES  `@prefix@api_tab_utilisateurs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION ;
