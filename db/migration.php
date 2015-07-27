@@ -23,6 +23,7 @@ if (!isset($options['target']) ) {
     exit(1);
 }
 
+// TODO ajouter notion db on install tout ce qui n'est pas encore installer sauf 000
 if (!isset($options['option']) ) {
     $options['option'] = "do";
 }
