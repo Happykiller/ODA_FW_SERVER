@@ -3,7 +3,7 @@ ALTER TABLE `@prefix@api_tab_utilisateurs` DROP FOREIGN KEY fk_rang;
 ALTER TABLE `@prefix@api_tab_utilisateurs` ADD `login` INT(4) NOT NULL AFTER `id`;
 
 UPDATE `@prefix@api_tab_utilisateurs` a
-SET a.`login` = b.`code_user`
+SET a.`login` = a.`code_user`
 WHERE 1=1
 ;
 

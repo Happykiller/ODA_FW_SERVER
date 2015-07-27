@@ -18,12 +18,6 @@ $longopts  = array(
 );
 $options = getopt($shortopts, $longopts);
 
-$config = OdaConfig::getInstance();
-
-$params_bd = new stdClass();
-$params_bd->bd_conf = $config->BD_ENGINE;
-$BD_ENGINE = new OdaLibBd($params_bd);
-
 if (!isset($options['target']) ) {
     print "There was a problem reading in the options." . PHP_EOL;
     exit(1);
@@ -44,15 +38,19 @@ if($options['partial'] !== "all"){
     $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('./'.$options['target'].'/', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
     foreach($objects as $name => $object){
         if ($object->isDir()) {
-            exe($BD_ENGINE, $name.'/'.$options['option'].'.sql');
+            exe($name.'/'.$options['option'].'.sql');
         }
     }
 }
 
 echo 'Sucess' . PHP_EOL;
 
-function exe($BD_ENGINE, $file){
+function exe($file){
     $config = OdaConfig::getInstance();
+
+    $params_bd = new stdClass();
+    $params_bd->bd_conf = $config->BD_ENGINE;
+    $BD_ENGINE = new OdaLibBd($params_bd);
 
     echo "Script selected : ". $file . PHP_EOL;
 
@@ -62,7 +60,7 @@ function exe($BD_ENGINE, $file){
 
     $params = new OdaPrepareReqSql();
     $params->sql = $contentScript;
-    $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+    $params->typeSQL = OdaLibBd::SQL_SCRIPT;
     $retour = $BD_ENGINE->reqODASQL($params);
 
     echo "Statut : " . $retour->strStatut . (($retour->strStatut != 5) ? (" (error : " . $retour->strErreur . ")") : "")    . PHP_EOL;
@@ -74,6 +72,6 @@ function exe($BD_ENGINE, $file){
         VALUES
         ('".$file."', NOW)
     ";
-    $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+    $params->typeSQL = OdaLibBd::SQL_SCRIPT;
     $retour = $BD_ENGINE->reqODASQL($params);
 }

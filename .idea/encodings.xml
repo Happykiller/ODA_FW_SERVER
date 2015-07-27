@@ -19,6 +19,8 @@
     <file url="file://$PROJECT_DIR$/db/000-install/008-message/unDo.sql" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/db/000-install/009-statistic/do.sql" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/db/000-install/009-statistic/unDo.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/001-reworkModel/001-codeUserAndProfile/do.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/001-reworkModel/001-codeUserAndProfile/unDo.sql" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/db/001-todo/do.sql" charset="UTF-8" />
   </component>
 </project>
