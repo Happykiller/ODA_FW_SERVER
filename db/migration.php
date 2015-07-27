@@ -62,4 +62,6 @@ function exe($file){
     $params->sql = $contentScript;
     $params->typeSQL = OdaLibBd::SQL_GET_ONE;
     $retour = $BD_ENGINE->reqODASQL($params);
+
+    echo "Statut : " . $retour->strStatut . " (error : " . $retour->strErreur . ")";
 }
