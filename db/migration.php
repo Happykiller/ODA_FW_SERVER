@@ -18,6 +18,12 @@ $longopts  = array(
 );
 $options = getopt($shortopts, $longopts);
 
+$config = OdaConfig::getInstance();
+
+$params_bd = new stdClass();
+$params_bd->bd_conf = $config->BD_ENGINE;
+$BD_ENGINE = new OdaLibBd($params_bd);
+
 if (!isset($options['target']) ) {
     print "There was a problem reading in the options." . PHP_EOL;
     exit(1);
@@ -38,14 +44,14 @@ if($options['partial'] !== "all"){
     $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('./'.$options['target'].'/', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
     foreach($objects as $name => $object){
         if ($object->isDir()) {
-            exe($name.'/'.$options['option'].'.sql');
+            exe($BD_ENGINE, $name.'/'.$options['option'].'.sql');
         }
     }
 }
 
 echo 'Sucess' . PHP_EOL;
 
-function exe($file){
+function exe($BD_ENGINE, $file){
     $config = OdaConfig::getInstance();
 
     echo "Script selected : ". $file . PHP_EOL;
@@ -54,14 +60,20 @@ function exe($file){
 
     $contentScript = str_replace("@prefix@", $config->BD_ENGINE->prefixTable, $contentScript);
 
-    $params_bd = new stdClass();
-    $params_bd->bd_conf = $config->BD_ENGINE;
-    $BD_ENGINE = new OdaLibBd($params_bd);
-
     $params = new OdaPrepareReqSql();
     $params->sql = $contentScript;
     $params->typeSQL = OdaLibBd::SQL_GET_ONE;
     $retour = $BD_ENGINE->reqODASQL($params);
 
     echo "Statut : " . $retour->strStatut . (($retour->strStatut != 5) ? (" (error : " . $retour->strErreur . ")") : "")    . PHP_EOL;
+
+    $params = new OdaPrepareReqSql();
+    $params->sql = "
+        INSERT INTO `".$config->BD_ENGINE->prefixTable."api_tab_migration`
+        (`name`, `dateMigration`)
+        VALUES
+        ('".$file."', NOW)
+    ";
+    $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+    $retour = $BD_ENGINE->reqODASQL($params);
 }
