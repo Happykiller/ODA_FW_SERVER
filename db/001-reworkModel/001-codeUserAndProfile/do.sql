@@ -1,6 +1,6 @@
 ALTER TABLE `@prefix@api_tab_utilisateurs` DROP `login`;
 
-ALTER TABLE `@prefix@api_tab_utilisateurs` ADD `id_rang` INT(4) NOT NULL AFTER `prenom`;
+ALTER TABLE `@prefix@api_tab_utilisateurs` ADD `id_rang` varchar(10) NOT NULL AFTER `prenom`;
 
 UPDATE `@prefix@api_tab_utilisateurs` a
   JOIN `@prefix@api_tab_rangs` b ON 1=1 AND a.`profile` = b.`indice`
