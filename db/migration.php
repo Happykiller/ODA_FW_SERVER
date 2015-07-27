@@ -14,7 +14,8 @@ $shortopts  = "";
 $longopts  = array(
     "target:",
     "partial::",
-    "option::"
+    "option::",
+    "checkDb::"
 );
 $options = getopt($shortopts, $longopts);
 
@@ -29,13 +30,16 @@ if (!isset($options['target']) ) {
     exit(1);
 }
 
-// TODO ajouter notion db on install tout ce qui n'est pas encore installer sauf 000
 if (!isset($options['option']) ) {
     $options['option'] = "do";
 }
 
 if (!isset($options['partial']) ) {
     $options['partial'] = "all";
+}
+
+if (!isset($options['partial']) ) {
+    $options['checkDb'] = false;
 }
 
 if($options['partial'] !== "all"){
@@ -54,6 +58,29 @@ echo 'Sucess' . PHP_EOL;
 
 function exe($config, $BD_ENGINE, $file, $options){
     echo "Script selected : ". $file . PHP_EOL;
+
+    if($options['checkDb']){
+        $params = new OdaPrepareReqSql();
+        $params->sql = "
+            SELECT COUNT(*) as 'nb'
+            FROM `".$config->BD_ENGINE->prefixTable."api_tab_migration`
+            WHERE 1=1
+            AND `name` = '".$file."'
+        ";
+        $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+        $retour = $BD_ENGINE->reqODASQL($params);
+        $exist = $retour->data->nb;
+
+        if($exist && ($options['option'] == "do")){
+            echo "Status for the migration : already done" . PHP_EOL;
+            return true;
+        }
+
+        if(!$exist && ($options['option'] == "unDo")){
+            echo "Status for the migration : nothing to unDo" . PHP_EOL;
+            return true;
+        }
+    }
 
     $contentScript = file_get_contents($file, FILE_USE_INCLUDE_PATH);
 
@@ -88,4 +115,6 @@ function exe($config, $BD_ENGINE, $file, $options){
         $retour = $BD_ENGINE->reqODASQL($params);
         echo "Status for the trace record : " . $retour->strStatut . (($retour->strStatut != 5) ? (" (error : " . $retour->strErreur . ")") : "")    . PHP_EOL;
     }
+
+    return true;
 }
