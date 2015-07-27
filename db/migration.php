@@ -63,5 +63,5 @@ function exe($file){
     $params->typeSQL = OdaLibBd::SQL_GET_ONE;
     $retour = $BD_ENGINE->reqODASQL($params);
 
-    echo "Statut : " . $retour->strStatut . " (error : " . $retour->strErreur . ")";
+    echo "Statut : " . $retour->strStatut . (($retour->strStatut != 5) ? (" (error : " . $retour->strErreur . ")") : "")    . PHP_EOL;
 }

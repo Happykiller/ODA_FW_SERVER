@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/db/000-install/001-migration/do.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/000-install/001-migration/unDo.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/000-install/002-user&amp;rang/do.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/000-install/002-user&amp;rang/unDo.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/000-install/003-menu/do.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/000-install/003-menu/unDo.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/000-install/004-interface/do.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/000-install/004-interface/unDo.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/000-install/005-system/do.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/000-install/005-system/unDo.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/000-install/006-contact/do.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/000-install/006-contact/unDo.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/000-install/007-serviceMail/do.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/000-install/007-serviceMail/unDo.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/000-install/008-message/do.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/000-install/008-message/unDo.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/000-install/009-statistic/do.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/000-install/009-statistic/unDo.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/001-todo/do.sql" charset="UTF-8" />
+  </component>
+</project>
