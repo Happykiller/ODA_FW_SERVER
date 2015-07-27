@@ -32,7 +32,6 @@ ALTER TABLE `@prefix@tab_rangs` AUTO_INCREMENT = 20;
 CREATE TABLE IF NOT EXISTS `@prefix@tab_utilisateurs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code_user` varchar(10) NOT NULL,
-  `login` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
   `nom` varchar(20) NOT NULL,
   `prenom` varchar(20) NOT NULL,
@@ -40,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `@prefix@tab_utilisateurs` (
   `description` varchar(250) NOT NULL,
   `montrer_aide_ihm` int(2) NOT NULL DEFAULT '1',
   `mail` varchar(100) NOT NULL,
-  `actif` int(2) NOT NULL,
+  `actif` int(2) NOT NULL DEFAULT '1',
   `date_creation` datetime NOT NULL,
   `date_modif` datetime NOT NULL,
   `theme` varchar(50) NOT NULL,
@@ -52,9 +51,9 @@ CREATE TABLE IF NOT EXISTS `@prefix@tab_utilisateurs` (
 --
 -- Datas
 --
-INSERT INTO `oda_chop`.`tab_utilisateurs` (`id`, `login`, `password`, `code_user`, `nom`, `prenom`, `profile`, `montrer_aide_ihm`, `mail`, `actif`) VALUES
-  (null, 'ADMI', 'pass', 'ADMI', 'Administrateur', '', 1, 0, 'admin@mail.com', 1),
-  (null, 'VIS', 'VIS', 'VIS', 'Visiteur', 'Visiteur', 99, 1, 'vis@mail.com', 1);
+INSERT INTO `@prefix@tab_utilisateurs` (`code_user`, `password`, `nom`, `prenom`, `id_rang`, `mail`) VALUES
+  ('ADMI', 'pass', 'Administrateur', 'Administrateur', 1, 'admin@mail.com'),
+  ('VIS', 'VIS', 'Visiteur', 'Visiteur', 5, 'vis@mail.com');
 
 -- --------------------------------------------------------
 --
