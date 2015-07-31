@@ -11,7 +11,7 @@ use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepa
 //Build the interface
 $params = new OdaPrepareInterface();
 $params->arrayInput = array("param_name");
-$INTERFACE = new OdaLibInterface($params);
+$INTERFACE = new ProjectInterface($params);
 
 //--------------------------------------------------------------------------
 // phpsql/exemple.php?milis=123450&ctrl=ok&param_name=nom_site
