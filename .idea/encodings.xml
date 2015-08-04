@@ -21,6 +21,10 @@
     <file url="file://$PROJECT_DIR$/db/000-install/009-statistic/unDo.sql" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/db/001-reworkModel/001-codeUserAndProfile/do.sql" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/db/001-reworkModel/001-codeUserAndProfile/unDo.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/migration.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/deploy/default/db/001-workv2" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/deploy/default/db/migration.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/deploy/default/phpsql/exemple.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dist/OdaMigration.php" charset="UTF-8" />
   </component>
 </project>
