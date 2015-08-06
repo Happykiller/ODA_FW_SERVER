@@ -1,0 +1,1 @@
+ALTER TABLE `@prefix@api_tab_log` DROP FOREIGN KEY fk_type_log;
