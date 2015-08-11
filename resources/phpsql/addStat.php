@@ -20,9 +20,11 @@ $ODA_INTERFACE = new OdaLibInterface($params);
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();
 $params->sql = "INSERT INTO `api_tab_statistiques_site`
-    (`date`, `code_user`, `page`, `action`) 
-    VALUES 
-    (NOW(), :user, :page, :nature)
+    (`date`, `id_user`, `page`, `action`)
+    SELECT NOW(), `api_tab_utilisateurs`.id, :page, :nature
+    FROM `api_tab_utilisateurs`
+    WHERE 1=1
+    AND `api_tab_utilisateurs`.`code_user` = :user
 ;";
 $params->bindsValue = [
     "user" => $ODA_INTERFACE->inputs["user"],

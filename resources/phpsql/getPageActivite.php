@@ -18,10 +18,11 @@ $ODA_INTERFACE = new OdaLibInterface($params);
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();
 $params->sql = "SELECT `page`, count(*) 'nombre'
-    FROM `api_tab_statistiques_site` a, `api_tab_utilisateurs` b
+    FROM `api_tab_statistiques_site` a, `api_tab_utilisateurs` b, `api_tab_rangs` c
     WHERE 1=1
-    AND a.`code_user` = b.`code_user`
-    AND b.`profile` > 1
+    AND a.`id_user` = b.`id`
+    AND b.`id_rang` = c.`id`
+    AND c.`indice` > 1
     GROUP BY a.`page`
     ORDER BY `nombre` desc
 ;";

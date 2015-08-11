@@ -17,12 +17,13 @@ $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();
-$params->sql = "SELECT IF(a.`code_user`='','N.A',a.`code_user`) as 'code_user', count(*) 'nombre'
-    FROM `api_tab_statistiques_site` a, `api_tab_utilisateurs` b
+$params->sql = "SELECT IF(b.`code_user`='','N.A',b.`code_user`) as 'code_user', count(*) 'nombre'
+    FROM `api_tab_statistiques_site` a, `api_tab_utilisateurs` b, `api_tab_rangs` c
     WHERE 1=1
-    AND a.`code_user` = b.`code_user`
-    AND b.`profile` > 1
-    GROUP BY a.`code_user`
+    AND a.`id_user` = b.`id`
+    AND b.`id_rang` = c.`id`
+    AND c.`indice` > 1
+    GROUP BY a.`id_user`
     ORDER BY `nombre` desc
 ;";
 $params->typeSQL = OdaLibBd::SQL_GET_ALL;
