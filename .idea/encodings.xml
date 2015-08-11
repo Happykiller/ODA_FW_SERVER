@@ -27,6 +27,7 @@
     <file url="file://$PROJECT_DIR$/db/001-reworkModel/003-log" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/db/001-reworkModel/004-Menu" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/db/001-reworkModel/005-messages" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db/001-reworkModel/006-stats" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/db/migration.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/deploy/default/db/001-workv2" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/deploy/default/db/migration.php" charset="UTF-8" />
