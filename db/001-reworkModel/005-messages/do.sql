@@ -19,13 +19,23 @@ ALTER TABLE `@prefix@api_tab_messages` DROP `profile`;
 ALTER TABLE `@prefix@api_tab_messages` DROP `code_user_creation`;
 
 -- --------------------------------------------------------
---
--- Contraites
---
-ALTER TABLE  `@prefix@api_tab_messages` ADD CONSTRAINT fk_user FOREIGN KEY ( `id_user` ) REFERENCES  `@prefix@api_tab_utilisateurs` ( `id` ) ON DELETE NO ACTION ON UPDATE NO ACTION ;
+ALTER TABLE `@prefix@api_tab_messages_lus` ADD `id_user` INT(10) NOT NULL AFTER `id`;
+
+UPDATE `@prefix@api_tab_messages_lus` a
+  JOIN `@prefix@api_tab_utilisateurs` b ON 1=1 AND a.`code_user` = b.`code_user`
+SET a.`id_user` = b.`id`
+WHERE 1=1
+;
+
+ALTER TABLE `@prefix@api_tab_messages_lus` DROP `code_user`;
+
 
 -- --------------------------------------------------------
 --
 -- Contraites
 --
+ALTER TABLE  `@prefix@api_tab_messages` ADD CONSTRAINT fk_user FOREIGN KEY ( `id_user` ) REFERENCES  `@prefix@api_tab_utilisateurs` ( `id` ) ON DELETE NO ACTION ON UPDATE NO ACTION ;
+
 ALTER TABLE  `@prefix@api_tab_messages` ADD CONSTRAINT fk_rang FOREIGN KEY ( `id_rang` ) REFERENCES  `@prefix@api_tab_rangs` ( `id` ) ON DELETE NO ACTION ON UPDATE NO ACTION ;
+
+ALTER TABLE  `@prefix@api_tab_messages_lus` ADD CONSTRAINT fk_user FOREIGN KEY ( `id_user` ) REFERENCES  `@prefix@api_tab_utilisateurs` ( `id` ) ON DELETE NO ACTION ON UPDATE NO ACTION ;

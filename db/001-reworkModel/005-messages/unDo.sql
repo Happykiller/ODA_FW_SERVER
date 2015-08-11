@@ -17,3 +17,20 @@ UPDATE `@prefix@api_tab_messages` a
 SET a.`code_user_creation` = b.`code_user`
 WHERE 1=1
 ;
+
+ALTER TABLE `@prefix@api_tab_messages` DROP `id_user`;
+
+ALTER TABLE `@prefix@api_tab_messages` DROP `id_rang`;
+
+-- --------------------------------------------------------
+ALTER TABLE `@prefix@api_tab_messages_lus` DROP FOREIGN KEY fk_user;
+
+ALTER TABLE `@prefix@api_tab_messages_lus` ADD `code_user` varchar(100) NOT NULL AFTER `id`;
+
+UPDATE `@prefix@api_tab_messages` a
+  JOIN `@prefix@api_tab_utilisateurs` b ON 1=1 AND a.`id_user` = b.`id`
+SET a.`code_user_creation` = b.`code_user`
+WHERE 1=1
+;
+
+ALTER TABLE `@prefix@api_tab_messages_lus` DROP `id_user`;

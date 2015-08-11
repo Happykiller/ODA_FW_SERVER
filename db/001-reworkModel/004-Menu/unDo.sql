@@ -5,3 +5,5 @@ UPDATE `@prefix@api_tab_menu_rangs_droit` a
 SET a.`id_rang` = b.`indice`
 WHERE 1=1
 ;
+
+ALTER TABLE `@prefix@api_tab_menu_rangs_droit` DROP `id_rang`;
