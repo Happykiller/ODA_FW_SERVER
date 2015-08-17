@@ -33,8 +33,12 @@
     <file url="file://$PROJECT_DIR$/deploy/default/db/migration.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/deploy/default/phpsql/exemple.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dist/OdaMigration.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/phpsql/addMessage.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/phpsql/addStat.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/phpsql/getMessages.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/phpsql/getMessagesToDisplay.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/phpsql/getPageActivite.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/phpsql/getUserActivite.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/phpsql/setMessagesLus.php" charset="UTF-8" />
   </component>
 </project>

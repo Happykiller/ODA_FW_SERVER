@@ -18,10 +18,11 @@ $ODA_INTERFACE = new OdaLibInterface($params);
     
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();
-$params->sql = "Select a.`actif`, a.`message`, b.`labelle` as 'profile', a.`niveau`, a.`date_expiration`, a.`code_user_creation`, a.`date_creation`
-    FROM `api_tab_messages` a, `api_tab_rangs` b
+$params->sql = "Select a.`actif`, a.`message`, b.`labelle` as 'profile', a.`niveau`, a.`date_expiration`, c.`code_user`, a.`date_creation`
+    FROM `api_tab_messages` a, `api_tab_rangs` b, `api_tab_utilisateurs` c
     WHERE 1=1
-    AND a.`profile` = b.`indice`
+    AND a.`id_rang` = b.`id`
+    AND a.`id_user` = c.`id`
     ORDER BY a.`id` desc
     LIMIT 0, 10
 ;";
