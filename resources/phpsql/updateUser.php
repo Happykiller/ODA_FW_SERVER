@@ -18,10 +18,24 @@ $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();
+$params->sql = "SELECT a.`id`
+    FROM  `api_tab_rangs` a
+    WHERE 1=1
+    AND a.`indice` = :rang
+;";
+$params->bindsValue = [
+    "rang" => $ODA_INTERFACE->inputs["rang"]
+];
+$params->typeSQL = OdaLibBd::SQL_GET_ONE;
+$retour = $ODA_INTERFACE->BD_ENGINE->reqODASQL($params);
+$id_rang = $retour->data->id;
+
+//--------------------------------------------------------------------------
+$params = new SimpleObject\OdaPrepareReqSql();
 $params->sql = "UPDATE `api_tab_utilisateurs`
     SET `mail` = :mail,
     `actif` = :actif,
-    `profile` = :rang,
+    `id_rang` = :rang,
     `date_modif` = NOW()
     WHERE 1=1
     AND `code_user` = :code_user
@@ -31,7 +45,7 @@ $params->bindsValue = [
     "code_user" => $ODA_INTERFACE->inputs["code_user"],
     "mail" => $ODA_INTERFACE->inputs["mail"],
     "actif" => $ODA_INTERFACE->inputs["actif"],
-    "rang" => $ODA_INTERFACE->inputs["rang"]
+    "rang" => $id_rang
 ];
 $params->typeSQL = OdaLibBd::SQL_SCRIPT;
 $retour = $ODA_INTERFACE->BD_ENGINE->reqODASQL($params);

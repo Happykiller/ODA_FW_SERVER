@@ -36,9 +36,9 @@ if($nbSamePseudo == 0){
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();
 $params->sql = "INSERT INTO `api_tab_utilisateurs` 
-    (`login`,`password`,`code_user`,`nom`,`prenom`,`profile`,`montrer_aide_ihm`,`mail`,`actif`,`date_creation`,`date_modif`) 
+    (`password`,`code_user`,`nom`,`prenom`,`id_rang`,`montrer_aide_ihm`,`mail`,`actif`,`date_creation`)
     VALUES  
-    ( :code_user, :motDePasse, :code_user, :nom, :prenom, 99, 1, :email, 1, now(), now())
+    ( :motDePasse, :code_user, :nom, :prenom, 5, 1, :email, 1, now())
 ;";
 $params->bindsValue = [
     "code_user" => $codeUtilisateur

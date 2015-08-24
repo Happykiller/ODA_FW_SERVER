@@ -23,7 +23,7 @@ if(OdaLib::startsWith($ODA_INTERFACE->inputs["mdp"],"authByGoogle-")){
     $params->sql = "select a.`code_user`, a.`password`
         from `api_tab_utilisateurs` a
         where 1=1 
-        and a.`login` = :login
+        and a.`code_user` = :login
         and a.`mail` = :mail
     ;";
     $params->bindsValue = [
@@ -37,10 +37,10 @@ if(OdaLib::startsWith($ODA_INTERFACE->inputs["mdp"],"authByGoogle-")){
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();
-$params->sql = "select a.`profile`, a.`code_user`
+$params->sql = "select a.`id_rang`, a.`code_user`
     from `api_tab_utilisateurs` a
     where 1=1 
-    and a.`login` = :login
+    and a.`code_user` = :login
     and a.`password` = :mdp
 ;";
 $params->bindsValue = [

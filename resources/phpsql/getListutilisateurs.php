@@ -22,7 +22,7 @@ $params->sql = "SELECT a.`code_user`, a.`mail`, a.`nom`, a.`prenom`, b.`labelle`
     FROM `api_tab_utilisateurs` a, `api_tab_rangs` b
     WHERE 1=1
     AND b.`indice` >= :indice
-    AND a.`profile` = b.`indice`
+    AND a.`id_rang` = b.`id`
     ORDER BY a.`actif`, a.`code_user`
 ;";
 $params->bindsValue = [
