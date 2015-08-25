@@ -1,3 +1,10 @@
+--
+-- Datas
+--
+REPLACE INTO `@prefix@api_tab_log_type` (`id`, `label`) VALUES
+  (0, 'default')
+;
+
 -- --------------------------------------------------------
 --
 -- Contraites
