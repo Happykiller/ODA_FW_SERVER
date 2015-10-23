@@ -1,3 +1,5 @@
+ALTER TABLE `@prefix@api_tab_statistiques_site` DROP FOREIGN KEY `api_tab_statistiques_site_ibfk_1`;
+
 ALTER TABLE `@prefix@api_tab_statistiques_site` ADD `id_user` INT(10) NOT NULL AFTER `date`;
 
 UPDATE `@prefix@api_tab_statistiques_site` a
