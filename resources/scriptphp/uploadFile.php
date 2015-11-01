@@ -48,6 +48,10 @@ if(is_null($config->resourcesPath)){
         //si path specifique pour les datas (openshift)
         $dossier = $ODA_INTERFACE->inputs["dossier"];
         if(isset($config->resourcesPath)){
+            if (!file_exists("../../../../../" . $config->resourcesPath . $dossier)) {
+                mkdir("../../../../../" . $config->resourcesPath . $dossier, 0777, true);
+            }
+
             if($ODA_INTERFACE->inputs["nom"] != ""){
                 $path = "../../../../../" . $config->resourcesPath . $dossier . $ODA_INTERFACE->inputs["nom"];
             }else{
@@ -55,6 +59,10 @@ if(is_null($config->resourcesPath)){
             }
             //sinon root
         }else{
+            if (!file_exists("../".$dossier)) {
+                mkdir("../".$dossier, 0777, true);
+            }
+
             if($ODA_INTERFACE->inputs["nom"] != ""){
                 $path = "../".$dossier . $ODA_INTERFACE->inputs["nom"];
             }else{
