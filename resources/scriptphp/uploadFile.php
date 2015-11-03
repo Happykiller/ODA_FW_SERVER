@@ -38,7 +38,7 @@ if(is_null($config->resourcesPath)){
             'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy------');
         $fichier_format = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier_format);
         $fichier_format = addslashes($fichier_format);
-        $taille_maxi = 500000;
+        $taille_maxi = 5000000;
         $taille = filesize($_FILES[$key]['tmp_name']);
         $extensions = array('.jpg','.png','.txt','.doc','.docx','.xls','.xlsx','.msg','.pdf');
         $extension = strrchr($_FILES[$key]['name'], '.');
@@ -91,7 +91,7 @@ if(is_null($config->resourcesPath)){
         if($taille>$taille_maxi)
         {
             $retour_array['code'] = 'ko';
-            $retour_array['message'] = 'Le fichier est trop gros 500ko max.';
+            $retour_array['message'] = 'Le fichier est trop gros 5mo max.';
         }
 
         //Vérification existance
