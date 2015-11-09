@@ -7,6 +7,7 @@ require '../../../../include/config.php';
 use \stdClass;
 
 // php migration.php --target=000-install --partial=001-migration --option=do
+// php migration.php --target=001-reworkModel
 
 $shortopts  = "";
 
