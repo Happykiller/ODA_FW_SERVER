@@ -132,8 +132,6 @@ class OdaLibInterface {
             
             $this->inputs = $this->recupInputs($params->arrayInput, $params->arrayInputOpt);
             
-            $this->urlTest = $this->getUrlTest();
-            
             $this->_initTransaction();
             
             $this->_checkKey();

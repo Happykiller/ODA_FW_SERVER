@@ -17,8 +17,8 @@ $ODA_INTERFACE = new OdaLibInterface($params);
 // vendor/happykiller/oda/resources/phpsql/getter.php?milis=123450&table=api_tab_utilisateurs&get={"champ":"prenom","type":"PARAM_STR"}&filtre={"champ":"code_user","valeur":"VIS","type":"PARAM_STR"}
 
 //--------------------------------------------------------------------------
-$jsonGet = json_decode(stripslashes($ODA_INTERFACE->inputs["get"]),true);
-$jsonFiltre = json_decode(stripslashes($ODA_INTERFACE->inputs["filtre"]),true);
+$jsonGet = $ODA_INTERFACE->inputs["get"];
+$jsonFiltre = $ODA_INTERFACE->inputs["filtre"];
 
 $strGet = "";
 $champGet = $jsonGet["champ"];
