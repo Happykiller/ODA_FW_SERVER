@@ -14,7 +14,7 @@ $params->arrayInput = array("code_user");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/getListTheme.php?milis=123450&code_user=VIS
+// vendor/happykiller/oda/resources/api/getListTheme.php?milis=123450&code_user=VIS
 
 //--------------------------------------------------------------------------
 $theme_defaut = $ODA_INTERFACE->getParameter("theme_defaut");
@@ -51,7 +51,7 @@ $liste_theme = array();
 
 $theme = new \stdClass();
 $theme -> nom = 'default';
-$theme -> path = 'vendor/happykiller/oda/resources/phpsql/css/themes/';
+$theme -> path = 'vendor/happykiller/oda/resources/api/css/themes/';
 $liste_theme[] = $theme;
 
 $dir = opendir($path); 
