@@ -14,7 +14,7 @@ $params->arrayInput = array("mail","actif", "rang", "code_user");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/updateUser.php?milis=123450&code_user=VIS&mail=vis.vis@gmail.com&actif=1&rang=10
+// vendor/happykiller/oda/resources/api/updateUser.php?milis=123450&code_user=VIS&mail=vis.vis@gmail.com&actif=1&rang=10
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

@@ -15,7 +15,7 @@ $params->arrayInputOpt = array("id_page" => 0);
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/getMenu.php?milis=123450&rang=30&id_page=1
+// vendor/happykiller/oda/resources/api/getMenu.php?milis=123450&rang=30&id_page=1
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

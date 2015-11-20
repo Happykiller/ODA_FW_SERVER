@@ -15,7 +15,7 @@ $params->arrayInput = array("sql");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/getSQL.php?milis=123456789&sql=SELECT param_name FROM api_tab_parametres
+// vendor/happykiller/oda/resources/api/getSQL.php?milis=123456789&sql=SELECT param_name FROM api_tab_parametres
 
 //--------------------------------------------------------------------------
 if (preg_match("/\bDELETE\b/i", $ODA_INTERFACE->inputs["sql"])) {

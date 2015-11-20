@@ -13,7 +13,7 @@ $params->arrayInput = array("key");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/deleteSession.php?key=e6fff655cb3121c08a8219497ba9358e
+// vendor/happykiller/oda/resources/api/deleteSession.php?key=e6fff655cb3121c08a8219497ba9358e
 
 //--------------------------------------------------------------------------
 $retour = $ODA_INTERFACE->deleteSession($ODA_INTERFACE->inputs["key"]);

@@ -13,7 +13,7 @@ $params = new SimpleObject\OdaPrepareInterface();
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/getPageActivite.php?milis=123456789&ctrl=ok
+// vendor/happykiller/oda/resources/api/getPageActivite.php?milis=123456789&ctrl=ok
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

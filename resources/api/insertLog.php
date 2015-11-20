@@ -14,7 +14,7 @@ $params->arrayInput = array("type","msg");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/insertLog.php?milis=123450&type=0&msg=wtf
+// vendor/happykiller/oda/resources/api/insertLog.php?milis=123450&type=0&msg=wtf
 
 //--------------------------------------------------------------------------
 $id = $ODA_INTERFACE->BD_ENGINE->logTrace($ODA_INTERFACE->inputs["type"], addslashes($ODA_INTERFACE->inputs["msg"]));

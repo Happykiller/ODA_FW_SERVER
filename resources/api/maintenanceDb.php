@@ -14,7 +14,7 @@ $params->arrayInput = array("exec");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/maintenanceDb.php?milis=123450&exec=false
+// vendor/happykiller/oda/resources/api/maintenanceDb.php?milis=123450&exec=false
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

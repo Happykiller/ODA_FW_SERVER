@@ -14,7 +14,7 @@ $params->arrayInput = array("indice_user");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/getListutilisateurs.php?milis=123456789&ctrl=ok&indice_user=10
+// vendor/happykiller/oda/resources/api/getListutilisateurs.php?milis=123456789&ctrl=ok&indice_user=10
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

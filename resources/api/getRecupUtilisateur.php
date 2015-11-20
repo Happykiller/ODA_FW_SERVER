@@ -14,7 +14,7 @@ $params->arrayInput = array("identifiant","email");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/getRecupUtilisateur.php?milis=123456789&email=fabrice.rosito@cgi.com&identifiant=codeUtilis
+// vendor/happykiller/oda/resources/api/getRecupUtilisateur.php?milis=123456789&email=fabrice.rosito@cgi.com&identifiant=codeUtilis
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

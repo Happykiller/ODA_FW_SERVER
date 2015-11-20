@@ -14,7 +14,7 @@ $params->arrayInput = array("code_user", "key");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/checkSession.php?milis=123450&code_user=FRO&key=e6fff655cb3121c08a8219497ba9358e
+// vendor/happykiller/oda/resources/api/checkSession.php?milis=123450&code_user=FRO&key=e6fff655cb3121c08a8219497ba9358e
 
 //--------------------------------------------------------------------------
 $retour = $ODA_INTERFACE->checkSession($ODA_INTERFACE->inputs);

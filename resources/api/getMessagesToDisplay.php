@@ -14,7 +14,7 @@ $params->arrayInput = array("code_user");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/getMessagesToDisplay.php?milis=123450&ctrl=ok&code_user=VIS
+// vendor/happykiller/oda/resources/api/getMessagesToDisplay.php?milis=123450&ctrl=ok&code_user=VIS
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

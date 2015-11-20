@@ -15,7 +15,7 @@ $params->modeDebug = false;
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/addStat.php?milis=123450&ctrl=ok&user=ADMI&page=page_home.html&action=checkAuth%20:%20ok
+// vendor/happykiller/oda/resources/api/addStat.php?milis=123450&ctrl=ok&user=ADMI&page=page_home.html&action=checkAuth%20:%20ok
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

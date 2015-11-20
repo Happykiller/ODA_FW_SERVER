@@ -13,7 +13,7 @@ $params->arrayInput = array("param_name");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/exemple.php?milis=123450&ctrl=ok&param_name=nom_site
+// vendor/happykiller/oda/resources/api/exemple.php?milis=123450&ctrl=ok&param_name=nom_site
 
 //--------------------------------------------------------------------------
 //EXEMPLE SELECT 1 ROW

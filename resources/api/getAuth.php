@@ -14,7 +14,7 @@ $params->arrayInput = array("login", "mdp");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/getAuth.php?milis=123450&login=VIS&mdp=VIS
+// vendor/happykiller/oda/resources/api/getAuth.php?milis=123450&login=VIS&mdp=VIS
 
 //--------------------------------------------------------------------------
 if(OdaLib::startsWith($ODA_INTERFACE->inputs["mdp"],"authByGoogle-")){

@@ -13,7 +13,7 @@ $params = new SimpleObject\OdaPrepareInterface();
 $params->arrayInput = array("nom","prenom","email","motDePasse","codeUtilisateur");
 $ODA_INTERFACE = new OdaLibInterface($params);
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/addUtilisateur.php?milis=123450&nom=nom&prenom=prenom&email=email@mail.com&motDePasse=mdp&codeUtilisateur=NOP
+// vendor/happykiller/oda/resources/api/addUtilisateur.php?milis=123450&nom=nom&prenom=prenom&email=email@mail.com&motDePasse=mdp&codeUtilisateur=NOP
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

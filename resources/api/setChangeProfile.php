@@ -14,7 +14,7 @@ $params->arrayInput = array("code_user","mdp","champs","value");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/setChangeProfile.php?milis=123450&code_user=VIS&mdp=VIS&champs=prenom&value=kikoo
+// vendor/happykiller/oda/resources/api/setChangeProfile.php?milis=123450&code_user=VIS&mdp=VIS&champs=prenom&value=kikoo
     
 //--------------------------------------------------------------------------
 $params = new \stdClass();

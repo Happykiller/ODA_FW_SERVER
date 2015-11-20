@@ -14,7 +14,7 @@ $params->arrayInput = array("param_name");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/getParam.php?milis=123450&param_name=nom_site
+// vendor/happykiller/oda/resources/api/getParam.php?milis=123450&param_name=nom_site
 
 //--------------------------------------------------------------------------
 $params = new \stdClass();

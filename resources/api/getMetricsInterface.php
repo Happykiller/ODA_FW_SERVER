@@ -13,7 +13,7 @@ $params = new SimpleObject\OdaPrepareInterface();
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/getMetricsInterface.php?milis=123450&ctrl=ok
+// vendor/happykiller/oda/resources/api/getMetricsInterface.php?milis=123450&ctrl=ok
     
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

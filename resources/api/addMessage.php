@@ -14,7 +14,7 @@ $params->arrayInput = array("message","niveau","profile","date_expiration","code
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/addMessage.php?milis=123450&ctrl=ok&message=Hello&niveau=ALERT&profile=30&date_expiration=2015-08-20&code_user=VIS
+// vendor/happykiller/oda/resources/api/addMessage.php?milis=123450&ctrl=ok&message=Hello&niveau=ALERT&profile=30&date_expiration=2015-08-20&code_user=VIS
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

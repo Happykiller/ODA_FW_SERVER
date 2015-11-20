@@ -14,7 +14,7 @@ $params->arrayInput = array("reponse","message","code_user");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/insertContact.php?milis=123456789&reponse=moi@gma.com&message=Ecrit moi !&code_user=FRO
+// vendor/happykiller/oda/resources/api/insertContact.php?milis=123456789&reponse=moi@gma.com&message=Ecrit moi !&code_user=FRO
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

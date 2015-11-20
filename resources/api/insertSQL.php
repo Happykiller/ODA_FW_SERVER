@@ -15,7 +15,7 @@ $params->arrayInput = array("sql");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/insertSQL.php?milis=123456789&sql=INSERT INTO `api_tab_log` (`id` ,`dateTime` ,`type` ,`commentaires`)VALUES (NULL ,  NOW(),  '1',  'essai');
+// vendor/happykiller/oda/resources/api/insertSQL.php?milis=123456789&sql=INSERT INTO `api_tab_log` (`id` ,`dateTime` ,`type` ,`commentaires`)VALUES (NULL ,  NOW(),  '1',  'essai');
 
 //--------------------------------------------------------------------------
 if (preg_match("/\bDELETE\b/i", $ODA_INTERFACE->inputs["sql"])) {

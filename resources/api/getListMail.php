@@ -14,7 +14,7 @@ $params->arrayInput = array();
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/getListMail.php?milis=123450
+// vendor/happykiller/oda/resources/api/getListMail.php?milis=123450
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

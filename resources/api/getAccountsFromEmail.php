@@ -14,7 +14,7 @@ $params->arrayInput = array("email");
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/getAccountsFromEmail.php?email=test@mail.com
+// vendor/happykiller/oda/resources/api/getAccountsFromEmail.php?email=test@mail.com
 
 //--------------------------------------------------------------------------
 $params = new OdaPrepareReqSql();

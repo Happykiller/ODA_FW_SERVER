@@ -14,7 +14,7 @@ $params->arrayInput = array("param_name");
 $INTERFACE = new ProjectInterface($params);
 
 //--------------------------------------------------------------------------
-// phpsql/exemple.php?milis=123450&ctrl=ok&param_name=nom_site
+// api/exemple.php?milis=123450&ctrl=ok&param_name=nom_site
 
 //--------------------------------------------------------------------------
 //EXEMPLE SELECT 1 ROW
