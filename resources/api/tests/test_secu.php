@@ -8,7 +8,7 @@ require '../../../../../../include/config.php';
 use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/phpsql/tests/test_secu.php?milis=123450&ctrl=ok&keyAuthODA=42c643cc44c593c5c2b4c5f6d40489dd
+// vendor/happykiller/oda/resources/api/tests/test_secu.php?milis=123450&ctrl=ok&keyAuthODA=42c643cc44c593c5c2b4c5f6d40489dd
 
 //--------------------------------------------------------------------------
 //Build the interface
