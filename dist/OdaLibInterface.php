@@ -16,87 +16,102 @@ class OdaLibInterface {
     const STATE_READY = 003;
     const STATE_ERROR = 004;
     const STATE_FINISH_DONE = 005;
-    
+    const METHOD_GET = "GET";
+    const METHOD_PUT = "PUT";
+    const METHOD_POST = "POST";
+    const METHOD_HEAD = "HEAD";
+    const METHOD_DELETE = "DELETE";
+    const METHOD_OPTIONS = "OPTIONS";
+
     /**
      * Content of config.php object $OdaConfig
-     * 
-     * @var OdaConfig 
+     *
+     * @var OdaConfig
      */
     protected static $config;
     /**
      * All details of the interface
-     * 
-     * @var OdaPrepareInterface 
+     *
+     * @var OdaPrepareInterface
      */
     protected $params;
     /**
      * The bd engine
-     * 
-     * @var OdaLibBd 
+     *
+     * @var OdaLibBd
      */
     public $BD_ENGINE;
     /**
      * The auth engine
-     * 
-     * @var OdaLibBd 
+     *
+     * @var OdaLibBd
      */
     protected $BD_AUTH;
     /**
      * The Oda Key
-     * 
-     * @var string 
+     *
+     * @var string
      */
     protected $keyAuth;
     /**
      * The details of output
-     * 
-     * @var OdaRetourInterface 
+     *
+     * @var OdaRetourInterface
      */
     protected $object_retour;
     /**
      * The url for template
-     * 
-     * @var string 
+     *
+     * @var string
      */
     public $urlTest;
     /**
      * The list of inputs
-     * 
-     * @var array 
+     *
+     * @var array
      */
     public $inputs = array();
     /**
      * Mode debug, false by default
-     * 
-     * @var boolean 
+     *
+     * @var boolean
      */
     public $modeDebug = false;
     /**
      * Public ou privé (clé obligatoire), true by default
-     * 
-     * @var boolean 
+     *
+     * @var boolean
      */
     public $modePublic = true;
     /**
      * Mode de sortie text,json,xml,csv, json by default
-     * 
+     *
      * Pour le xml et csv, data doit contenir qu'un est unique array.
-     * 
-     * @var string 
+     *
+     * @var string
      */
     public $modeSortie = "json";
     /**
      * The name of file output
-     * 
-     * @var string 
+     *
+     * @var string
      */
     public $fileName = "";
     /**
-     * @var int 
+     * @var int
      */
     protected $startMicro = 0;
-    
-    
+    /**
+     * The methode of the caller
+     * @var string
+     */
+    public $callerMethode;
+    /**
+     * TODO remonter le user avec l'indice pour gérer du droit par ex pas le même affichage entre admin et visiteur
+     * @var object
+     */
+    public $user;
+
     /**
      * @param type \Oda\OdaPrepareInterface
      * @return \Oda\OdaLibInterface
@@ -109,16 +124,17 @@ class OdaLibInterface {
             $this->modeSortie = $params->modeSortie;
             $this->fileName = $params->fileName;
             $this->object_retour = new SimpleObject\OdaRetourInterface();
-            
+            $this->callerMethode = $_SERVER['REQUEST_METHOD'];
+
             self::$config = SimpleObject\OdaConfig::getInstance();
-            
+
             self::$config ->isOK();
-            
+
             $params_bd = new stdClass();
             $params_bd->bd_conf = self::$config->BD_ENGINE;
             $params_bd->modeDebug = $this->modeDebug;
             $this->BD_ENGINE = new OdaLibBd($params_bd);
-            
+
             if(is_null(self::$config->BD_AUTH->base)){
                 $this->BD_AUTH = $this->BD_ENGINE;
             }else{
@@ -127,17 +143,17 @@ class OdaLibInterface {
                 $params_bd->modeDebug = $this->modeDebug;
                 $this->BD_AUTH = new OdaLibBd($params_bd);
             }
-            
+
             $this->object_retour->statut = self::STATE_CONSTRUCT;
-            
+
             $this->inputs = $this->recupInputs($params->arrayInput, $params->arrayInputOpt);
-            
+
             $this->_initTransaction();
-            
+
             $this->_checkKey();
-            
+
             $this->object_retour->statut = self::STATE_READY;
-            
+
             return $this;
         } catch (Exception $ex){
             $this->object_retour->strErreur = $ex.'';
@@ -156,15 +172,15 @@ class OdaLibInterface {
             $this->object_retour->statut = self::STATE_FINISH_DONE;
         }
         $strSorti = "";
-        
+
         $fin = new SimpleObject\OdaDate();
         $this->object_retour->metro["ODAEnd"] = $fin->getDateTimeWithMili();
-        
+
         $endMicro = SimpleObject\OdaDate::getMicro();
 
         $duree = $endMicro - $this->startMicro;
         $this->object_retour->metro["ODADuree"] = $duree;
-        
+
         //choix du traitement
         switch ($this->modeSortie) {
             case "text":
@@ -180,14 +196,14 @@ class OdaLibInterface {
                 $strSorti = OdaLib::fomatage_csv($this->object_retour->data);
                 break;
             default:
-               $strSorti = OdaLib::fomatage_text($this->object_retour);
-               break;
+                $strSorti = OdaLib::fomatage_text($this->object_retour);
+                break;
         }
-        
+
         if(!is_null($this->BD_ENGINE)){
             $this->_finishTransaction($strSorti, $fin);
         }
-        
+
         if(!empty($this->fileName)&&(!empty($this->modeSortie))){
             header("Content-type: text/".$this->modeSortie."; charset=utf-8");
             header("Content-Disposition: attachment; filename=".$this->fileName.".".$this->modeSortie);
@@ -270,19 +286,19 @@ class OdaLibInterface {
                     $strError .= $val.", ";
                 }
             }
-            
+
             if(!empty($arrayOut["ODAFileName"])){
                 $this->fileName = $arrayOut["ODAFileName"];
             }
-            
+
             if(!empty($arrayOut["ODAFileType"])){
                 $this->modeSortie = $arrayOut["ODAFileType"];
             }
-            
+
             if(!empty($arrayOut["keyAuthODA"])){
                 $this->keyAuth = $arrayOut["keyAuthODA"];
             }
-            
+
             //Erreur dans les inputs obligatoire
             if($strError != null){
                 $this->inputs = $arrayOut;
@@ -292,8 +308,8 @@ class OdaLibInterface {
                 $params->message = "Field(s) missing : ".$strError.'ex : '.$this->getUrlTest();
                 throw new SimpleObject\OdaException($params);
             }
-            
-            return $arrayOut; 
+
+            return $arrayOut;
         } catch (Exception $ex) {
             $this->object_retour->strErreur = $ex.'';
             $this->object_retour->statut = self::STATE_ERROR;
@@ -308,9 +324,9 @@ class OdaLibInterface {
             $SCRIPT_NAME = $_SERVER["SCRIPT_NAME"];
             $tabName = explode("/",$SCRIPT_NAME);
             $SCRIPT_NAME = str_replace("/".$tabName[1]."/", "", $SCRIPT_NAME);
-            
+
             $strUrl = self::$config->urlServer.$SCRIPT_NAME."?milis=". SimpleObject\OdaDate::getMicro();
-            
+
             foreach ($this->inputs as $key => $value){
                 if(($key != 'keyAuthODA')&&($key != 'ODAFileName')&&($key != 'ODAFileType')){
                     if(is_null($value)||($value == '')){
@@ -319,7 +335,7 @@ class OdaLibInterface {
                     $strUrl .= "&" . $key . "=" . $value;
                 }
             }
-            
+
             return $strUrl;
         } catch (Exception $ex) {
             $this->object_retour->strErreur = $ex.'';
@@ -329,11 +345,11 @@ class OdaLibInterface {
     }
     /**
      * To add an object in data output
-     * 
-     * $p_params : 
+     *
+     * $p_params :
      * - OdaRetourReqSql retourSql
      * - string label
-     * 
+     *
      * @param stdClass p_params
      */
     public function addDataReqSQL($p_params){
@@ -355,14 +371,14 @@ class OdaLibInterface {
             die();
         }
     }
-    
+
     /**
      * To add an object in data output
-     * 
-     * $p_params : 
+     *
+     * $p_params :
      * - string value
      * - string label
-     * 
+     *
      * @param stdClass p_params
      */
     public function addDataObject($p_params){
@@ -380,15 +396,15 @@ class OdaLibInterface {
     }
     /**
      * Attetion, not handle error from the OdaRetourSQL.
-     * 
-     * $p_params : 
+     *
+     * $p_params :
      * - string value
      * - string label
-     * 
+     *
      * or
-     * 
+     *
      * $p_params  = string
-     * 
+     *
      * @param stdClass|string  p_params
      */
     public function addDataStr($p_params){
@@ -423,7 +439,7 @@ class OdaLibInterface {
             $debut = new SimpleObject\OdaDate();
             $this->startMicro = SimpleObject\OdaDate::getMicro();
             $this->object_retour->metro["ODABegin"] = $debut->getDateTimeWithMili();
-            
+
             $params = new SimpleObject\OdaPrepareReqSql();
             $params->sql = "INSERT INTO  `api_tab_transaction` (
                 `id` ,
@@ -459,7 +475,7 @@ class OdaLibInterface {
     protected function _finishTransaction($p_strSorti, $fin){
         try {
             $params = new SimpleObject\OdaPrepareReqSql();
-            $params->sql = "UPDATE `api_tab_transaction` 
+            $params->sql = "UPDATE `api_tab_transaction`
                 SET `output` = :strSort
                     , `statut` = 'output'
                     , `fin` = :fin
@@ -480,6 +496,7 @@ class OdaLibInterface {
     }
     /**
      * checkKey
+     * TODO avec le user et la matrice vérifier si droit
      * @param boolean $p_modePublic
      */
     protected function _checkKey(){
@@ -593,7 +610,7 @@ class OdaLibInterface {
             ;";
             $params->typeSQL = OdaLibBd::SQL_SCRIPT;
             $retour = $this->BD_AUTH->reqODASQL($params);
-            
+
             //Vérifie la présence d'une clé
             $params = new SimpleObject\OdaPrepareReqSql();
             $params->sql = "SELECT *
@@ -604,7 +621,7 @@ class OdaLibInterface {
             ;";
             $params->typeSQL = OdaLibBd::SQL_GET_ONE;
             $retour = $this->BD_AUTH->reqODASQL($params);
-            
+
             if($retour->data){
                 $v_key = $retour->data->key;
             }else{
@@ -618,7 +635,7 @@ class OdaLibInterface {
                 ;";
                 $params->typeSQL = OdaLibBd::SQL_GET_ONE;
                 $retour = $this->BD_AUTH->reqODASQL($params);
-                
+
                 if($retour->data){
                     //Construit une nouvelle clé
                     $v_strDate = \date('YmdHis');
@@ -656,10 +673,10 @@ class OdaLibInterface {
         }
     }
     /**
-    * @name getParameter
-    * @param string $p_parameterName
-    * @return string|int $parameterValue
-    */
+     * @name getParameter
+     * @param string $p_parameterName
+     * @return string|int $parameterValue
+     */
     public function getParameter ($p_parameterName) {
         try {
             $parameterValue = null;
@@ -681,19 +698,19 @@ class OdaLibInterface {
                     break;
             }
 
-           return $parameterValue;
+            return $parameterValue;
         } catch (Exception $ex) {
             $this->object_retour->strErreur = $ex.'';
             $this->object_retour->statut = self::STATE_ERROR;
             die();
-       }
+        }
     }
-    
+
     /**
-    * @name setParameter
-    * @desc met à jour la valeur du param
-    * @return boolean
-    */
+     * @name setParameter
+     * @desc met à jour la valeur du param
+     * @return boolean
+     */
     function setParameter($p_param, $p_valeur) {
         try {
             $params = new \stdClass();
@@ -709,10 +726,10 @@ class OdaLibInterface {
             die();
         }
     }
-    
+
     /**
      * To die an interface
-     * 
+     *
      * @param String $message
      */
     public function dieInError($message){
