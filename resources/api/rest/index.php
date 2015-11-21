@@ -2,9 +2,9 @@
 
 namespace Oda;
 
-require '../../header.php';
-require "../../vendor/autoload.php";
-require '../../include/config.php';
+require '../../../../../../header.php';
+require '../../../../../../vendor/autoload.php';
+require '../../../../../../include/config.php';
 
 use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
@@ -26,6 +26,10 @@ if(is_null($odaLimit)){
 }else{
     $odaLimit = intval($odaLimit);
 }
+
+$app->notFound(function () use ($INTERFACE) {
+    $INTERFACE->dieInError('not found');
+});
 
 $app->get('/entity/:id', function ($id) use ($INTERFACE, $odaOffset, $odaLimit) {
     $INTERFACE->addDataStr("HelloWorld");

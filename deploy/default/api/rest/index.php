@@ -27,6 +27,10 @@ if(is_null($odaLimit)){
     $odaLimit = intval($odaLimit);
 }
 
+$app->notFound(function () use ($INTERFACE) {
+    $INTERFACE->dieInError('not found');
+});
+
 $app->get('/entity/:id', function ($id) use ($INTERFACE, $odaOffset, $odaLimit) {
     $INTERFACE->addDataStr("HelloWorld");
 });
