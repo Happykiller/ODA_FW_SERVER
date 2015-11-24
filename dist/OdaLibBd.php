@@ -153,8 +153,8 @@ class OdaLibBd {
     }
     /**
      * 
-     * @param \Oda\OdaPrepareReqSql $params
-     * @return \Oda\OdaRetourReqSql
+     * @param \Oda\SimpleObject\OdaPrepareReqSql $params
+     * @return \Oda\SimpleObject\OdaRetourReqSql
      * @throws SimpleObject\OdaException
      */
     public function reqODASQL(SimpleObject\OdaPrepareReqSql $params){

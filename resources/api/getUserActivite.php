@@ -10,10 +10,11 @@ use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepa
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new SimpleObject\OdaPrepareInterface();
+$params->modePublic = false;
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/api/getUserActivite.php?milis=123456789&ctrl=ok
+// vendor/happykiller/oda/resources/api/getUserActivite.php
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();

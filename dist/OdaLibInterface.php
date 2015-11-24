@@ -1,6 +1,7 @@
 <?php
 namespace Oda;
 use \Exception;
+use Oda\SimpleObject\OdaUser;
 use \stdClass;
 /**
  * LIBODA Librairy - main class
@@ -111,6 +112,12 @@ class OdaLibInterface {
      * @var object
      */
     public $user;
+    /**
+     * name of the interface (after the api/)
+     * @example getInfo.php of in rest user/1
+     * @var string
+     */
+    public $name;
 
     /**
      * @param type \Oda\OdaPrepareInterface
@@ -125,6 +132,7 @@ class OdaLibInterface {
             $this->fileName = $params->fileName;
             $this->object_retour = new SimpleObject\OdaRetourInterface();
             $this->callerMethode = $_SERVER['REQUEST_METHOD'];
+            $this->name = $this->getInstanceName();
 
             self::$config = SimpleObject\OdaConfig::getInstance();
 
@@ -501,31 +509,80 @@ class OdaLibInterface {
      */
     protected function _checkKey(){
         try {
+            $ajour = false;
+            $keyValid = false;
+
+            if($this->keyAuth !== '') {
+                $params = new SimpleObject\OdaPrepareReqSql();
+                $params->sql = "SELECT `id`, `key`, `datas`
+                        , IF(a.`periodeValideMinute` = 0, TRUE, IF(((a.`dateCreation` + INTERVAL a.`periodeValideMinute` MINUTE) < NOW()), FALSE, TRUE)) AS 'ajour'
+                        FROM `api_tab_session` a
+                        WHERE 1=1
+                        AND a.`key` = '" . $this->keyAuth . "'
+                    ;";
+                $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+                $retour = $this->BD_AUTH->reqODASQL($params);
+
+                if($retour->data){
+                    $keyValid = true;
+                    $ajour = $retour->data->ajour;
+
+                    $codeUser = json_decode($retour->data->datas, true)['code_user'];
+
+                    $this->user = new OdaUser($codeUser);
+
+                    $params = new SimpleObject\OdaPrepareReqSql();
+                    $params->sql = "SELECT b.`indice`, a.`actif`
+                        FROM `api_tab_utilisateurs` a, `api_tab_rangs` b
+                        WHERE 1=1
+                        AND a.`id_rang` = b.`id`
+                        AND a.`code_user` = :code_user
+                    ;";
+                    $params->bindsValue = [
+                        "code_user" => $codeUser
+                    ];
+                    $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+                    $retour = $this->BD_ENGINE->reqODASQL($params);
+
+                    $this->user->indice = $retour->data->indice;
+                    $this->user->active = $retour->data->actif;
+                }
+            }
+
             if(!$this->modePublic){
                 if($this->keyAuth == '') {
                     $this->object_retour->strErreur = "Key auth empty.";
                     $this->object_retour->statut = self::STATE_ERROR;
                     die();
                 }else{
-                    $params = new SimpleObject\OdaPrepareReqSql();
-                    $params->sql = "Select *
-                        , IF(a.`periodeValideMinute` = 0, true, IF(((a.`dateCreation` + INTERVAL a.`periodeValideMinute` MINUTE) < NOW()), false, true)) as 'ajour'
-                        from `api_tab_session` a
-                        WHERE 1=1
-                        AND a.`key` = '".$this->keyAuth."'
-                    ;";
-                    $params->typeSQL = OdaLibBd::SQL_GET_ONE;
-                    $retour = $this->BD_AUTH->reqODASQL($params);
-
-                    if(!$retour->data){
+                    if(!$keyValid){
                         $this->object_retour->strErreur = 'Key auth invalid.';
                         $this->object_retour->statut = self::STATE_ERROR;
                         die();
                     }else{
-                        if($retour->data->ajour != 1){
+                        if(!$ajour){
                             $this->object_retour->strErreur = 'Session expired.';
                             $this->object_retour->statut = self::STATE_ERROR;
                             die();
+                        }else{
+                            $params = new SimpleObject\OdaPrepareReqSql();
+                            $params->sql = "SELECT b.`indice`, a.`open`
+                                FROM `api_tab_rang_api` a, `api_tab_rangs` b
+                                WHERE 1=1
+                                AND a.`id_rang` = b.`id`
+                                AND :interface like concat('%',a.`interface`, '%')
+                            ;";
+                            $params->bindsValue = [
+                                "interface" => $this->name
+                            ];
+                            $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+                            $retour = $this->BD_ENGINE->reqODASQL($params);
+
+                            if(($retour->data) && (!$retour->data->open) && ($retour->data->indice <= $this->user->indice)){
+                                $this->object_retour->strErreur = 'Indice user not enough.';
+                                $this->object_retour->statut = self::STATE_ERROR;
+                                die();
+                            }
                         }
                     }
                 }
@@ -736,5 +793,29 @@ class OdaLibInterface {
         $this->object_retour->strErreur = $message;
         $this->object_retour->statut = self::STATE_ERROR;
         die();
+    }
+
+    /*
+     * return the instance name after api/
+     * @return string
+     */
+    public function getInstanceName(){
+        try {
+            if(isset($_SERVER["REDIRECT_URL"])){
+                $REQUEST = $_SERVER["REDIRECT_URL"];
+            }else{
+                $REQUEST = $_SERVER["SCRIPT_NAME"];
+            }
+
+            $instanceName = strstr($REQUEST, 'api/');
+
+            $instanceName = str_replace('api/', '', $instanceName);
+
+            return $instanceName;
+        } catch (Exception $ex) {
+            $this->object_retour->strErreur = $ex.'';
+            $this->object_retour->statut = self::STATE_ERROR;
+            die();
+        }
     }
 }

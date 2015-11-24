@@ -11,10 +11,11 @@ use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepa
 //Build the interface
 $params = new SimpleObject\OdaPrepareInterface();
 $params->arrayInput = array();
+$params->modePublic = false;
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
-// vendor/happykiller/oda/resources/api/getListMail.php?milis=123450
+// vendor/happykiller/oda/resources/api/getListMail.php?keyAuthODA=abe30ad4d9369d387199977ece201ea8
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();
