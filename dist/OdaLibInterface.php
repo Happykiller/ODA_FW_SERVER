@@ -569,6 +569,12 @@ class OdaLibInterface {
                                 AND a.`id_rang` = b.`id`
                                 AND :interface like concat('%',a.`interface`, '%')
                             ;";
+                            //TODO for interface like machin/{1}/truc/{2}
+                            // machin/
+                            // machin
+                            // machin/{1}
+                            // machin/{1}/
+                            // machin/{1}/truc/{2}
                             $params->bindsValue = [
                                 "interface" => $this->name
                             ];
