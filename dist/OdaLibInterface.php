@@ -108,7 +108,6 @@ class OdaLibInterface {
      */
     public $callerMethode;
     /**
-     * TODO remonter le user avec l'indice pour gérer du droit par ex pas le même affichage entre admin et visiteur
      * @var object
      */
     public $user;
@@ -158,7 +157,7 @@ class OdaLibInterface {
 
             $this->_initTransaction();
 
-            $this->_checkKey();
+            $this->checkKey();
 
             $this->object_retour->statut = self::STATE_READY;
 
@@ -504,10 +503,8 @@ class OdaLibInterface {
     }
     /**
      * checkKey
-     * TODO avec le user et la matrice vérifier si droit
-     * @param boolean $p_modePublic
      */
-    protected function _checkKey(){
+    public function checkKey(){
         try {
             $ajour = false;
             $keyValid = false;
