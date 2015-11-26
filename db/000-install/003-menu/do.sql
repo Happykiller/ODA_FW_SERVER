@@ -4,6 +4,7 @@
 -- Reserve 1-9 API
 -- Reserve 10-19 API_RH
 -- Reserve 70-79 Projet
+-- Reserve 98 Liens cachés
 -- Reserve 99 Liens externes
 --
 CREATE TABLE IF NOT EXISTS `@prefix@api_tab_menu_categorie` (
@@ -20,6 +21,7 @@ INSERT INTO `@prefix@api_tab_menu_categorie` (`id`, `Description`) VALUES
   (2, 'Administration'),
   (3, 'Gestion'),
   (4, 'Rapports'),
+  (98, 'Liens cachés'),
   (99, 'Liens externs');
 
 --
