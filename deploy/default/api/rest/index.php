@@ -6,33 +6,31 @@ require '../../header.php';
 require "../../vendor/autoload.php";
 require '../../include/config.php';
 
+use cebe\markdown\GithubMarkdown;
+use Slim\Slim;
 use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
 
+$slim = new Slim();
 //--------------------------------------------------------------------------
-//Build the interface
-$params = new OdaPrepareInterface();
-$INTERFACE = new ProjectInterface($params);
-$app = new \Slim\Slim();
 
-$odaOffset = $app->request->params('odaOffset');
-if(is_null($odaOffset)){
-    $odaOffset = 0;
-}else{
-    $odaOffset = intval($odaOffset);
-}
-$odaLimit = $app->request->params('odaLimit');
-if(is_null($odaLimit)){
-    $odaLimit = 9999;
-}else{
-    $odaLimit = intval($odaLimit);
-}
-
-$app->notFound(function () use ($INTERFACE) {
+$slim->notFound(function () {
+    $params = new OdaPrepareInterface();
+    $INTERFACE = new OdaRestInterface($params);
     $INTERFACE->dieInError('not found');
 });
 
-$app->get('/entity/:id', function ($id) use ($INTERFACE, $odaOffset, $odaLimit) {
-    $INTERFACE->addDataStr("HelloWorld");
+$slim->get('/', function () {
+    $markdown = file_get_contents('./doc.markdown', true);
+    $parser = new GithubMarkdown();
+    echo $parser->parse($markdown);
 });
 
-$app->run();
+$slim->get('/entity/:id', function ($id) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $INTERFACE = new EntityInterface($params);
+    $INTERFACE->get($id);
+});
+
+
+$slim->run();
