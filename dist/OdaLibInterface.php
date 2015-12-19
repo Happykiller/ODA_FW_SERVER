@@ -653,6 +653,9 @@ class OdaLibInterface {
     /**
      * buildSession
      * @param array $p_params
+     * @param array $p_params[code_user]
+     * @param array $p_params[password]
+     * @param array $p_params[dbPassword]
      * @return string
      */
     public function buildSession($p_params){
@@ -686,17 +689,11 @@ class OdaLibInterface {
                 $v_key = $retour->data->key;
             }else{
                 //Check log pass
-                $params = new SimpleObject\OdaPrepareReqSql();
-                $params->sql = "SELECT *
-                    FROM `api_tab_utilisateurs` a
-                    WHERE 1=1
-                    AND a.`code_user` = '".$v_code_user."'
-                    AND a.`password` = '".$p_params["password"]."'
-                ;";
-                $params->typeSQL = OdaLibBd::SQL_GET_ONE;
-                $retour = $this->BD_AUTH->reqODASQL($params);
-
-                if($retour->data){
+                $checkPass = true;
+                if(!OdaLib::startsWith($p_params['password'],"authByGoogle-")){
+                    $checkPass = password_verify($p_params['password'], $p_params['dbPassword']);
+                }
+                if($checkPass){
                     //Construit une nouvelle clé
                     $v_strDate = \date('YmdHis');
                     $v_key = \md5($v_code_user."_".$v_strDate);
@@ -719,7 +716,7 @@ class OdaLibInterface {
                     $params->typeSQL = OdaLibBd::SQL_INSERT_ONE;
                     $retour = $this->BD_ENGINE->reqODASQL($params);
                 }else{
-                    $this->object_retour->strErreur = 'Auth impossible.';
+                    $this->object_retour->strErreur = 'Auth impossible.(Password wrong)';
                     $this->object_retour->statut = self::STATE_ERROR;
                     die();
                 }

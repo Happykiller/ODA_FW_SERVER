@@ -42,7 +42,7 @@ $params->sql = "INSERT INTO `api_tab_utilisateurs`
 ;";
 $params->bindsValue = [
     "code_user" => $codeUtilisateur
-    , "motDePasse" => $ODA_INTERFACE->inputs["motDePasse"]
+    , "motDePasse" => password_hash($ODA_INTERFACE->inputs["motDePasse"], PASSWORD_DEFAULT)
     , "nom" => $ODA_INTERFACE->inputs["nom"]
     , "prenom" => $ODA_INTERFACE->inputs["prenom"]
     , "email" => $ODA_INTERFACE->inputs["email"]

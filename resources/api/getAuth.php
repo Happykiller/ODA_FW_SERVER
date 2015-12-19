@@ -17,44 +17,35 @@ $ODA_INTERFACE = new OdaLibInterface($params);
 // vendor/happykiller/oda/resources/api/getAuth.php?milis=123450&login=VIS&mdp=VIS
 
 //--------------------------------------------------------------------------
-if(OdaLib::startsWith($ODA_INTERFACE->inputs["mdp"],"authByGoogle-")){
-    $mail = str_replace("authByGoogle-", "", $ODA_INTERFACE->inputs["mdp"]);
-    $params = new SimpleObject\OdaPrepareReqSql();
-    $params->sql = "select a.`code_user`, a.`password`
-        from `api_tab_utilisateurs` a
-        where 1=1 
-        and a.`code_user` = :login
-        and a.`mail` = :mail
-    ;";
-    $params->bindsValue = [
-        "login" => $ODA_INTERFACE->inputs["login"]
-        , "mail" => $mail
-    ];
-    $params->typeSQL = OdaLibBd::SQL_GET_ONE;
-    $retour = $ODA_INTERFACE->BD_ENGINE->reqODASQL($params);
-    $ODA_INTERFACE->inputs["mdp"] = $retour->data->password;
-}
-
-//--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();
-$params->sql = "select a.`id_rang`, a.`code_user`
+$params->sql = "select a.`id_rang`, a.`code_user`, a.`password`, a.`mail`
     from `api_tab_utilisateurs` a
-    where 1=1 
+    where 1=1
     and a.`code_user` = :code_user
-    and a.`password` = :mdp
 ;";
 $params->bindsValue = [
     "code_user" => $ODA_INTERFACE->inputs["login"]
-    , "mdp" => $ODA_INTERFACE->inputs["mdp"]
 ];
 $params->typeSQL = OdaLibBd::SQL_GET_ONE;
 $retour = $ODA_INTERFACE->BD_ENGINE->reqODASQL($params);
+if(!$retour->data){
+    $ODA_INTERFACE->dieInError('Auth impossible.(user unknown)');
+}else{
+    if(OdaLib::startsWith($ODA_INTERFACE->inputs["mdp"],"authByGoogle-")){
+        $mail = str_replace("authByGoogle-", "", $ODA_INTERFACE->inputs["mdp"]);
+        if($mail !== $retour->data->mail){
+            $ODA_INTERFACE->dieInError('Auth impossible.(mail incorrect)');
+        }
+    }
+}
 
-//--------------------------------------------------------------------------
-//get key
-$key = $ODA_INTERFACE->buildSession(array('code_user' => $ODA_INTERFACE->inputs["login"], 'password' => $ODA_INTERFACE->inputs["mdp"]));
+$key = $ODA_INTERFACE->buildSession(array('code_user' => $ODA_INTERFACE->inputs["login"], 'password' => $ODA_INTERFACE->inputs["mdp"], 'dbPassword' => $retour->data->password));
 
-$retour->data->keyAuthODA = $key;
+$data = new stdClass();
+$data->id_rang = $retour->data->id_rang;
+$data->code_user = $retour->data->code_user;
+$data->keyAuthODA = $key;
+$retour->data = $data;
 
 //--------------------------------------------------------------------------
 $params = new \stdClass();
