@@ -8,7 +8,7 @@ require '../../../../../../include/config.php';
 
 use cebe\markdown\GithubMarkdown;
 use Slim\Slim;
-use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd, \Oda\InterfaceRest\UserInterface;
 
 $slim = new Slim();
 //--------------------------------------------------------------------------
@@ -25,12 +25,14 @@ $slim->get('/', function () {
     echo $parser->parse($markdown);
 });
 
-$slim->get('/entity/:id', function ($id) use ($slim) {
+//----------- USER -------------------------------
+
+$slim->put('/user/pwd/', function () use ($slim) {
     $params = new OdaPrepareInterface();
     $params->slim = $slim;
-    $INTERFACE = new EntityInterface($params);
-    $INTERFACE->get($id);
+    $params->arrayInput = array("userCode","pwd","email");
+    $INTERFACE = new UserInterface($params);
+    $INTERFACE->resetPwd();
 });
-
 
 $slim->run();
