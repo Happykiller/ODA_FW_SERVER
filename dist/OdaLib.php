@@ -179,9 +179,12 @@ class OdaLib {
         }
 
         return $csv;
-    } 
+    }
+
     /**
      * @name sendMailGun
+     * @return null|string
+     * @throws \Exception
      * @p_param sdtClass $p_params
      */
     static function sendMailGun($p_params) {
@@ -224,8 +227,11 @@ class OdaLib {
            return null;
        }
     }
+
     /**
      * @name sendMail
+     * @return null|string
+     * @throws \Exception
      * @p_param sdtClass $p_params
      */
     static function sendMail($p_params) {
@@ -267,13 +273,13 @@ class OdaLib {
             //=====Création du message.
             $message = $passage_ligne."--".$boundary.$passage_ligne;
             //=====Ajout du message au format texte.
-            $message.= "Content-Type: text/plain; charset=\"ISO-8859-1\"".$passage_ligne;
+            $message.= "Content-Type: text/plain; charset=\"utf-8\"".$passage_ligne;
             $message.= "Content-Transfer-Encoding: 8bit".$passage_ligne;
             $message.= $passage_ligne.$p_params["message_txt"].$passage_ligne;
             //==========
             $message.= $passage_ligne."--".$boundary.$passage_ligne;
             //=====Ajout du message au format HTML
-            $message.= "Content-Type: text/html; charset=\"ISO-8859-1\"".$passage_ligne;
+            $message.= "Content-Type: text/html; charset=\"utf-8\"".$passage_ligne;
             $message.= "Content-Transfer-Encoding: 8bit".$passage_ligne;
             $message.= $passage_ligne.$p_params["message_html"].$passage_ligne;
             //==========
@@ -282,7 +288,10 @@ class OdaLib {
             //==========
 
             //=====Envoi de l'e-mail.
-            if(!mail($p_params["email_mails_dest"],$p_params["sujet"],$message,$header)){
+            $preferences = ['input-charset' => 'UTF-8', 'output-charset' => 'UTF-8'];
+            $encoded_subject = iconv_mime_encode('Subject', $p_params["sujet"], $preferences);
+            $encoded_subject = substr($encoded_subject, strlen('Subject: '));
+            if(!mail($p_params["email_mails_dest"],$encoded_subject,$message,$header)){
               $strRetour = "KO";
             }
             //==========
@@ -325,13 +334,14 @@ class OdaLib {
 
         return $bufferTest;
     }
-    
+
     /**
      * get_string_between
      * @param string $string
      * @param string $start
      * @param string $end
      * @return string
+     * @throws \Exception
      */
     static function get_string_between($string, $start, $end){
         try {

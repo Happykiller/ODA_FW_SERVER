@@ -1,0 +1,1 @@
+DROP TABLE `@prefix@api_tab_contact`;

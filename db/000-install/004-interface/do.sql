@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `@prefix@api_tab_session` (
 --
 -- Datas
 --
-INSERT INTO `oda_chop`.`api_tab_session` (`id`, `key`, `datas`, `dateCreation`, `periodeValideMinute`) VALUES
+INSERT INTO `@prefix@api_tab_session` (`id`, `key`, `datas`, `dateCreation`, `periodeValideMinute`) VALUES
   (1, '42c643cc44c593c5c2b4c5f6d40489dd', '{"code_user" : "passepartout"}', '2013-01-01 00:00:01', 0);
 
 -- --------------------------------------------------------

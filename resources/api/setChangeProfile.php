@@ -22,7 +22,7 @@ $params->nameObj = "api_tab_utilisateurs";
 $params->keyObj = ["code_user" => $ODA_INTERFACE->inputs["code_user"]];
 $retour = $ODA_INTERFACE->BD_ENGINE->getSingleObject($params);
 
-if($retour->password != $ODA_INTERFACE->inputs["mdp"]){
+if(!password_verify($ODA_INTERFACE->inputs["mdp"], $retour->password)){
     $ODA_INTERFACE->dieInError('Mot de passe éronné.');
 }else{
     $params = new \stdClass();
