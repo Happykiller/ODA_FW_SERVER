@@ -9,12 +9,14 @@ require '../../include/config.php';
 use cebe\markdown\GithubMarkdown;
 use Slim\Slim;
 use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
+use Oda\OdaRestInterface;
 
 $slim = new Slim();
 //--------------------------------------------------------------------------
 
-$slim->notFound(function () {
+$slim->notFound(function () use ($slim) {
     $params = new OdaPrepareInterface();
+    $params->slim = $slim;
     $INTERFACE = new OdaRestInterface($params);
     $INTERFACE->dieInError('not found');
 });
