@@ -50,6 +50,8 @@ CREATE TABLE IF NOT EXISTS `@prefix@api_tab_utilisateurs` (
 
 --
 -- Datas
+-- ADMI : pass
+-- VIS : VIS
 --
 INSERT INTO `@prefix@api_tab_utilisateurs` (`code_user`, `password`, `nom`, `prenom`, `id_rang`, `mail`) VALUES
   ('ADMI', '$2y$10$co5O0nZScrI0GJ/HnGD.q.M7dGBtDxGeQHqewXJ9GvO8w.K5ot9mi', 'Administrateur', 'Administrateur', 1, 'admin@mail.com'),

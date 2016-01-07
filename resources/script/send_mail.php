@@ -3,7 +3,7 @@ namespace Oda;
 
 require '../../../../../header.php';
 require '../../../../../vendor/autoload.php';
-require '../../../../../include/config.php';
+require '../../../../../config/config.php';
 
 use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaConfig;
 
