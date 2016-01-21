@@ -16,7 +16,8 @@ class OdaLibInterface {
     const STATE_CONSTRUCT = 002;
     const STATE_READY = 003;
     const STATE_ERROR = 004;
-    const STATE_FINISH_DONE = 005;
+    const STATE_ERROR_AUTH = 006;
+    const STATE_FINISH = 005;
     const METHOD_GET = "GET";
     const METHOD_PUT = "PUT";
     const METHOD_POST = "POST";
@@ -175,8 +176,10 @@ class OdaLibInterface {
      * @return null
      */
     public function __destruct(){
-        if($this->object_retour->statut != self::STATE_ERROR){
-            $this->object_retour->statut = self::STATE_FINISH_DONE;
+        if(($this->object_retour->statut != self::STATE_ERROR)
+            && ($this->object_retour->statut != self::STATE_ERROR_AUTH)
+        ){
+            $this->object_retour->statut = self::STATE_FINISH;
         }
         $strSorti = "";
 
@@ -548,19 +551,13 @@ class OdaLibInterface {
 
             if(!$this->modePublic){
                 if($this->keyAuth == '') {
-                    $this->object_retour->strErreur = "Key auth empty.";
-                    $this->object_retour->statut = self::STATE_ERROR;
-                    die();
+                    $this->dieInError('Key auth empty.', self::STATE_ERROR_AUTH);
                 }else{
                     if(!$keyValid){
-                        $this->object_retour->strErreur = 'Key auth invalid.';
-                        $this->object_retour->statut = self::STATE_ERROR;
-                        die();
+                        $this->dieInError('Key auth invalid.', self::STATE_ERROR_AUTH);
                     }else{
                         if(!$ajour){
-                            $this->object_retour->strErreur = 'Session expired.';
-                            $this->object_retour->statut = self::STATE_ERROR;
-                            die();
+                            $this->dieInError('Session expired.', self::STATE_ERROR_AUTH);
                         }else{
                             $params = new SimpleObject\OdaPrepareReqSql();
                             $params->sql = "SELECT b.`indice`, a.`open`
@@ -569,12 +566,6 @@ class OdaLibInterface {
                                 AND a.`id_rang` = b.`id`
                                 AND :interface like concat('%',a.`interface`, '%')
                             ;";
-                            //TODO for interface like machin/{1}/truc/{2}
-                            // machin/
-                            // machin
-                            // machin/{1}
-                            // machin/{1}/
-                            // machin/{1}/truc/{2}
                             $params->bindsValue = [
                                 "interface" => $this->name
                             ];
@@ -582,9 +573,7 @@ class OdaLibInterface {
                             $retour = $this->BD_ENGINE->reqODASQL($params);
 
                             if(($retour->data) && (!$retour->data->open) && ($retour->data->indice <= $this->user->indice)){
-                                $this->object_retour->strErreur = 'Indice user not enough.';
-                                $this->object_retour->statut = self::STATE_ERROR;
-                                die();
+                                $this->dieInError('Indice user not enough.', self::STATE_ERROR_AUTH);
                             }
                         }
                     }
@@ -710,15 +699,13 @@ class OdaLibInterface {
                             `periodeValideMinute`
                         )
                         VALUES (
-                            NULL , '".$v_key."',  '".\json_encode($json)."',  NOW(), 720 
+                            NULL , '".$v_key."',  '".\json_encode($json)."',  NOW(), 720
                         )
                     ;";
                     $params->typeSQL = OdaLibBd::SQL_INSERT_ONE;
                     $retour = $this->BD_ENGINE->reqODASQL($params);
                 }else{
-                    $this->object_retour->strErreur = 'Auth impossible.(Password wrong)';
-                    $this->object_retour->statut = self::STATE_ERROR;
-                    die();
+                    $this->dieInError('Auth impossible.(Password wrong)', self::STATE_ERROR_AUTH);
                 }
             }
 
@@ -789,9 +776,9 @@ class OdaLibInterface {
      *
      * @param String $message
      */
-    public function dieInError($message){
+    public function dieInError($message, $errorCode = self::STATE_ERROR){
         $this->object_retour->strErreur = $message;
-        $this->object_retour->statut = self::STATE_ERROR;
+        $this->object_retour->statut = $errorCode;
         die();
     }
 
