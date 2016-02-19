@@ -12,7 +12,8 @@ use \stdClass;
 $shortopts  = "";
 
 $longopts  = array(
-    "target:",
+    "auto::",
+    "target::",
     "partial::",
     "option::",
     "checkDb::"

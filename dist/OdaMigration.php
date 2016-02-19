@@ -49,7 +49,7 @@ class OdaMigration {
      * @return null
      */
     public function __destruct(){
-        
+
     }
 
     /*
@@ -59,19 +59,24 @@ class OdaMigration {
         try {
             $this->isOk();
 
-            if($this->params['partial'] !== "all"){
-                $this->exe('./'.$this->params['target'].'/'.$this->params['partial'].'/'.$this->params['option'].'.sql');
+            if(isset($this->params['auto'])){
+                print "Auto." . PHP_EOL;
+                //todo : exclusion target install, rework, matrix, ou pas de date et loop sur date au dessus de now.
             }else{
-                $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('./'.$this->params['target'].'/', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
-                foreach($objects as $name => $object){
-                    if ($object->isDir()) {
-                        $name = str_replace('\\','/',$name);
-                        $this->exe($name.'/'.$this->params['option'].'.sql');
+                if($this->params['partial'] !== "all"){
+                    $this->exe('./'.$this->params['target'].'/'.$this->params['partial'].'/'.$this->params['option'].'.sql');
+                }else{
+                    $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('./'.$this->params['target'].'/', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
+                    foreach($objects as $name => $object){
+                        if ($object->isDir()) {
+                            $name = str_replace('\\','/',$name);
+                            $this->exe($name.'/'.$this->params['option'].'.sql');
+                        }
                     }
                 }
             }
 
-            echo 'Sucess' . PHP_EOL;
+            echo 'Success' . PHP_EOL;
 
             return $this;
         } catch (Exception $ex) {
@@ -86,14 +91,28 @@ class OdaMigration {
      */
     public function isOK(){
         try {
-            if (is_null($this->params)) {
+            if (is_null($this->params)||empty($this->params)) {
                 print "Options are missing." . PHP_EOL;
+                print "|__ 'auto' => ex: --auto" . PHP_EOL;
+                print "|__ 'target' => ex: --target=000-install | all." . PHP_EOL;
+                print "   |__ 'partial', optional => ex: --partial=000-useful" . PHP_EOL;
+                print "   |__ 'option', optional => ex: --option=do | unDo" . PHP_EOL;
+                print "   |__ 'checkDb', optional => ex: --checkDb" . PHP_EOL;
                 die(1);
             }
 
-            if (!isset($this->params['target']) ) {
-                print "There was a problem reading in the options." . PHP_EOL;
+            if ((!isset($this->params['auto'])&&(!isset($this->params['target'])))) {
+                print "Options 'target' and 'auto' is missing." . PHP_EOL;
                 die(1);
+            }
+
+            if ((isset($this->params['target'])&&(empty($this->params['target'])))) {
+                print "Option 'target' is not defined." . PHP_EOL;
+                die(1);
+            }
+
+            if (isset($this->params['auto'])) {
+                $this->params['checkDb'] = true;
             }
 
             if (!isset($this->params['option']) ) {
