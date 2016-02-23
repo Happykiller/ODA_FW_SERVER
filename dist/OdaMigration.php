@@ -60,9 +60,23 @@ class OdaMigration {
             $this->isOk();
 
             if(isset($this->params['auto'])){
-                print "Auto." . PHP_EOL;
-                //todo : exclusion target install, rework, matrix, ou pas de date et loop sur date au dessus de now.
+                print "Auto mode selected." . PHP_EOL;
+
+                $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('.' . DIRECTORY_SEPARATOR, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
+                foreach($objects as $folderPath => $object){
+                    if ($object->isDir()) {
+                        $filePath = $folderPath . DIRECTORY_SEPARATOR  . 'do.sql';
+                        if(file_exists($filePath)){
+                            $banned_words = "000-install 001-reworkModel 002-matrixRangApi";
+                            if (!(preg_match('~\b(' . str_replace(' ', '|', $banned_words) . ')\b~', $filePath)) && (preg_match('/[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])/',$filePath))) {
+                                print "filePath:" . $filePath . PHP_EOL;
+                            }
+                        }
+                    }
+                }
             }else{
+                print "Target mode selected." . PHP_EOL;
+
                 if($this->params['partial'] !== "all"){
                     $this->exe('./'.$this->params['target'].'/'.$this->params['partial'].'/'.$this->params['option'].'.sql');
                 }else{
