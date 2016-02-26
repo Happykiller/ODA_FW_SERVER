@@ -62,17 +62,36 @@ class OdaMigration {
             if(isset($this->params['auto'])){
                 print "Auto mode selected." . PHP_EOL;
 
-                $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('.' . DIRECTORY_SEPARATOR, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
-                foreach($objects as $folderPath => $object){
-                    if ($object->isDir()) {
-                        $filePath = $folderPath . DIRECTORY_SEPARATOR  . 'do.sql';
-                        if(file_exists($filePath)){
-                            $banned_words = "000-install 001-reworkModel 002-matrixRangApi";
-                            if (!(preg_match('~\b(' . str_replace(' ', '|', $banned_words) . ')\b~', $filePath)) && (preg_match('/[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])/',$filePath))) {
-                                print "filePath:" . $filePath . PHP_EOL;
+                $params = new OdaPrepareReqSql();
+                $params->sql = "SELECT `param_value`
+                    FROM `".self::$config->BD_ENGINE->prefixTable."api_tab_parametres`
+                    WHERE 1=1
+                    AND `param_name` = 'install_date'
+                ";
+                $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+                $retour = $this->BD_ENGINE->reqODASQL($params);
+
+                if($retour->data){
+
+
+                    $installDate = $retour->data->param_value;
+
+                    print "Install date is: " . $installDate . PHP_EOL;
+
+                    $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('.' . DIRECTORY_SEPARATOR, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
+                    foreach($objects as $folderPath => $object){
+                        if ($object->isDir()) {
+                            $filePath = $folderPath . DIRECTORY_SEPARATOR  . 'do.sql';
+                            if(file_exists($filePath)){
+                                $banned_words = "-install -reworkModel -matrixRangApi";
+                                if (!(preg_match('~\b(' . str_replace(' ', '|', $banned_words) . ')\b~', $filePath)) && (preg_match('/[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])/',$filePath))) {
+                                    print "filePath:" . $filePath . PHP_EOL;
+                                }
                             }
                         }
                     }
+                }else{
+                    print "No install_date retrieve." . PHP_EOL;
                 }
             }else{
                 print "Target mode selected." . PHP_EOL;
