@@ -182,7 +182,7 @@ class OdaMigration {
                     SELECT COUNT(*) as 'nb'
                     FROM `".self::$config->BD_ENGINE->prefixTable."api_tab_migration`
                     WHERE 1=1
-                    AND `name` = '".$file."'
+                    AND `name` = '".str_replace('\\', '/', $file)."'
                 ";
                 $params->typeSQL = OdaLibBd::SQL_GET_ONE;
                 $retour = $this->BD_ENGINE->reqODASQL($params);
@@ -219,7 +219,7 @@ class OdaMigration {
                     INSERT INTO `".self::$config->BD_ENGINE->prefixTable."api_tab_migration`
                     (`name`, `dateMigration`)
                     VALUES
-                    ('".$file."', NOW())
+                    ('".str_replace('\\', '/', $file)."', NOW())
                 ";
                 $params->typeSQL = OdaLibBd::SQL_SCRIPT;
                 $retour = $this->BD_ENGINE->reqODASQL($params);
@@ -230,7 +230,7 @@ class OdaMigration {
                 $params->sql = "
                     DELETE FROM `".self::$config->BD_ENGINE->prefixTable."api_tab_migration`
                     WHERE 1=1
-                    AND `name` = '".$file."'
+                    AND `name` = '".str_replace('\\', '/', $file)."'
                 ";
                 $params->typeSQL = OdaLibBd::SQL_SCRIPT;
                 $retour = $this->BD_ENGINE->reqODASQL($params);
