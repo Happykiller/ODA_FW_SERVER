@@ -1,6 +1,6 @@
 <?php
 namespace Oda;
-use \stdClass, \Oda\SimpleObject\OdaConfig, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
+use \stdClass, \Oda\SimpleObject\OdaConfig, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBdn, \JBZoo\Utils\Str, \JBZoo\Utils\Filter;
 /**
  * OdaMigration Librairy - main class
  *
@@ -73,8 +73,8 @@ class OdaMigration {
 
                 if($retour->data){
 
-
                     $installDate = $retour->data->param_value;
+                    $compressInstallDate = Filter::int(Str::sub($installDate, 2, 2) . Str::sub($installDate, 5, 2) . Str::sub($installDate, 8, 2));
 
                     print "Install date is: " . $installDate . PHP_EOL;
 
@@ -85,7 +85,10 @@ class OdaMigration {
                             if(file_exists($filePath)){
                                 $banned_words = "-install -reworkModel -matrixRangApi";
                                 if (!(preg_match('~\b(' . str_replace(' ', '|', $banned_words) . ')\b~', $filePath)) && (preg_match('/[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])/',$filePath))) {
-                                    print "filePath:" . $filePath . PHP_EOL;
+                                    $patchDate = Filter::int(Str::sub($filePath, 6, 6));
+                                    if($patchDate > $compressInstallDate){
+                                        $this->exe($filePath);
+                                    }
                                 }
                             }
                         }
@@ -97,13 +100,12 @@ class OdaMigration {
                 print "Target mode selected." . PHP_EOL;
 
                 if($this->params['partial'] !== "all"){
-                    $this->exe('./'.$this->params['target'].'/'.$this->params['partial'].'/'.$this->params['option'].'.sql');
+                    $this->exe('.'.DIRECTORY_SEPARATOR.$this->params['target'].DIRECTORY_SEPARATOR.$this->params['partial'].DIRECTORY_SEPARATOR.$this->params['option'].'.sql');
                 }else{
-                    $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('./'.$this->params['target'].'/', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
+                    $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('.' . DIRECTORY_SEPARATOR, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
                     foreach($objects as $name => $object){
                         if ($object->isDir()) {
-                            $name = str_replace('\\','/',$name);
-                            $this->exe($name.'/'.$this->params['option'].'.sql');
+                            $this->exe($name.DIRECTORY_SEPARATOR.$this->params['option'].'.sql');
                         }
                     }
                 }
@@ -135,17 +137,13 @@ class OdaMigration {
             }
 
             if ((!isset($this->params['auto'])&&(!isset($this->params['target'])))) {
-                print "Options 'target' and 'auto' is missing." . PHP_EOL;
+                print "Option 'Target' and 'auto' is missing." . PHP_EOL;
                 die(1);
             }
 
             if ((isset($this->params['target'])&&(empty($this->params['target'])))) {
-                print "Option 'target' is not defined." . PHP_EOL;
+                print "Option 'Target' is not defined." . PHP_EOL;
                 die(1);
-            }
-
-            if (isset($this->params['auto'])) {
-                $this->params['checkDb'] = true;
             }
 
             if (!isset($this->params['option']) ) {
@@ -158,6 +156,10 @@ class OdaMigration {
 
             if (!isset($this->params['checkDb']) ) {
                 $this->params['checkDb'] = false;
+            }
+
+            if (isset($this->params['auto']) ) {
+                $this->params['checkDb'] = true;
             }
             return true;
         } catch (Exception $ex) {
@@ -187,13 +189,17 @@ class OdaMigration {
                 $exist = $retour->data->nb;
 
                 if($exist && ($this->params['option'] == "do")){
-                    echo "Status for the migration : already done" . PHP_EOL;
+                    echo "Status for the migration: $file: already done" . PHP_EOL;
                     return true;
+                }else if(!$exist && ($this->params['option'] == "do")){
+                    echo "Status for the migration: $file: clear to done" . PHP_EOL;
                 }
 
                 if(!$exist && ($this->params['option'] == "unDo")){
-                    echo "Status for the migration : nothing to unDo" . PHP_EOL;
+                    echo "Status for the migration: $file: nothing to unDo" . PHP_EOL;
                     return true;
+                }else if($exist && ($this->params['option'] == "unDo")){
+                    echo "Status for the migration: $file: check ok to unDo" . PHP_EOL;
                 }
             }
 

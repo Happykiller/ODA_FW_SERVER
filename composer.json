@@ -16,7 +16,8 @@
     "slim/slim": "2.*",
     "cebe/markdown": "^1.1",
     "ircmaxell/password-compat": "^1.0",
-    "symfony/yaml": "^2.7.8"
+    "symfony/yaml": "^2.7.8",
+    "jbzoo/utils" : "^1.4"
   },
   "autoload": {
     "psr-4": { "Oda\\": "dist" }
