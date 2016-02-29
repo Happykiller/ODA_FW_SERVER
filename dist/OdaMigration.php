@@ -102,7 +102,7 @@ class OdaMigration {
                 if($this->params['partial'] !== "all"){
                     $this->exe('.'.DIRECTORY_SEPARATOR.$this->params['target'].DIRECTORY_SEPARATOR.$this->params['partial'].DIRECTORY_SEPARATOR.$this->params['option'].'.sql');
                 }else{
-                    $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('.' . DIRECTORY_SEPARATOR, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
+                    $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('.' . DIRECTORY_SEPARATOR . $this->params['target'], \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
                     foreach($objects as $name => $object){
                         if ($object->isDir()) {
                             $this->exe($name.DIRECTORY_SEPARATOR.$this->params['option'].'.sql');
