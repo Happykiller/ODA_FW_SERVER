@@ -350,7 +350,7 @@ class OdaLibBd {
         try {
             $params = new stdClass();
             $params->sql = "INSERT INTO `".self::$config->prefixTable."api_tab_log`
-               (`dateTime`,`type`,`commentaires`) 
+               (`dateTime`,`id_type`,`commentaires`) 
                VALUES  
                (NOW(), :type, :msg)
             ;";
