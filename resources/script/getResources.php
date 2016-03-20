@@ -1,6 +1,7 @@
 <?php
 namespace Oda;
 
+require '../../../../../header.php';
 require '../../../../../vendor/autoload.php';
 require '../../../../../config/config.php';
 
@@ -43,6 +44,6 @@ if(isset($_GET["fic"])){
         header("Expires: 0");
         readfile($filePath . $fileName);
     }else{
-        header("HTTP/1.0 404 Not Found");
+        header("HTTP/1.0 400 File not exist");
     }
 }

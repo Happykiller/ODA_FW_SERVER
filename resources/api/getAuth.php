@@ -29,12 +29,12 @@ $params->bindsValue = [
 $params->typeSQL = OdaLibBd::SQL_GET_ONE;
 $retour = $ODA_INTERFACE->BD_ENGINE->reqODASQL($params);
 if(!$retour->data){
-    $ODA_INTERFACE->dieInError('Auth impossible.(user unknown)');
+    $ODA_INTERFACE->dieInError('Auth impossible.(user unknown)', $ODA_INTERFACE::STATE_ERROR_AUTH);
 }else{
     if(OdaLib::startsWith($ODA_INTERFACE->inputs["mdp"],"authByGoogle-")){
         $mail = str_replace("authByGoogle-", "", $ODA_INTERFACE->inputs["mdp"]);
         if($mail !== $retour->data->mail){
-            $ODA_INTERFACE->dieInError('Auth impossible.(mail incorrect)');
+            $ODA_INTERFACE->dieInError('Auth impossible.(mail incorrect)',$ODA_INTERFACE::STATE_ERROR_AUTH);
         }
     }
 }

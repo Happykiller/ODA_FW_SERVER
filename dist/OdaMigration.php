@@ -1,6 +1,6 @@
 <?php
 namespace Oda;
-use \stdClass, \Oda\SimpleObject\OdaConfig, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd;
+use \stdClass, \Oda\SimpleObject\OdaConfig, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBdn, \JBZoo\Utils\Str, \JBZoo\Utils\Filter;
 /**
  * OdaMigration Librairy - main class
  *
@@ -49,7 +49,7 @@ class OdaMigration {
      * @return null
      */
     public function __destruct(){
-        
+
     }
 
     /*
@@ -59,19 +59,59 @@ class OdaMigration {
         try {
             $this->isOk();
 
-            if($this->params['partial'] !== "all"){
-                $this->exe('./'.$this->params['target'].'/'.$this->params['partial'].'/'.$this->params['option'].'.sql');
+            if(isset($this->params['auto'])){
+                print "Auto mode selected." . PHP_EOL;
+
+                $params = new OdaPrepareReqSql();
+                $params->sql = "SELECT `param_value`
+                    FROM `".self::$config->BD_ENGINE->prefixTable."api_tab_parametres`
+                    WHERE 1=1
+                    AND `param_name` = 'install_date'
+                ";
+                $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+                $retour = $this->BD_ENGINE->reqODASQL($params);
+
+                if($retour->data){
+
+                    $installDate = $retour->data->param_value;
+                    $compressInstallDate = Filter::int(Str::sub($installDate, 2, 2) . Str::sub($installDate, 5, 2) . Str::sub($installDate, 8, 2));
+
+                    print "Install date is: " . $installDate . PHP_EOL;
+
+                    $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('.' . DIRECTORY_SEPARATOR, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
+                    foreach($objects as $folderPath => $object){
+                        if ($object->isDir()) {
+                            $filePath = $folderPath . DIRECTORY_SEPARATOR  . 'do.sql';
+                            if(file_exists($filePath)){
+                                $banned_words = "-install -reworkModel -matrixRangApi";
+                                if (!(preg_match('~\b(' . str_replace(' ', '|', $banned_words) . ')\b~', $filePath)) && (preg_match('/[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])/',$filePath))) {
+                                    $patchDate = Filter::int(Str::sub($filePath, 6, 6));
+                                    if($patchDate > $compressInstallDate){
+                                        $this->exe($filePath);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    print "No install_date retrieve." . PHP_EOL;
+                }
             }else{
-                $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('./'.$this->params['target'].'/', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
-                foreach($objects as $name => $object){
-                    if ($object->isDir()) {
-                        $name = str_replace('\\','/',$name);
-                        $this->exe($name.'/'.$this->params['option'].'.sql');
+                print "Target mode selected." . PHP_EOL;
+
+                if($this->params['partial'] !== "all"){
+                    $this->exe('.'.DIRECTORY_SEPARATOR.$this->params['target'].DIRECTORY_SEPARATOR.$this->params['partial'].DIRECTORY_SEPARATOR.$this->params['option'].'.sql');
+                }else{
+                    $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('.' . DIRECTORY_SEPARATOR . $this->params['target'], \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
+                    foreach($objects as $name => $object){
+                        if ($object->isDir()) {
+                            $this->exe($name.DIRECTORY_SEPARATOR.$this->params['option'].'.sql');
+                        }
                     }
                 }
             }
 
-            echo 'Sucess' . PHP_EOL;
+            echo 'Success' . PHP_EOL;
 
             return $this;
         } catch (Exception $ex) {
@@ -86,13 +126,23 @@ class OdaMigration {
      */
     public function isOK(){
         try {
-            if (is_null($this->params)) {
+            if (is_null($this->params)||empty($this->params)) {
                 print "Options are missing." . PHP_EOL;
+                print "|__ 'auto' => ex: --auto" . PHP_EOL;
+                print "|__ 'target' => ex: --target=000-install | all." . PHP_EOL;
+                print "   |__ 'partial', optional => ex: --partial=000-useful" . PHP_EOL;
+                print "   |__ 'option', optional => ex: --option=do | unDo" . PHP_EOL;
+                print "   |__ 'checkDb', optional => ex: --checkDb" . PHP_EOL;
                 die(1);
             }
 
-            if (!isset($this->params['target']) ) {
-                print "There was a problem reading in the options." . PHP_EOL;
+            if ((!isset($this->params['auto'])&&(!isset($this->params['target'])))) {
+                print "Option 'Target' and 'auto' is missing." . PHP_EOL;
+                die(1);
+            }
+
+            if ((isset($this->params['target'])&&(empty($this->params['target'])))) {
+                print "Option 'Target' is not defined." . PHP_EOL;
                 die(1);
             }
 
@@ -106,6 +156,10 @@ class OdaMigration {
 
             if (!isset($this->params['checkDb']) ) {
                 $this->params['checkDb'] = false;
+            }
+
+            if (isset($this->params['auto']) ) {
+                $this->params['checkDb'] = true;
             }
             return true;
         } catch (Exception $ex) {
@@ -128,20 +182,24 @@ class OdaMigration {
                     SELECT COUNT(*) as 'nb'
                     FROM `".self::$config->BD_ENGINE->prefixTable."api_tab_migration`
                     WHERE 1=1
-                    AND `name` = '".$file."'
+                    AND `name` = '".str_replace('\\', '/', $file)."'
                 ";
                 $params->typeSQL = OdaLibBd::SQL_GET_ONE;
                 $retour = $this->BD_ENGINE->reqODASQL($params);
                 $exist = $retour->data->nb;
 
                 if($exist && ($this->params['option'] == "do")){
-                    echo "Status for the migration : already done" . PHP_EOL;
+                    echo "Status for the migration: $file: already done" . PHP_EOL;
                     return true;
+                }else if(!$exist && ($this->params['option'] == "do")){
+                    echo "Status for the migration: $file: clear to done" . PHP_EOL;
                 }
 
                 if(!$exist && ($this->params['option'] == "unDo")){
-                    echo "Status for the migration : nothing to unDo" . PHP_EOL;
+                    echo "Status for the migration: $file: nothing to unDo" . PHP_EOL;
                     return true;
+                }else if($exist && ($this->params['option'] == "unDo")){
+                    echo "Status for the migration: $file: check ok to unDo" . PHP_EOL;
                 }
             }
 
@@ -161,7 +219,7 @@ class OdaMigration {
                     INSERT INTO `".self::$config->BD_ENGINE->prefixTable."api_tab_migration`
                     (`name`, `dateMigration`)
                     VALUES
-                    ('".$file."', NOW())
+                    ('".str_replace('\\', '/', $file)."', NOW())
                 ";
                 $params->typeSQL = OdaLibBd::SQL_SCRIPT;
                 $retour = $this->BD_ENGINE->reqODASQL($params);
@@ -172,7 +230,7 @@ class OdaMigration {
                 $params->sql = "
                     DELETE FROM `".self::$config->BD_ENGINE->prefixTable."api_tab_migration`
                     WHERE 1=1
-                    AND `name` = '".$file."'
+                    AND `name` = '".str_replace('\\', '/', $file)."'
                 ";
                 $params->typeSQL = OdaLibBd::SQL_SCRIPT;
                 $retour = $this->BD_ENGINE->reqODASQL($params);
