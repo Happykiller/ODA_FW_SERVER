@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `@prefix@api_tab_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `dateTime` datetime NOT NULL,
   `id_type` int(4) NOT NULL,
-  `commentaires` varchar(250) NOT NULL,
+  `commentaires` text NOT NULL,
   PRIMARY KEY (`id`)
 );
 
