@@ -21,9 +21,10 @@ ALTER TABLE `@prefix@api_tab_parametres` AUTO_INCREMENT = 100;
 INSERT INTO `@prefix@api_tab_parametres` (`id`, `param_name`, `param_type`, `param_value`) VALUES
   (1, 'nom_site', 'varchar', 'siteName'),
   (2, 'maintenance', 'int', '0'),
-  (5, 'contact_mail_administrateur', 'int', 'admin@mail.com'),
-  (6, 'theme_defaut', 'varchar', ''),
-  (7, 'install_date', 'varchar', DATE_FORMAT(NOW(),'%Y-%m-%d'));
+  (3, 'transaction_record', 'init', 0),
+  (4, 'contact_mail_administrateur', 'int', 'admin@mail.com'),
+  (5, 'theme_defaut', 'varchar', ''),
+  (6, 'install_date', 'varchar', DATE_FORMAT(NOW(),'%Y-%m-%d'));
 
 -- --------------------------------------------------------
 --

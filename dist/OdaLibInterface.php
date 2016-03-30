@@ -118,6 +118,10 @@ class OdaLibInterface {
      * @var string
      */
     public $name;
+    /**
+     * @var Int
+     */
+    private $transactionRecord;
 
     /**
      * @param type \Oda\OdaPrepareInterface
@@ -156,7 +160,13 @@ class OdaLibInterface {
 
             $this->inputs = $this->recupInputs($params->arrayInput, $params->arrayInputOpt);
 
-            $this->_initTransaction();
+            $debut = new SimpleObject\OdaDate();
+            $this->startMicro = SimpleObject\OdaDate::getMicro();
+            $this->object_retour->metro["ODABegin"] = $debut->getDateTimeWithMili();
+
+            $this->transactionRecord = $this->getParameter('transaction_record');
+
+            $this->_initTransaction($this->inputs, $debut);
 
             $this->checkKey();
 
@@ -444,35 +454,36 @@ class OdaLibInterface {
      * initTransaction
      * @return int
      */
-    protected function _initTransaction () {
+    protected function _initTransaction ($inputs, $debut) {
         try {
-            $debut = new SimpleObject\OdaDate();
-            $this->startMicro = SimpleObject\OdaDate::getMicro();
-            $this->object_retour->metro["ODABegin"] = $debut->getDateTimeWithMili();
+            if($this->transactionRecord == 1){
+                $params = new SimpleObject\OdaPrepareReqSql();
+                $params->sql = "INSERT INTO  `api_tab_transaction` (
+                    `id` ,
+                    `type` ,
+                    `statut` ,
+                    `input` ,
+                    `output` ,
+                    `debut` ,
+                    `fin`
+                    )
+                    VALUES (
+                    NULL ,  :type,  'debut',  :input,  '',  :debut,  ''
+                    )
+                ;";
+                $strJsonInput = OdaLib::fomatage_json($inputs);
+                $params->typeSQL = OdaLibBd::SQL_INSERT_ONE;
+                $params->bindsValue = [
+                    "type" => [ "value" => $_SERVER["SCRIPT_FILENAME"]]
+                    , "input" => [ "value" => $strJsonInput]
+                    , "debut" => [ "value" => $debut->getDateTimeWithMili()]
+                ];
+                $retour = $this->BD_ENGINE->reqODASQL($params);
+                $this->object_retour->id_transaction = $retour->data;
+            }else{
+                $this->object_retour->id_transaction = 0;
+            }
 
-            $params = new SimpleObject\OdaPrepareReqSql();
-            $params->sql = "INSERT INTO  `api_tab_transaction` (
-                `id` ,
-                `type` ,
-                `statut` ,
-                `input` ,
-                `output` ,
-                `debut` ,
-                `fin`
-                )
-                VALUES (
-                NULL ,  :type,  'debut',  :input,  '',  :debut,  ''
-                )
-            ;";
-            $strJsonInput = OdaLib::fomatage_json($this->inputs);
-            $params->typeSQL = OdaLibBd::SQL_INSERT_ONE;
-            $params->bindsValue = [
-                "type" => [ "value" => $_SERVER["SCRIPT_FILENAME"]]
-                , "input" => [ "value" => $strJsonInput]
-                , "debut" => [ "value" => $debut->getDateTimeWithMili()]
-            ];
-            $retour = $this->BD_ENGINE->reqODASQL($params);
-            $this->object_retour->id_transaction = $retour->data;
         } catch (Exception $ex) {
             $this->object_retour->strErreur = $ex.'';
             $this->object_retour->statut = self::STATE_ERROR;
@@ -484,20 +495,22 @@ class OdaLibInterface {
      */
     protected function _finishTransaction($p_strSorti, $fin){
         try {
-            $params = new SimpleObject\OdaPrepareReqSql();
-            $params->sql = "UPDATE `api_tab_transaction`
-                SET `output` = :strSort
-                    , `statut` = 'output'
-                    , `fin` = :fin
-                WHERE `id` = :idTransaction
-            ;";
-            $params->typeSQL = OdaLibBd::SQL_SCRIPT;
-            $params->bindsValue = [
-                "idTransaction" => [ "value" => $this->object_retour->id_transaction]
-                , "strSort" => [ "value" => $p_strSorti]
-                , "fin" => [ "value" => $fin->getDateTimeWithMili()]
-            ];
-            $retour = $this->BD_ENGINE->reqODASQL($params);
+            if(($this->transactionRecord == 1)&&($this->object_retour->id_transaction != 0)){
+                $params = new SimpleObject\OdaPrepareReqSql();
+                $params->sql = "UPDATE `api_tab_transaction`
+                    SET `output` = :strSort
+                        , `statut` = 'output'
+                        , `fin` = :fin
+                    WHERE `id` = :idTransaction
+                ;";
+                $params->typeSQL = OdaLibBd::SQL_SCRIPT;
+                $params->bindsValue = [
+                    "idTransaction" => [ "value" => $this->object_retour->id_transaction]
+                    , "strSort" => [ "value" => $p_strSorti]
+                    , "fin" => [ "value" => $fin->getDateTimeWithMili()]
+                ];
+                $retour = $this->BD_ENGINE->reqODASQL($params);
+            }
         } catch (Exception $ex) {
             $this->object_retour->strErreur = $ex.'';
             $this->object_retour->statut = self::STATE_ERROR;
@@ -730,16 +743,18 @@ class OdaLibInterface {
             $params->keyObj = ["param_name" => $p_parameterName];
             $retour = $this->BD_ENGINE->getSingleObject($params);
 
-            switch ($retour->param_type) {
-                case "varchar":
-                    $parameterValue = $retour->param_value;
-                    break;
-                case "int":
-                    $parameterValue = (int) $retour->param_value;
-                    break;
-                default:
-                    $parameterValue = $retour->param_value;
-                    break;
+            if($retour){
+                switch ($retour->param_type) {
+                    case "varchar":
+                        $parameterValue = $retour->param_value;
+                        break;
+                    case "int":
+                        $parameterValue = (int) $retour->param_value;
+                        break;
+                    default:
+                        $parameterValue = $retour->param_value;
+                        break;
+                }
             }
 
             return $parameterValue;
