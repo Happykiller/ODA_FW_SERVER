@@ -22,7 +22,7 @@ INSERT INTO `@prefix@api_tab_parametres` (`id`, `param_name`, `param_type`, `par
   (1, 'nom_site', 'varchar', 'siteName'),
   (2, 'maintenance', 'int', '0'),
   (3, 'transaction_record', 'init', 0),
-  (4, 'contact_mail_administrateur', 'int', 'admin@mail.com'),
+  (4, 'contact_mail_administrateur', 'varchar', 'admin@mail.com'),
   (5, 'theme_defaut', 'varchar', ''),
   (6, 'install_date', 'varchar', DATE_FORMAT(NOW(),'%Y-%m-%d'));
 
