@@ -303,37 +303,6 @@ class OdaLib {
             return null;
        }
     }
-    
-    /**
-    * test
-    * @global stdClass $bufferTest
-    * @param type $name
-    * @param type $anonFunc
-    * @return \stdClass
-    */
-    static function test($name, $anonFunc) {
-        global $bufferTest;
-        $bufferTest = new stdClass();
-        $retoursTest = array();
-        $bufferTest->name = $name;
-        $bufferTest->retour = $retoursTest;
-        $anonFunc();
-
-        $bufferTest->succes = 0;
-        $bufferTest->echec = 0;
-        $bufferTest->total = 0;
-        foreach($bufferTest->retour as $key => $value) {
-             if ($value->statut == "OK"){
-                $bufferTest->succes += 1;
-                $bufferTest->total += 1;
-             }else{
-                $bufferTest->echec += 1;
-                $bufferTest->total += 1;
-             }
-         }
-
-        return $bufferTest;
-    }
 
     /**
      * get_string_between
@@ -355,38 +324,6 @@ class OdaLib {
             $msg = $e->getMessage();
             Throw new \Exception('Erreur dans '.__CLASS__.' : '.$msg);
             return null;
-        }
-    }
-
-    /**
-     * equal
-     * @global stdClass $bufferTest
-     * @param type $param1
-     * @param type $param2
-     * @param type $message
-     */
-    static function equal($param1, $param2, $message) {
-        global $bufferTest;
-        $object_retour = new stdClass();
-        try{
-            if($param1 == $param2){
-                $object_retour->statut = "OK";
-                $object_retour->message = $message;
-            }else{
-                $object_retour->statut = "KO";
-                $object_retour->message = $message;
-                $object_retour->attendu = $param2;
-                $object_retour->resultat = $param1;
-                $object_retour->erreur = "";
-            }
-            $bufferTest->retour[] = $object_retour;
-        }catch ( Exception $e ) {
-            $object_retour->statut = "KO";
-            $object_retour->message = $message;
-            $object_retour->attendu = $param2;
-            $object_retour->resultat = $param1;
-            $object_retour->erreur = $e->getMessage();
-            $bufferTest->retour[] = $object_retour;
         }
     }
         

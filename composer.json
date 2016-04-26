@@ -19,6 +19,9 @@
     "symfony/yaml": "^2.7.8",
     "jbzoo/utils" : "^1.4"
   },
+  "require-dev": {
+    "phpunit/phpunit": "*"
+  },
   "autoload": {
     "psr-4": { "Oda\\": "dist" }
   }
