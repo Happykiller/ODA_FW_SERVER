@@ -168,6 +168,14 @@ class OdaConnection {
             $params->message = "Configuration of base or mdp is missing.(config.php)";
             throw new OdaException($params);
         }
+
+        if(!empty($this->prefixTable) && $this->type != 'mysql'){
+            $params = new \stdClass();
+            $params->class = __CLASS__;
+            $params->function = __FUNCTION__;
+            $params->message = "Configuration not allow prefixTable with no mysql";
+            throw new OdaException($params);
+        }
         return true;
     }
 }

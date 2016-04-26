@@ -136,6 +136,9 @@ class OdaLibBd {
                     )";
                     $v_connection = new PDO($lien_base, $BD_CONF->login, $BD_CONF->mdr); 
                     break;
+                case "memory":
+                    $v_connection = new PDO('sqlite::memory:');
+                    break;
                 default:
                     $params = new stdClass();
                     $params->class = __CLASS__;
@@ -398,18 +401,19 @@ class OdaLibBd {
     */
     public function getListTables() {
         try {
-            $params = new stdClass();
-            $params->sql = "SHOW TABLES LIKE '".self::$config->prefixTable."%'
-            ;";
-            $req = $this->connection->prepare($params->sql);
-            $req->execute();
-            $resultats = $req->fetchAll();
-            $req->closeCursor();
-            
             $results = array();
-            foreach ($resultats as $value){
-                $strTables = str_replace(self::$config->prefixTable, "", $value[0]);
-                $results[] = $strTables;
+            if(self::$config->type == 'mysql'){
+                $params = new stdClass();
+                $params->sql = "SHOW TABLES LIKE '".self::$config->prefixTable."%';";
+                $req = $this->connection->prepare($params->sql);
+                $req->execute();
+                $resultats = $req->fetchAll();
+                $req->closeCursor();
+
+                foreach ($resultats as $value){
+                    $strTables = str_replace(self::$config->prefixTable, "", $value[0]);
+                    $results[] = $strTables;
+                }
             }
 
             return $results;
