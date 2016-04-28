@@ -49,7 +49,12 @@ if(is_null($config->resourcesPath)){
         $taille = filesize($value['tmp_name']);
 
         $msg = new stdClass();
-        $msg->name = $value["name"];
+        $msg->fileNameIn = $value["name"];
+        if($key != $value["name"]){
+            $msg->fileNameOut = $key . $extension;
+        }else{
+            $msg->fileNameOut = $value["name"];
+        }
         $msg->type = $value["type"];
         $msg->size = $value["size"];
         $msg->size = $value["size"];
@@ -74,7 +79,7 @@ if(is_null($config->resourcesPath)){
         }
 
         if($msg->status == $TRANS_STATUS_INIT){
-            if(move_uploaded_file($value['tmp_name'], $path . $msg->name)) {
+            if(move_uploaded_file($value['tmp_name'], $path . $msg->fileNameOut)) {
                 $msg->status = $TRANS_STATUS_SUCCESS;
             } else {
                 $msg->status = $TRANS_STATUS_ERROR;
