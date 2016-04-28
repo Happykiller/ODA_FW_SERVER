@@ -10,7 +10,7 @@ $config = SimpleObject\OdaConfig::getInstance();
 // script/getResources.php?fic=avatars/ROFA.png
 if(isset($_GET["fic"])){
     $path = __DIR__;
-    $path = str_replace("vendor".DIRECTORY_SEPARATOR."happykiller".DIRECTORY_SEPARATOR."oda".DIRECTORY_SEPARATOR."resources".DIRECTORY_SEPARATOR."script",$config->resourcesPath,$path);
+    $path = str_replace("vendor".DIRECTORY_SEPARATOR."happykiller".DIRECTORY_SEPARATOR."oda".DIRECTORY_SEPARATOR."resources".DIRECTORY_SEPARATOR."script", $config->resourcesPath, $path);
     $file = $path . $_GET["fic"];
     if(file_exists($file)){
         $fileName=basename($file);
@@ -37,7 +37,14 @@ if(isset($_GET["fic"])){
         header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
         header('Access-Control-Max-Age: 86400');
         header("Content-disposition: inline; filename=$fileName");
-        header("Content-Type: $type\n"); // ne pas enlever le \n
+
+        if(isset($_GET["dl"]) && ($_GET["dl"] == "true")){
+            header("Content-Type: application/force-download");
+            header("Content-Transfer-Encoding: $type\n"); // ne pas enlever le \n
+        }else{
+            header("Content-Type: $type\n"); // ne pas enlever le \n
+        }
+
         header("Content-Length: ".filesize($filePath . $fileName));
         header("Pragma: no-cache");
         header("Cache-Control: must-revalidate, post-check=0, pre-check=0, public");

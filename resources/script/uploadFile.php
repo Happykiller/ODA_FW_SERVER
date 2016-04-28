@@ -1,5 +1,6 @@
 <?php
 namespace Oda;
+//DEPRECATE use postResources
 
 require '../../../../../header.php';
 require '../../../../../vendor/autoload.php';
