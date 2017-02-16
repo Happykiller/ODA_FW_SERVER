@@ -53,7 +53,8 @@ CREATE TABLE IF NOT EXISTS `@prefix@api_tab_menu` (
 INSERT INTO `@prefix@api_tab_menu` (`id`, `Description`, `Description_courte`, `id_categorie`, `Lien`) VALUES
   (1, 'Statistiques', 'Statistiques', 2, 'stats'),
   (2, 'Administration', 'Administration', 2, 'admin'),
-  (3, 'Supervision', 'Supervision', 2, 'supervision')
+  (3, 'Supervision', 'Supervision', 2, 'supervision'),
+  (4, 'oda-tests.title', 'oda-tests.title', 2, 'tests')
 ;
 
 --
@@ -76,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `@prefix@api_tab_menu_rangs_droit` (
 -- Datas
 --
 INSERT INTO `@prefix@api_tab_menu_rangs_droit` (`id`, `id_rang`, `id_menu`) VALUES
-  (1, 1, ';1;2;3;'),
+  (1, 1, ';1;2;3;4;'),
   (2, 2, ';1;2;3;'),
   (3, 3, ';'),
   (4, 4, ';'),
