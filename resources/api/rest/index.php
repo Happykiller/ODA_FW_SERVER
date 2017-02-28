@@ -8,7 +8,7 @@ require '../../../../../../config/config.php';
 
 use cebe\markdown\GithubMarkdown;
 use Slim\Slim;
-use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd, \Oda\InterfaceRest\UserInterface;
+use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd, \Oda\InterfaceRest\UserInterface, \Oda\InterfaceRest\SessionInterface;
 
 $slim = new Slim();
 //--------------------------------------------------------------------------
@@ -37,11 +37,11 @@ $slim->put('/user/pwd/', function () use ($slim) {
 
 //----------- SESSION -------------------------------
 
-$slim->put('/session/:key', function ($id) use ($slim) {
+$slim->get('/session/:key', function ($key) use ($slim) {
     $params = new OdaPrepareInterface();
     $params->slim = $slim;
     $INTERFACE = new SessionInterface($params);
-    $INTERFACE->getBykey($id);
+    $INTERFACE->getBykey($key);
 });
 
 $slim->run();

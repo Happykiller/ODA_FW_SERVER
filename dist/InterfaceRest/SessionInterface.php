@@ -20,7 +20,7 @@ class SessionInterface extends OdaRestInterface {
         try {
             $params = new OdaPrepareReqSql();
             $params->sql = "SELECT a.`id`, a.`datas`, a.`dateCreation`, a.`periodeValideMinute`
-                FROM `tab_session` a
+                FROM `api_tab_session` a
                 WHERE 1=1
                 AND a.`key` = :key
             ;";
