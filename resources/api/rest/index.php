@@ -35,4 +35,13 @@ $slim->put('/user/pwd/', function () use ($slim) {
     $INTERFACE->resetPwd();
 });
 
+//----------- SESSION -------------------------------
+
+$slim->put('/session/:key', function ($id) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $INTERFACE = new SessionInterface($params);
+    $INTERFACE->getBykey($id);
+});
+
 $slim->run();

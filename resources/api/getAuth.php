@@ -43,7 +43,7 @@ if(!$retour->data){
 $key = $ODA_INTERFACE->buildSession(array(
     'code_user' => $ODA_INTERFACE->inputs["login"], 
     'password' => $ODA_INTERFACE->inputs["mdp"], 
-    'sessionTimeOutMinute' => $ODA_INTERFACE->inputs["sessionTimeOutMinutemdp"], 
+    'sessionTimeOutMinute' => $ODA_INTERFACE->inputs["sessionTimeOutMinute"], 
     'dbPassword' => $retour->data->password)
 );
 
