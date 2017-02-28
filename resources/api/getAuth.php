@@ -11,6 +11,7 @@ use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepa
 //Build the interface
 $params = new SimpleObject\OdaPrepareInterface();
 $params->arrayInput = array("login", "mdp");
+$params->arrayInputOpt = array("sessionTimeOutMinute" => 720);
 $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
@@ -39,7 +40,12 @@ if(!$retour->data){
     }
 }
 
-$key = $ODA_INTERFACE->buildSession(array('code_user' => $ODA_INTERFACE->inputs["login"], 'password' => $ODA_INTERFACE->inputs["mdp"], 'dbPassword' => $retour->data->password));
+$key = $ODA_INTERFACE->buildSession(array(
+    'code_user' => $ODA_INTERFACE->inputs["login"], 
+    'password' => $ODA_INTERFACE->inputs["mdp"], 
+    'sessionTimeOutMinute' => $ODA_INTERFACE->inputs["sessionTimeOutMinutemdp"], 
+    'dbPassword' => $retour->data->password)
+);
 
 $data = new stdClass();
 $data->id_rang = $retour->data->id_rang;

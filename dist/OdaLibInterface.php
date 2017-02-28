@@ -658,6 +658,7 @@ class OdaLibInterface {
      * @param array $p_params[code_user]
      * @param array $p_params[password]
      * @param array $p_params[dbPassword]
+     * @param array $p_params[sessionTimeOutMinute]
      * @return string
      */
     public function buildSession($p_params){
@@ -712,7 +713,7 @@ class OdaLibInterface {
                             `periodeValideMinute`
                         )
                         VALUES (
-                            NULL , '".$v_key."',  '".\json_encode($json)."',  NOW(), 720
+                            NULL , '".$v_key."',  '".\json_encode($json)."',  NOW(), ".$p_params['sessionTimeOutMinute']."
                         )
                     ;";
                     $params->typeSQL = OdaLibBd::SQL_INSERT_ONE;
