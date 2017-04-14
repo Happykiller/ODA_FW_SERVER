@@ -40,9 +40,7 @@ class UserInterface extends OdaRestInterface {
             $params->value = $retour->data;
             $this->addDataStr($params);
         } catch (Exception $ex) {
-            $this->object_retour->strErreur = $ex.'';
-            $this->object_retour->statut = self::STATE_ERROR;
-            die();
+            $this->dieInError($ex.'');
         }
     }
 }

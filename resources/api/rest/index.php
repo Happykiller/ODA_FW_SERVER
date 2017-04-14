@@ -44,4 +44,15 @@ $slim->get('/session/:key', function ($key) use ($slim) {
     $INTERFACE->getBykey($key);
 });
 
+//----------- AVATAR -------------------------------
+
+$slim->get('/avatar/:userCode', function ($userCode) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $INTERFACE = new AvatarInterface($params);
+    $INTERFACE->getAvatar($userCode);
+});
+
+//------------------------------------------
+
 $slim->run();

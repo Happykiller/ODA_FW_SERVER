@@ -12,3 +12,10 @@
 * `/session/:key`
     * type : GET
     * public : true
+
+## Avatar
+
+* `/avatar/:codeUser`
+    * type : GET
+    * public : true
+    * optional params : "w","h"
