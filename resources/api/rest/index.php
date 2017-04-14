@@ -8,7 +8,14 @@ require '../../../../../../config/config.php';
 
 use cebe\markdown\GithubMarkdown;
 use Slim\Slim;
-use \stdClass, \Oda\SimpleObject\OdaPrepareInterface, \Oda\SimpleObject\OdaPrepareReqSql, \Oda\OdaLibBd, \Oda\InterfaceRest\UserInterface, \Oda\InterfaceRest\SessionInterface;
+use \stdClass, 
+    \Oda\SimpleObject\OdaPrepareInterface, 
+    \Oda\SimpleObject\OdaPrepareReqSql, 
+    \Oda\OdaLibBd, 
+    \Oda\InterfaceRest\UserInterface, 
+    \Oda\InterfaceRest\SessionInterface, 
+    \Oda\InterfaceRest\AvatarInterface
+;
 
 $slim = new Slim();
 //--------------------------------------------------------------------------
