@@ -13,11 +13,11 @@ CREATE TABLE IF NOT EXISTS `@prefix@api_tab_rangs` (
 -- Datas
 --
 INSERT INTO `@prefix@api_tab_rangs` (`id`, `labelle`, `indice`) VALUES
-  (1, 'Administrateur', 1),
-  (2, 'Superviseur', 10),
-  (3, 'Responsable', 20),
-  (4, 'Utilisateur', 30),
-  (5, 'Visiteur', 99)
+  (1, 'oda-rank.admin', 1),
+  (2, 'oda-rank.supervisor', 10),
+  (3, 'oda-rank.responsible', 20),
+  (4, 'oda-rank.user', 30),
+  (5, 'oda-rank.visitor', 99)
 ;
 
 --

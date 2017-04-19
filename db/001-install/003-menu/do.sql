@@ -17,12 +17,12 @@ CREATE TABLE IF NOT EXISTS `@prefix@api_tab_menu_categorie` (
 -- Datas
 --
 INSERT INTO `@prefix@api_tab_menu_categorie` (`id`, `Description`) VALUES
-  (1, 'L''accueil'),
-  (2, 'Administration'),
-  (3, 'Gestion'),
-  (4, 'Rapports'),
-  (98, 'Liens cachés'),
-  (99, 'Liens externs');
+  (1, 'oda-menu-cate.home'),
+  (2, 'oda-menu-cate.admin'),
+  (3, 'oda-menu-cate.manage'),
+  (4, 'oda-menu-cate.reports'),
+  (98, 'oda-menu-cate.hiddenLInks'),
+  (99, 'oda-menu-cate.extLink');
 
 --
 -- Reserve
@@ -51,10 +51,14 @@ CREATE TABLE IF NOT EXISTS `@prefix@api_tab_menu` (
 -- Datas
 --
 INSERT INTO `@prefix@api_tab_menu` (`id`, `Description`, `Description_courte`, `id_categorie`, `Lien`) VALUES
-  (1, 'Statistiques', 'Statistiques', 2, 'stats'),
-  (2, 'Administration', 'Administration', 2, 'admin'),
-  (3, 'Supervision', 'Supervision', 2, 'supervision'),
-  (4, 'oda-tests.title', 'oda-tests.title', 2, 'tests')
+  (1, 'oda-menu.home', 'oda-menu.home', 1, 'home'),
+  (2, 'oda-menu.contact', 'oda-menu.contact', 1, 'contact'),
+  (3, 'oda-menu.faq', 'oda-menu.faq', 1, 'faq'),
+  (4, 'oda-menu.stats', 'oda-menu.stats', 2, 'stats'),
+  (5, 'oda-menu.admin', 'oda-menu.admin', 2, 'admin'),
+  (6, 'oda-menu.supervision', 'oda-menu.supervision', 2, 'supervision'),
+  (7, 'oda-menu.profile', 'oda-menu.profile', 3, 'profile'),
+  (8, 'oda-tests.title', 'oda-tests.title', 2, 'tests')
 ;
 
 --
