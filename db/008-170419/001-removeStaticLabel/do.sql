@@ -8,7 +8,7 @@ WHERE 1=1
 AND `id` = 1;
 
 UPDATE `@prefix@api_tab_menu` 
-SET `Description`='oda-menu.contact',`Description_courte`='oda-menu.contacthome',`Lien`='contact'
+SET `Description`='oda-menu.contact',`Description_courte`='oda-menu.contact',`Lien`='contact'
 WHERE 1=1
 AND `id` = 2;
 
