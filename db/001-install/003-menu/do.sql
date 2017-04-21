@@ -53,11 +53,12 @@ CREATE TABLE IF NOT EXISTS `@prefix@api_tab_menu` (
 INSERT INTO `@prefix@api_tab_menu` (`Description`, `Description_courte`, `id_categorie`, `Lien`) VALUES
   ('oda-menu.home', 'oda-menu.home', 1, 'home'),
   ('oda-menu.contact', 'oda-menu.contact', 1, 'contact'),
-  ('oda-menu.stats', 'oda-menu.stats', 2, 'stats'),
+  ('oda-menu.profile', 'oda-menu.profile', 1, 'profile'),
   ('oda-menu.admin', 'oda-menu.admin', 2, 'admin'),
   ('oda-menu.supervision', 'oda-menu.supervision', 2, 'supervision'),
-  ('oda-menu.profile', 'oda-menu.profile', 1, 'profile'),
-  ('oda-tests.title', 'oda-tests.title', 2, 'tests')
+  ('oda-tests.title', 'oda-tests.title', 2, 'tests'),
+  ('oda-navigation.title', 'oda-navigation.title', 2, 'navigation'),
+  ('oda-menu.stats', 'oda-menu.stats', 3, 'stats')
 ;
 
 --
