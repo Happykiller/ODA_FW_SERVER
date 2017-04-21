@@ -18,7 +18,7 @@ $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();
-$params->sql = "SELECT a.`code_user`, a.`mail`, a.`nom`, a.`prenom`, b.`labelle`, a.`description`, a.`actif`
+$params->sql = "SELECT a.`code_user`, a.`mail`, a.`nom`, a.`prenom`, b.`labelle`, b.`indice` as 'rankIndice', a.`description`, a.`actif`
     FROM `api_tab_utilisateurs` a, `api_tab_rangs` b
     WHERE 1=1
     AND b.`indice` >= :indice
