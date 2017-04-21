@@ -14,7 +14,8 @@ use \stdClass,
     \Oda\OdaLibBd, 
     \Oda\InterfaceRest\UserInterface, 
     \Oda\InterfaceRest\SessionInterface, 
-    \Oda\InterfaceRest\AvatarInterface
+    \Oda\InterfaceRest\AvatarInterface,
+    \Oda\InterfaceRest\NavigationInterface
 ;
 
 $slim = new Slim();
@@ -38,6 +39,7 @@ $slim->put('/user/pwd/', function () use ($slim) {
     $params = new OdaPrepareInterface();
     $params->slim = $slim;
     $params->arrayInput = array("userCode","pwd","email");
+    $params->modePublic = false;
     $INTERFACE = new UserInterface($params);
     $INTERFACE->resetPwd();
 });
@@ -47,6 +49,7 @@ $slim->put('/user/pwd/', function () use ($slim) {
 $slim->get('/session/:key', function ($key) use ($slim) {
     $params = new OdaPrepareInterface();
     $params->slim = $slim;
+    $params->modePublic = false;
     $INTERFACE = new SessionInterface($params);
     $INTERFACE->getBykey($key);
 });
@@ -56,8 +59,35 @@ $slim->get('/session/:key', function ($key) use ($slim) {
 $slim->get('/avatar/:userCode', function ($userCode) use ($slim) {
     $params = new OdaPrepareInterface();
     $params->slim = $slim;
+    $params->modePublic = false;
     $INTERFACE = new AvatarInterface($params);
     $INTERFACE->getAvatar($userCode);
+});
+
+//----------- NAVIGATION -------------------------------
+
+$slim->get('/navigation/page/', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $INTERFACE = new NavigationInterface($params);
+    $INTERFACE->getAllPage();
+});
+
+$slim->get('/navigation/rank/', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $INTERFACE = new NavigationInterface($params);
+    $INTERFACE->getAllRank();
+});
+
+$slim->get('/navigation/right/', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $INTERFACE = new NavigationInterface($params);
+    $INTERFACE->getRight();
 });
 
 //------------------------------------------
