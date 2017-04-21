@@ -13,24 +13,19 @@ WHERE 1=1
 AND `id` = 2;
 
 UPDATE `@prefix@api_tab_menu` 
-SET `Description`='oda-menu.faq',`Description_courte`='oda-menu.faq',`Lien`='faq'
+SET `Description`='oda-menu.stats',`Description_courte`='oda-menu.stats',`Lien`='stats'
 WHERE 1=1
 AND `id` = 3;
 
 UPDATE `@prefix@api_tab_menu` 
-SET `Description`='oda-menu.stats',`Description_courte`='oda-menu.stats',`Lien`='stats'
+SET `Description`='oda-menu.admin',`Description_courte`='oda-menu.admin',`Lien`='admin'
 WHERE 1=1
 AND `id` = 4;
 
 UPDATE `@prefix@api_tab_menu` 
-SET `Description`='oda-menu.admin',`Description_courte`='oda-menu.admin',`Lien`='admin'
-WHERE 1=1
-AND `id` = 5;
-
-UPDATE `@prefix@api_tab_menu` 
 SET `Description`='oda-menu.supervision',`Description_courte`='oda-menu.supervision',`Lien`='supervision'
 WHERE 1=1
-AND `id` = 6;
+AND `id` = 5;
 
 UPDATE `@prefix@api_tab_menu` 
 SET `Description`='oda-menu.profile',`Description_courte`='oda-menu.profile',`Lien`='profile'
