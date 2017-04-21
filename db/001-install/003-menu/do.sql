@@ -56,7 +56,7 @@ INSERT INTO `@prefix@api_tab_menu` (`id`, `Description`, `Description_courte`, `
   (3, 'oda-menu.stats', 'oda-menu.stats', 2, 'stats'),
   (4, 'oda-menu.admin', 'oda-menu.admin', 2, 'admin'),
   (5, 'oda-menu.supervision', 'oda-menu.supervision', 2, 'supervision'),
-  (6, 'oda-menu.profile', 'oda-menu.profile', 3, 'profile'),
+  (6, 'oda-menu.profile', 'oda-menu.profile', 1, 'profile'),
   (7, 'oda-tests.title', 'oda-tests.title', 2, 'tests')
 ;
 
@@ -80,11 +80,11 @@ CREATE TABLE IF NOT EXISTS `@prefix@api_tab_menu_rangs_droit` (
 -- Datas
 --
 INSERT INTO `@prefix@api_tab_menu_rangs_droit` (`id`, `id_rang`, `id_menu`) VALUES
-  (1, 1, ';1;2;3;4;'),
-  (2, 2, ';1;2;3;'),
-  (3, 3, ';'),
-  (4, 4, ';'),
-  (5, 5, ';')
+  (1, 1, ';1;2;3;4;5;6;7;'),
+  (2, 2, ';1;2;3;4;6;'),
+  (3, 3, ';1;2;3;6;'),
+  (4, 4, ';1;2;6;'),
+  (5, 5, ';1;2;6;')
 ;
 
 -- --------------------------------------------------------
