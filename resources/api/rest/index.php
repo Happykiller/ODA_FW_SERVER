@@ -35,6 +35,14 @@ $slim->get('/', function () {
 
 //----------- USER -------------------------------
 
+$slim->get('/user/current/', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $INTERFACE = new UserInterface($params);
+    $INTERFACE->getCurrent();
+});
+
 $slim->put('/user/pwd/', function () use ($slim) {
     $params = new OdaPrepareInterface();
     $params->slim = $slim;

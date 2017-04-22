@@ -43,4 +43,28 @@ class UserInterface extends OdaRestInterface {
             $this->dieInError($ex.'');
         }
     }
+    /**
+     */
+     function getCurrent(){
+        try {
+            $params = new OdaPrepareReqSql();
+            $params->sql = "select a.`id` as 'id_user', a.`code_user`, a.`nom`, a.`prenom`, b.`indice` as 'profile', b.`labelle`, a.`id_rang`, a.`montrer_aide_ihm`, a.`mail`, a.`langue`
+                from `api_tab_utilisateurs` a, `api_tab_rangs` b
+                where 1=1 
+                and a.`id_rang` = b.`id`
+                and a.`code_user` = :code_user
+            ;";
+            $params->bindsValue = [
+                "code_user" => $this->user->codeUser
+            ];
+            $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+            
+            $params = new stdClass();
+            $params->retourSql = $retour;
+            $this->addDataObject($retour->data);
+        } catch (Exception $ex) {
+            $this->dieInError($ex.'');
+        }
+     }
 }

@@ -2,6 +2,10 @@
 
 ## User
 
+* `/user/current/`
+    * type : GET
+    * public : false
+
 * `/user/pwd/`
     * type : PUT
     * mandatory params : "userCode","pwd","email"
