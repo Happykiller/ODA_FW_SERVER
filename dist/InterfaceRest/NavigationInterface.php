@@ -55,7 +55,7 @@ class NavigationInterface extends OdaRestInterface {
     }
     /**
      */
-    function getRight() {
+    function getRights() {
         try {
             $params = new OdaPrepareReqSql();
             $params->sql = "SELECT `id` , `id_rang` as 'rank_id', `id_menu` as `menu_ids`
@@ -68,6 +68,31 @@ class NavigationInterface extends OdaRestInterface {
             $params = new stdClass();
             $params->retourSql = $retour;
             $this->addDataObject($retour->data);
+        } catch (Exception $ex) {
+            $this->dieInError($ex.'');
+        }
+    }
+    /**
+     */
+    function updateRight($id) {
+        try {
+            $params = new OdaPrepareReqSql();
+            $params->sql = "UPDATE `api_tab_menu_rangs_droit`
+                SET
+                    `id_menu`= :value
+                WHERE 1=1
+                  AND `id` = :id
+            ;";
+            $params->bindsValue = [
+                "value" => $this->inputs["value"],
+                "id" => $id
+            ];
+            $params->typeSQL = OdaLibBd::SQL_SCRIPT;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+
+            $params = new stdClass();
+            $params->value = $retour->data;
+            $this->addDataStr($params);
         } catch (Exception $ex) {
             $this->dieInError($ex.'');
         }

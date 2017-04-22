@@ -82,12 +82,21 @@ $slim->get('/navigation/rank/', function () use ($slim) {
     $INTERFACE->getAllRank();
 });
 
-$slim->get('/navigation/right/', function () use ($slim) {
+$slim->get('/navigation/rights/', function () use ($slim) {
     $params = new OdaPrepareInterface();
     $params->slim = $slim;
     $params->modePublic = false;
     $INTERFACE = new NavigationInterface($params);
-    $INTERFACE->getRight();
+    $INTERFACE->getRights();
+});
+
+$slim->put('/navigation/right/:id', function ($id) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->arrayInput = array("value");
+    $params->modePublic = false;
+    $INTERFACE = new NavigationInterface($params);
+    $INTERFACE->updateRight($id);
 });
 
 //------------------------------------------
