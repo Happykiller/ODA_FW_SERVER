@@ -19,7 +19,7 @@ $ODA_INTERFACE = new OdaLibInterface($params);
 
 //--------------------------------------------------------------------------
 $params = new SimpleObject\OdaPrepareReqSql();
-$params->sql = "select a.`id_rang`, a.`code_user`, a.`password`, a.`mail`
+$params->sql = "select a.`id_rang`, a.`code_user`, a.`password`, a.`mail`, a.`actif`
     from `api_tab_utilisateurs` a
     where 1=1
     and a.`code_user` = :code_user
@@ -29,8 +29,11 @@ $params->bindsValue = [
 ];
 $params->typeSQL = OdaLibBd::SQL_GET_ONE;
 $retour = $ODA_INTERFACE->BD_ENGINE->reqODASQL($params);
+
 if(!$retour->data){
     $ODA_INTERFACE->dieInError('Auth impossible.(user unknown)', $ODA_INTERFACE::STATE_ERROR_AUTH);
+}elseif($retour->data->actif == "0"){
+    $ODA_INTERFACE->dieInError('User disabled.', $ODA_INTERFACE::STATE_ERROR_AUTH);
 }else{
     if(OdaLib::startsWith($ODA_INTERFACE->inputs["mdp"],"authByGoogle-")){
         $mail = str_replace("authByGoogle-", "", $ODA_INTERFACE->inputs["mdp"]);

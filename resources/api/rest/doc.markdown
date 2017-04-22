@@ -36,6 +36,10 @@
     * type : GET
     * public : false
 
+* `/navigation/right/`
+    * type : GET
+    * public : false
+
 * `/navigation/right/:id`
     * type : PUT
     * public : false

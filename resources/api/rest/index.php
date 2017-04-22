@@ -90,6 +90,14 @@ $slim->get('/navigation/rights/', function () use ($slim) {
     $INTERFACE->getRights();
 });
 
+$slim->get('/navigation/right/', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $INTERFACE = new NavigationInterface($params);
+    $INTERFACE->getRight();
+});
+
 $slim->put('/navigation/right/:id', function ($id) use ($slim) {
     $params = new OdaPrepareInterface();
     $params->slim = $slim;
