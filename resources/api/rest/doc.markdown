@@ -2,7 +2,7 @@
 
 ## User
 
-* `/user/current/`
+* `/user/current`
     * type : GET
     * public : false
 

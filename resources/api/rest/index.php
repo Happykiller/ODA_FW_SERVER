@@ -35,7 +35,7 @@ $slim->get('/', function () {
 
 //----------- USER -------------------------------
 
-$slim->get('/user/current/', function () use ($slim) {
+$slim->get('/user/current', function () use ($slim) {
     $params = new OdaPrepareInterface();
     $params->slim = $slim;
     $params->modePublic = false;
