@@ -47,15 +47,26 @@ class UserInterface extends OdaRestInterface {
      */
      function getCurrent(){
         try {
+            $this->getByCode($this->user->codeUser);
+        } catch (Exception $ex) {
+            $this->dieInError($ex.'');
+        }
+     }
+    /**
+     */
+     function getByCode($userCode){
+        try {
             $params = new OdaPrepareReqSql();
-            $params->sql = "select a.`id` as 'id_user', a.`code_user`, a.`nom`, a.`prenom`, b.`indice` as 'profile', b.`labelle`, a.`id_rang`, a.`montrer_aide_ihm`, a.`mail`, a.`langue`
-                from `api_tab_utilisateurs` a, `api_tab_rangs` b
-                where 1=1 
-                and a.`id_rang` = b.`id`
-                and a.`code_user` = :code_user
+            $params->sql = "SELECT a.`id` AS 'id_user', a.`code_user`, a.`nom`, 
+                a.`prenom`, b.`indice` AS 'profile', b.`labelle`, a.`id_rang`, 
+                a.`montrer_aide_ihm`, a.`mail`, a.`langue`, a.`description`, a.`actif`
+                FROM `api_tab_utilisateurs` a, `api_tab_rangs` b
+                WHERE 1=1 
+                AND a.`id_rang` = b.`id`
+                AND a.`code_user` = :code_user
             ;";
             $params->bindsValue = [
-                "code_user" => $this->user->codeUser
+                "code_user" => $userCode
             ];
             $params->typeSQL = OdaLibBd::SQL_GET_ONE;
             $retour = $this->BD_ENGINE->reqODASQL($params);

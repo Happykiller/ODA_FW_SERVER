@@ -6,9 +6,19 @@
     * type : GET
     * public : false
 
+* `/user/:userCode`
+    * type : GET
+    * public : false
+
 * `/user/pwd/`
     * type : PUT
     * mandatory params : "userCode","pwd","email"
+    * public : false
+
+## Rank
+
+* `/rank/`
+    * type : GET
     * public : false
 
 ## Session

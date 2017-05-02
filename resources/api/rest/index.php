@@ -6,16 +6,17 @@ require '../../../../../../header.php';
 require '../../../../../../vendor/autoload.php';
 require '../../../../../../config/config.php';
 
-use cebe\markdown\GithubMarkdown;
-use Slim\Slim;
-use \stdClass, 
-    \Oda\SimpleObject\OdaPrepareInterface, 
-    \Oda\SimpleObject\OdaPrepareReqSql, 
-    \Oda\OdaLibBd, 
-    \Oda\InterfaceRest\UserInterface, 
-    \Oda\InterfaceRest\SessionInterface, 
-    \Oda\InterfaceRest\AvatarInterface,
-    \Oda\InterfaceRest\NavigationInterface
+use stdClass, 
+    Slim\Slim,
+    cebe\markdown\GithubMarkdown,
+    Oda\SimpleObject\OdaPrepareInterface, 
+    Oda\SimpleObject\OdaPrepareReqSql, 
+    Oda\OdaLibBd, 
+    Oda\InterfaceRest\UserInterface, 
+    Oda\InterfaceRest\SessionInterface, 
+    Oda\InterfaceRest\AvatarInterface,
+    Oda\InterfaceRest\NavigationInterface,
+    Oda\InterfaceRest\RankInterface
 ;
 
 $slim = new Slim();
@@ -43,6 +44,14 @@ $slim->get('/user/current', function () use ($slim) {
     $INTERFACE->getCurrent();
 });
 
+$slim->get('/user/:userCode', function ($userCode) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $INTERFACE = new UserInterface($params);
+    $INTERFACE->getByCode($userCode);
+});
+
 $slim->put('/user/pwd/', function () use ($slim) {
     $params = new OdaPrepareInterface();
     $params->slim = $slim;
@@ -50,6 +59,16 @@ $slim->put('/user/pwd/', function () use ($slim) {
     $params->modePublic = false;
     $INTERFACE = new UserInterface($params);
     $INTERFACE->resetPwd();
+});
+
+//----------- RANK -------------------------------
+
+$slim->get('/rank/', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $INTERFACE = new RankInterface($params);
+    $INTERFACE->getAll();
 });
 
 //----------- SESSION -------------------------------
