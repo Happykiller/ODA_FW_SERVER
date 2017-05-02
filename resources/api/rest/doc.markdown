@@ -1,38 +1,22 @@
 # Routes
 
-## User
-
-* `/user/current`
-    * type : GET
-    * public : false
-
-* `/user/:userCode`
-    * type : GET
-    * public : false
-
-* `/user/pwd/`
-    * type : PUT
-    * mandatory params : "userCode","pwd","email"
-    * public : false
-
-## Rank
-
-* `/rank/`
-    * type : GET
-    * public : false
-
-## Session
-
-* `/session/:key`
-    * type : GET
-    * public : false
-
 ## Avatar
 
 * `/avatar/:codeUser`
     * type : GET
     * public : false
     * optional params : "w","h"
+    
+## Message
+
+* `/message/`
+    * type : POST
+    * mandatory params : "userId","message","level","expirationDate","rankId"
+    * public : false
+
+* `/message/`
+    * type : GET
+    * public : false
 
 ## Navigation
 
@@ -58,3 +42,30 @@
     * type : PUT
     * public : false
     * mandatory params : "value"
+
+## Rank
+
+* `/rank/`
+    * type : GET
+    * public : false
+
+## Session
+
+* `/session/:key`
+    * type : GET
+    * public : false
+
+## User
+
+* `/user/current`
+    * type : GET
+    * public : false
+
+* `/user/:userCode`
+    * type : GET
+    * public : false
+
+* `/user/pwd/`
+    * type : PUT
+    * mandatory params : "userCode","pwd","email"
+    * public : false

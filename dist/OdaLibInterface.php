@@ -545,7 +545,7 @@ class OdaLibInterface {
                     $this->user = new OdaUser($codeUser);
 
                     $params = new SimpleObject\OdaPrepareReqSql();
-                    $params->sql = "SELECT b.`indice`, a.`actif`
+                    $params->sql = "SELECT a.`id`, b.`indice`, a.`actif`, b.`id` AS 'rankId'
                         FROM `api_tab_utilisateurs` a, `api_tab_rangs` b
                         WHERE 1=1
                         AND a.`id_rang` = b.`id`
@@ -557,6 +557,8 @@ class OdaLibInterface {
                     $params->typeSQL = OdaLibBd::SQL_GET_ONE;
                     $retour = $this->BD_ENGINE->reqODASQL($params);
 
+                    $this->user->id = $retour->data->id;
+                    $this->user->rankId = $retour->data->rankId;
                     $this->user->indice = $retour->data->indice;
                     $this->user->active = $retour->data->actif;
                 }

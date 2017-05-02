@@ -16,7 +16,8 @@ use stdClass,
     Oda\InterfaceRest\SessionInterface, 
     Oda\InterfaceRest\AvatarInterface,
     Oda\InterfaceRest\NavigationInterface,
-    Oda\InterfaceRest\RankInterface
+    Oda\InterfaceRest\RankInterface,
+    Oda\InterfaceRest\MessageInterface
 ;
 
 $slim = new Slim();
@@ -34,53 +35,6 @@ $slim->get('/', function () {
     echo $parser->parse($markdown);
 });
 
-//----------- USER -------------------------------
-
-$slim->get('/user/current', function () use ($slim) {
-    $params = new OdaPrepareInterface();
-    $params->slim = $slim;
-    $params->modePublic = false;
-    $INTERFACE = new UserInterface($params);
-    $INTERFACE->getCurrent();
-});
-
-$slim->get('/user/:userCode', function ($userCode) use ($slim) {
-    $params = new OdaPrepareInterface();
-    $params->slim = $slim;
-    $params->modePublic = false;
-    $INTERFACE = new UserInterface($params);
-    $INTERFACE->getByCode($userCode);
-});
-
-$slim->put('/user/pwd/', function () use ($slim) {
-    $params = new OdaPrepareInterface();
-    $params->slim = $slim;
-    $params->arrayInput = array("userCode","pwd","email");
-    $params->modePublic = false;
-    $INTERFACE = new UserInterface($params);
-    $INTERFACE->resetPwd();
-});
-
-//----------- RANK -------------------------------
-
-$slim->get('/rank/', function () use ($slim) {
-    $params = new OdaPrepareInterface();
-    $params->slim = $slim;
-    $params->modePublic = false;
-    $INTERFACE = new RankInterface($params);
-    $INTERFACE->getAll();
-});
-
-//----------- SESSION -------------------------------
-
-$slim->get('/session/:key', function ($key) use ($slim) {
-    $params = new OdaPrepareInterface();
-    $params->slim = $slim;
-    $params->modePublic = false;
-    $INTERFACE = new SessionInterface($params);
-    $INTERFACE->getBykey($key);
-});
-
 //----------- AVATAR -------------------------------
 
 $slim->get('/avatar/:userCode', function ($userCode) use ($slim) {
@@ -89,6 +43,41 @@ $slim->get('/avatar/:userCode', function ($userCode) use ($slim) {
     $params->modePublic = false;
     $INTERFACE = new AvatarInterface($params);
     $INTERFACE->getAvatar($userCode);
+});
+
+//----------- MESSAGE -------------------------------
+
+$slim->post('/message/', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->arrayInput = array("userId","message","level","expirationDate","rankId");
+    $params->modePublic = false;
+    $INTERFACE = new MessageInterface($params);
+    $INTERFACE->create();
+});
+
+$slim->get('/message/', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $INTERFACE = new MessageInterface($params);
+    $INTERFACE->getAll();
+});
+
+$slim->get('/message/current', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $INTERFACE = new MessageInterface($params);
+    $INTERFACE->getForCurrentUser();
+});
+
+$slim->put('/message/read/:messageId', function ($messageId) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $INTERFACE = new MessageInterface($params);
+    $INTERFACE->setReadForCurrentUser($messageId);
 });
 
 //----------- NAVIGATION -------------------------------
@@ -132,6 +121,53 @@ $slim->put('/navigation/right/:id', function ($id) use ($slim) {
     $params->modePublic = false;
     $INTERFACE = new NavigationInterface($params);
     $INTERFACE->updateRight($id);
+});
+
+//----------- RANK -------------------------------
+
+$slim->get('/rank/', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $INTERFACE = new RankInterface($params);
+    $INTERFACE->getAll();
+});
+
+//----------- SESSION -------------------------------
+
+$slim->get('/session/:key', function ($key) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $INTERFACE = new SessionInterface($params);
+    $INTERFACE->getBykey($key);
+});
+
+//----------- USER -------------------------------
+
+$slim->get('/user/current', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $INTERFACE = new UserInterface($params);
+    $INTERFACE->getCurrent();
+});
+
+$slim->get('/user/:userCode', function ($userCode) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $INTERFACE = new UserInterface($params);
+    $INTERFACE->getByCode($userCode);
+});
+
+$slim->put('/user/pwd/', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->arrayInput = array("userCode","pwd","email");
+    $params->modePublic = false;
+    $INTERFACE = new UserInterface($params);
+    $INTERFACE->resetPwd();
 });
 
 //------------------------------------------
