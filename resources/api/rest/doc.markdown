@@ -18,6 +18,14 @@
     * type : GET
     * public : false
 
+* `/message/current`
+    * type : GET
+    * public : false
+
+* `/message/read/:messageId`
+    * type : PUT
+    * public : false    
+
 ## Navigation
 
 * `/navigation/page/`
@@ -63,6 +71,11 @@
 
 * `/user/:userCode`
     * type : GET
+    * public : false
+
+* `/user/:userCode`
+    * type : PUT
+    * mandatory params : "mail","active","rankId","desc"
     * public : false
 
 * `/user/pwd/`

@@ -45,7 +45,7 @@ class UserInterface extends OdaRestInterface {
     }
     /**
      */
-     function getCurrent(){
+    function getCurrent(){
         try {
             $this->getByCode($this->user->codeUser);
         } catch (Exception $ex) {
@@ -54,7 +54,7 @@ class UserInterface extends OdaRestInterface {
      }
     /**
      */
-     function getByCode($userCode){
+    function getByCode($userCode){
         try {
             $params = new OdaPrepareReqSql();
             $params->sql = "SELECT a.`id` AS 'id_user', a.`code_user`, a.`nom`, 
@@ -78,4 +78,35 @@ class UserInterface extends OdaRestInterface {
             $this->dieInError($ex.'');
         }
      }
+    /**
+      */
+    function updateUser($userCode) {
+        try {
+            $params = new OdaPrepareReqSql();
+            $params->sql = "UPDATE `api_tab_utilisateurs`
+                SET
+                    `id_rang`= :rankId,
+                    `mail`= :mail,
+                    `actif`= :active,
+                    `description`= :desc
+                WHERE 1=1
+                  AND `code_user` = :userCode
+            ;";
+            $params->bindsValue = [
+                "userCode" => $userCode,
+                "mail" => $this->inputs["mail"],
+                "active" => $this->inputs["active"],
+                "rankId" => $this->inputs["rankId"],
+                "desc" => $this->inputs["desc"]
+            ];
+            $params->typeSQL = OdaLibBd::SQL_SCRIPT;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+
+            $params = new stdClass();
+            $params->value = $retour->data;
+            $this->addDataStr($params);
+        } catch (Exception $ex) {
+            $this->dieInError($ex.'');
+        }
+    }
 }

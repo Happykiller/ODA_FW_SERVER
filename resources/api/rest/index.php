@@ -161,6 +161,15 @@ $slim->get('/user/:userCode', function ($userCode) use ($slim) {
     $INTERFACE->getByCode($userCode);
 });
 
+$slim->put('/user/:userCode', function ($userCode) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->arrayInput = array("mail","active","rankId","desc");
+    $params->modePublic = false;
+    $INTERFACE = new UserInterface($params);
+    $INTERFACE->updateUser($userCode);
+});
+
 $slim->put('/user/pwd/', function () use ($slim) {
     $params = new OdaPrepareInterface();
     $params->slim = $slim;
