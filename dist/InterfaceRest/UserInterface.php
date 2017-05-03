@@ -229,4 +229,27 @@ class UserInterface extends OdaRestInterface {
             $this->dieInError($ex.'');
         }
     }
+    /**
+      */
+    function updateField() {
+        try {
+            $params = new stdClass();
+            $params->nameObj = "api_tab_utilisateurs";
+            $params->keyObj = ["code_user" => $this->user->codeUser];
+            $retour = $this->BD_ENGINE->getSingleObject($params);
+
+            if(!password_verify($this->inputs["password"], $retour->password)){
+                $this->dieInError('Wrong password.');
+            }else{
+                $params = new stdClass();
+                $params->nameObj = "api_tab_utilisateurs";
+                $params->keyObj = ["code_user" => $this->user->codeUser];
+                $params->setObj = [$this->inputs["field"] => $this->inputs["value"]];
+                $retour = $this->BD_ENGINE->setSingleObj($params);
+                $this->addDataStr($retour);
+            }
+        } catch (Exception $ex) {
+            $this->dieInError($ex.'');
+        }
+    }
 }

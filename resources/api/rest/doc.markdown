@@ -87,6 +87,11 @@
     * mandatory params : "mail","active","rankId","desc"
     * public : false
 
+* `/user/current`
+    * type : PUT
+    * mandatory params : "password","field","value"
+    * public : false
+
 * `/user/pwd/`
     * type : PUT
     * mandatory params : "userCode","pwd","email"

@@ -169,13 +169,22 @@ $slim->get('/user/current', function () use ($slim) {
     $INTERFACE->getCurrent();
 });
 
+$slim->put('/user/current', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->arrayInput = array("password","field","value");
+    $params->modePublic = false;
+    $INTERFACE = new UserInterface($params);
+    $INTERFACE->updateField();
+});
+
 $slim->get('/user/:userCode', function ($userCode) use ($slim) {
     $params = new OdaPrepareInterface();
     $params->slim = $slim;
     $params->modePublic = false;
     $INTERFACE = new UserInterface($params);
     $INTERFACE->getByCode($userCode);
-});
+})->conditions(array('userCode' => '^(?!current$)'));
 
 $slim->put('/user/:userCode', function ($userCode) use ($slim) {
     $params = new OdaPrepareInterface();
