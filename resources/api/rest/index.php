@@ -17,7 +17,8 @@ use stdClass,
     Oda\InterfaceRest\AvatarInterface,
     Oda\InterfaceRest\NavigationInterface,
     Oda\InterfaceRest\RankInterface,
-    Oda\InterfaceRest\MessageInterface
+    Oda\InterfaceRest\MessageInterface,
+    Oda\InterfaceRest\SystemInterface
 ;
 
 $slim = new Slim();
@@ -141,6 +142,24 @@ $slim->get('/session/:key', function ($key) use ($slim) {
     $params->modePublic = false;
     $INTERFACE = new SessionInterface($params);
     $INTERFACE->getBykey($key);
+});
+
+//----------- SYSTEM -------------------------------
+
+$slim->post('/sys/page/trace', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->arrayInput = array("user","page","action");
+    $INTERFACE = new SystemInterface($params);
+    $INTERFACE->createPageTrace();
+});
+
+$slim->get('/sys/report/page/activity', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $INTERFACE = new SystemInterface($params);
+    $INTERFACE->getReportPageActivity();
 });
 
 //----------- USER -------------------------------

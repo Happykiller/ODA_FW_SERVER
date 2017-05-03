@@ -63,6 +63,16 @@
     * type : GET
     * public : false
 
+## System
+
+* `/sys/page/trace`
+    * type : POST
+    * public : false
+
+* `/sys/report/page/activity`
+    * type : GET
+    * public : false
+
 ## User
 
 * `/user/`
