@@ -29,9 +29,24 @@ class UserInterface extends OdaRestInterface {
             ;";
             $params->typeSQL = OdaLibBd::SQL_GET_ALL;
             $retour = $this->BD_ENGINE->reqODASQL($params);
-            
-            $params = new stdClass();
-            $params->retourSql = $retour;
+            $this->addDataObject($retour->data->data);
+        } catch (Exception $ex) {
+            $this->dieInError($ex.'');
+        }
+    }
+    /**
+     */
+    function getAllMail(){
+        try {
+            $params = new OdaPrepareReqSql();
+            $params->sql = "SELECT a.`code_user`, a.`mail`
+                FROM `api_tab_utilisateurs` a
+                WHERE 1=1
+                AND a.`actif` = 1
+                ORDER BY a.`code_user`
+            ;";
+            $params->typeSQL = OdaLibBd::SQL_GET_ALL;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
             $this->addDataObject($retour->data->data);
         } catch (Exception $ex) {
             $this->dieInError($ex.'');
@@ -52,9 +67,6 @@ class UserInterface extends OdaRestInterface {
             ];
             $params->typeSQL = OdaLibBd::SQL_GET_ALL;
             $retour = $this->BD_ENGINE->reqODASQL($params);
-            
-            $params = new stdClass();
-            $params->retourSql = $retour;
             $this->addDataObject($retour->data->data);
         } catch (Exception $ex) {
             $this->dieInError($ex.'');
@@ -160,7 +172,6 @@ class UserInterface extends OdaRestInterface {
             ];
             $params->typeSQL = OdaLibBd::SQL_GET_ONE;
             $retour = $this->BD_ENGINE->reqODASQL($params);
-            
             $this->addDataObject($retour->data);
         } catch (Exception $ex) {
             $this->dieInError($ex.'');

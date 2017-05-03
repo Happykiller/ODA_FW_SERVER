@@ -92,6 +92,10 @@
     * mandatory params : "userCode","pwd","email"
     * public : false
 
+* `/user/mail/`
+    * type : GET
+    * public : false
+
 * `/user/search/mail/`
     * type : GET
     * mandatory params : "email"
