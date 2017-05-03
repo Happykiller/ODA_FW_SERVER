@@ -18,6 +18,27 @@ use \stdClass;
 class UserInterface extends OdaRestInterface {
     /**
      */
+    function getAll(){
+        try {
+            $params = new OdaPrepareReqSql();
+            $params->sql = "SELECT a.`code_user`, a.`mail`, a.`nom`, a.`prenom`, b.`labelle`, b.`indice` as 'rankIndice', a.`description`, a.`actif`
+                FROM `api_tab_utilisateurs` a, `api_tab_rangs` b
+                WHERE 1=1
+                AND a.`id_rang` = b.`id`
+                ORDER BY a.`actif`, a.`code_user`
+            ;";
+            $params->typeSQL = OdaLibBd::SQL_GET_ALL;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+            
+            $params = new stdClass();
+            $params->retourSql = $retour;
+            $this->addDataObject($retour->data->data);
+        } catch (Exception $ex) {
+            $this->dieInError($ex.'');
+        }
+     }
+    /**
+     */
     function create(){
         try {
             $params = new OdaPrepareReqSql();

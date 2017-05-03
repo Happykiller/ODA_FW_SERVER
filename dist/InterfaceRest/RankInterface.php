@@ -24,9 +24,6 @@ class RankInterface extends OdaRestInterface {
                 WHERE 1=1
                 ORDER BY a.`indice` desc
             ;";
-            $params->bindsValue = [
-                "indice" => "1"
-            ];
             $params->typeSQL = OdaLibBd::SQL_GET_ALL;
             $retour = $this->BD_ENGINE->reqODASQL($params);
             
