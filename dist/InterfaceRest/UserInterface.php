@@ -208,4 +208,25 @@ class UserInterface extends OdaRestInterface {
             $this->dieInError($ex.'');
         }
     }
+    /**
+     */
+    function getActivity(){
+        try {
+            $params = new OdaPrepareReqSql();
+            $params->sql = "SELECT IF(b.`code_user`='','N.A',b.`code_user`) as 'code_user', count(*) 'nombre'
+                FROM `api_tab_statistiques_site` a, `api_tab_utilisateurs` b, `api_tab_rangs` c
+                WHERE 1=1
+                AND a.`id_user` = b.`id`
+                AND b.`id_rang` = c.`id`
+                AND c.`indice` > 1
+                GROUP BY a.`id_user`
+                ORDER BY `nombre` desc
+            ;";
+            $params->typeSQL = OdaLibBd::SQL_GET_ALL;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+            $this->addDataObject($retour->data->data);
+        } catch (Exception $ex) {
+            $this->dieInError($ex.'');
+        }
+    }
 }

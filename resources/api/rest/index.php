@@ -210,6 +210,14 @@ $slim->get('/user/search/mail/', function () use ($slim) {
     $INTERFACE->getByMail();
 });
 
+$slim->get('/user/report/activity', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $INTERFACE = new UserInterface($params);
+    $params->modePublic = false;
+    $INTERFACE->getActivity();
+});
+
 //------------------------------------------
 
 $slim->run();

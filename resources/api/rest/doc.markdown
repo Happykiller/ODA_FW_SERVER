@@ -100,3 +100,7 @@
     * type : GET
     * mandatory params : "email"
     * public : true
+
+* `/user/report/activity`
+    * type : GET
+    * public : false
