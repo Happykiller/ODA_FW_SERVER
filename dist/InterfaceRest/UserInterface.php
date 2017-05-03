@@ -18,6 +18,52 @@ use \stdClass;
 class UserInterface extends OdaRestInterface {
     /**
      */
+    function create(){
+        try {
+            $params = new OdaPrepareReqSql();
+            $params->sql = "SELECT count(*) as result
+                from `api_tab_utilisateurs`
+                where 1=1
+                AND code_user like '".$this->inputs["userCode"]."%'
+            ;";
+            $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+            $nbSamePseudo = intval($retour->data->result);
+
+            //--------------------------------------------------------------------------
+            if($nbSamePseudo == 0){
+                $userCode = $this->inputs["userCode"];
+            }else{
+                $userCode = $this->inputs["userCode"].$nbSamePseudo;
+            }
+
+            $params = new OdaPrepareReqSql();
+            $params->sql = "INSERT INTO `api_tab_utilisateurs` 
+                (`password`,`code_user`,`nom`,`prenom`,`id_rang`,`montrer_aide_ihm`,`mail`,`actif`,`date_creation`)
+                VALUES  
+                ( :password, :userCode, :lastName, :firstName, 5, 1, :mail, 1, now())
+            ;";
+            $params->bindsValue = [
+                "firstName" => $this->inputs["firstName"],
+                "lastName" => $this->inputs["lastName"],
+                "mail" => $this->inputs["mail"],
+                "password" => $this->inputs["password"],
+                "userCode" => $userCode
+            ];
+            $params->typeSQL = OdaLibBd::SQL_INSERT_ONE;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+
+            $params = new stdClass();
+            $params->id = $retour->data;
+            $params->userCode = $userCode;
+            $params->mail = $this->inputs["mail"];
+            $this->addDataObject($params);
+        } catch (Exception $ex) {
+            $this->dieInError($ex.'');
+        }
+    }
+    /**
+     */
     function resetPwd() {
         try {
             $params = new OdaPrepareReqSql();
@@ -71,8 +117,6 @@ class UserInterface extends OdaRestInterface {
             $params->typeSQL = OdaLibBd::SQL_GET_ONE;
             $retour = $this->BD_ENGINE->reqODASQL($params);
             
-            $params = new stdClass();
-            $params->retourSql = $retour;
             $this->addDataObject($retour->data);
         } catch (Exception $ex) {
             $this->dieInError($ex.'');

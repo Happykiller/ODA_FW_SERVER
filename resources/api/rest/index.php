@@ -145,6 +145,14 @@ $slim->get('/session/:key', function ($key) use ($slim) {
 
 //----------- USER -------------------------------
 
+$slim->post('/user/', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->arrayInput = array("firstName","lastName","mail","password","userCode");
+    $INTERFACE = new UserInterface($params);
+    $INTERFACE->create();
+});
+
 $slim->get('/user/current', function () use ($slim) {
     $params = new OdaPrepareInterface();
     $params->slim = $slim;

@@ -65,6 +65,11 @@
 
 ## User
 
+* `/message/`
+    * type : POST
+    * mandatory params : "firstName","lastName","mail","password","userCode"
+    * public : true
+
 * `/user/current`
     * type : GET
     * public : false
