@@ -195,6 +195,14 @@ $slim->put('/user/pwd/', function () use ($slim) {
     $INTERFACE->resetPwd();
 });
 
+$slim->get('/user/search/mail/', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->arrayInput = array("email");
+    $INTERFACE = new UserInterface($params);
+    $INTERFACE->getByMail();
+});
+
 //------------------------------------------
 
 $slim->run();

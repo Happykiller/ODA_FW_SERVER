@@ -91,3 +91,8 @@
     * type : PUT
     * mandatory params : "userCode","pwd","email"
     * public : false
+
+* `/user/search/mail/`
+    * type : GET
+    * mandatory params : "email"
+    * public : true

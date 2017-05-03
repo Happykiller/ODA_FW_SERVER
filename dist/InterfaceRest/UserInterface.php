@@ -36,7 +36,30 @@ class UserInterface extends OdaRestInterface {
         } catch (Exception $ex) {
             $this->dieInError($ex.'');
         }
-     }
+    }
+    /**
+     */
+    function getByMail(){
+        try {
+            $params = new OdaPrepareReqSql();
+            $params->sql = "SELECT `code_user`
+                FROM `api_tab_utilisateurs` a
+                WHERE 1=1
+                AND a.`mail` = :email
+            ;";
+            $params->bindsValue = [
+                "email" => $this->inputs["email"]
+            ];
+            $params->typeSQL = OdaLibBd::SQL_GET_ALL;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+            
+            $params = new stdClass();
+            $params->retourSql = $retour;
+            $this->addDataObject($retour->data->data);
+        } catch (Exception $ex) {
+            $this->dieInError($ex.'');
+        }
+    }
     /**
      */
     function create(){
