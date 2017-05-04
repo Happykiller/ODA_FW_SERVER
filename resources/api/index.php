@@ -2,9 +2,9 @@
 
 namespace Oda;
 
-require '../../../../../../header.php';
-require '../../../../../../vendor/autoload.php';
-require '../../../../../../config/config.php';
+require '../../../../../header.php';
+require '../../../../../vendor/autoload.php';
+require '../../../../../config/config.php';
 
 use stdClass, 
     Slim\Slim,
