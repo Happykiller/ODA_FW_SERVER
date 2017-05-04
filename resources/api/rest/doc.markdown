@@ -7,6 +7,7 @@
     * public : false
     * optional params : "w","h"
     
+
 ## Message
 
 * `/message/`
@@ -25,6 +26,7 @@
 * `/message/read/:messageId`
     * type : PUT
     * public : false    
+
 
 ## Navigation
 
@@ -51,11 +53,13 @@
     * public : false
     * mandatory params : "value"
 
+
 ## Rank
 
 * `/rank/`
     * type : GET
     * public : false
+
 
 ## Session
 
@@ -77,6 +81,7 @@
     * type : DELETE
     * public : false
 
+
 ## System
 
 * `/sys/page/trace`
@@ -90,6 +95,12 @@
 * `/sys/theme/`
     * type : GET
     * public : false
+
+* `/sys/cleanDb/`
+    * type : POST
+    * public : false
+    * mandatory params : "exec"
+    
 
 ## User
 

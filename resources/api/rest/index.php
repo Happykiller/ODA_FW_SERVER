@@ -199,6 +199,15 @@ $slim->get('/sys/theme/', function () use ($slim) {
     $INTERFACE->getAllTheme();
 });
 
+$slim->post('/sys/cleanDb/', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $params->arrayInput = array("exec",);
+    $INTERFACE = new SystemInterface($params);
+    $INTERFACE->cleanDb();
+});
+
 //----------- USER -------------------------------
 
 $slim->get('/user/', function () use ($slim) {
