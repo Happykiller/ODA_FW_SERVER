@@ -87,6 +87,10 @@
     * type : GET
     * public : false
 
+* `/sys/theme/`
+    * type : GET
+    * public : false
+
 ## User
 
 * `/user/`

@@ -191,6 +191,14 @@ $slim->get('/sys/report/page/activity', function () use ($slim) {
     $INTERFACE->getReportPageActivity();
 });
 
+$slim->get('/sys/theme/', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $INTERFACE = new SystemInterface($params);
+    $INTERFACE->getAllTheme();
+});
+
 //----------- USER -------------------------------
 
 $slim->get('/user/', function () use ($slim) {
