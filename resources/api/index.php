@@ -7,12 +7,13 @@ require '../../../../../vendor/autoload.php';
 require '../../../../../config/config.php';
 
 use stdClass, 
-    Slim\Slim,
+    Slim\Slim, 
+    Oda\OdaLibBd,  
+    Oda\OdaRestInterface,
     cebe\markdown\GithubMarkdown,
     Oda\SimpleObject\OdaPrepareInterface, 
-    Oda\SimpleObject\OdaPrepareReqSql, 
-    Oda\OdaLibBd, 
-    Oda\InterfaceRest\UserInterface, 
+    Oda\SimpleObject\OdaPrepareReqSql,
+    Oda\InterfaceRest\UserInterface,
     Oda\InterfaceRest\SessionInterface, 
     Oda\InterfaceRest\AvatarInterface,
     Oda\InterfaceRest\NavigationInterface,
@@ -24,8 +25,9 @@ use stdClass,
 $slim = new Slim();
 //--------------------------------------------------------------------------
 
-$slim->notFound(function () {
+$slim->notFound(function () use ($slim)  {
     $params = new OdaPrepareInterface();
+    $params->slim = $slim;
     $INTERFACE = new OdaRestInterface($params);
     $INTERFACE->dieInError('not found');
 });
