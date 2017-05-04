@@ -145,12 +145,23 @@ $slim->post('/session/', function () use ($slim) {
     $INTERFACE->create();
 });
 
+//TODO do not specify key, or do it public
 $slim->get('/session/:key', function ($key) use ($slim) {
     $params = new OdaPrepareInterface();
     $params->slim = $slim;
     $params->modePublic = false;
     $INTERFACE = new SessionInterface($params);
     $INTERFACE->getBykey($key);
+})->conditions(array('key' => '^(?!check$)'));
+
+//TODO doublon with /session/:key ?
+$slim->get('/session/check', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $params->arrayInput = array("code_user", "key");
+    $INTERFACE = new SessionInterface($params);
+    $INTERFACE->check();
 });
 
 //----------- SYSTEM -------------------------------

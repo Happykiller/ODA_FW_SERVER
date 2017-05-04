@@ -68,6 +68,11 @@
     * type : GET
     * public : false
 
+* `/session/check`
+    * type : GET
+    * public : false
+    * mandatory params : "code_user","key"
+
 ## System
 
 * `/sys/page/trace`
