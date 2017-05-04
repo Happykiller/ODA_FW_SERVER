@@ -100,6 +100,10 @@
     * type : POST
     * public : false
     * mandatory params : "exec"
+
+* `/sys/report/interfaceMetric`
+    * type : GET
+    * public : false
     
 
 ## User

@@ -208,6 +208,14 @@ $slim->post('/sys/cleanDb/', function () use ($slim) {
     $INTERFACE->cleanDb();
 });
 
+$slim->get('/sys/report/interfaceMetric', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $INTERFACE = new SystemInterface($params);
+    $INTERFACE->getReportInterfacMetric();
+});
+
 //----------- USER -------------------------------
 
 $slim->get('/user/', function () use ($slim) {
