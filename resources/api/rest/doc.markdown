@@ -109,6 +109,15 @@
     * type : POST
     * public : false
     * mandatory params : "type","msg"
+
+* `/sys/param/:key`
+    * type : GET
+    * public : true
+
+* `/sys/param/:key`
+    * type : PUT
+    * public : false
+    * mandatory params : "value"
     
 
 ## User

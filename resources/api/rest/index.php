@@ -225,6 +225,22 @@ $slim->post('/sys/log/', function () use ($slim) {
     $INTERFACE->createLog();
 });
 
+$slim->get('/sys/param/:key', function ($key) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $INTERFACE = new SystemInterface($params);
+    $INTERFACE->getParam($key);
+});
+
+$slim->put('/sys/param/:key', function ($key) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $params->arrayInput = array("value");
+    $INTERFACE = new SystemInterface($params);
+    $INTERFACE->setParam($key);
+});
+
 //----------- USER -------------------------------
 
 $slim->get('/user/', function () use ($slim) {

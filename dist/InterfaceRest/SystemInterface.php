@@ -262,12 +262,41 @@ class SystemInterface extends OdaRestInterface {
     }
     /**
      */
-     function createLog(){
+    function createLog(){
         try {
             $id = $this->BD_ENGINE->logTrace($this->inputs["type"], $this->inputs["msg"]);
             $this->addDataStr($id);
         } catch (Exception $ex) {
             $this->dieInError($ex.'');
         }
-     }
+    }
+    /**
+     */
+    function getParam($key){
+        try {
+            $params = new stdClass();
+            $params->nameObj = "api_tab_parametres";
+            $params->keyObj = ["param_name" => $key];
+            $retour = $this->BD_ENGINE->getSingleObject($params);
+            $this->addDataObject($retour);
+        } catch (Exception $ex) {
+            $this->dieInError($ex.'');
+        }
+    }
+    /**
+      */
+    function setParam($key) {
+        try {
+            $params = new stdClass();
+            $params->nameObj = "api_tab_parametres";
+            $params->keyObj = ["param_name" => $key];
+            $params->setObj = ["param_value" => $this->inputs["value"]];
+            $id = $this->BD_ENGINE->setSingleObj($params);
+
+            $params = new stdClass();
+            $this->addDataStr($id);
+        } catch (Exception $ex) {
+            $this->dieInError($ex.'');
+        }
+    }
 }
