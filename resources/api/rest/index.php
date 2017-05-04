@@ -136,6 +136,15 @@ $slim->get('/rank/', function () use ($slim) {
 
 //----------- SESSION -------------------------------
 
+$slim->post('/session/', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->arrayInput = array("userCode","password");
+    $params->arrayInputOpt = array("sessionTimeOutMinute" => 720);
+    $INTERFACE = new SessionInterface($params);
+    $INTERFACE->create();
+});
+
 $slim->get('/session/:key', function ($key) use ($slim) {
     $params = new OdaPrepareInterface();
     $params->slim = $slim;

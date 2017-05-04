@@ -59,6 +59,11 @@
 
 ## Session
 
+* `/session/`
+    * type : POST
+    * public : false
+    * mandatory params : "userCode","password"
+
 * `/session/:key`
     * type : GET
     * public : false
