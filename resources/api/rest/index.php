@@ -203,7 +203,7 @@ $slim->post('/sys/cleanDb/', function () use ($slim) {
     $params = new OdaPrepareInterface();
     $params->slim = $slim;
     $params->modePublic = false;
-    $params->arrayInput = array("exec",);
+    $params->arrayInput = array("exec");
     $INTERFACE = new SystemInterface($params);
     $INTERFACE->cleanDb();
 });
@@ -214,6 +214,15 @@ $slim->get('/sys/report/interfaceMetric', function () use ($slim) {
     $params->modePublic = false;
     $INTERFACE = new SystemInterface($params);
     $INTERFACE->getReportInterfacMetric();
+});
+
+$slim->post('/sys/log/', function () use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $params->arrayInput = array("type","msg");
+    $INTERFACE = new SystemInterface($params);
+    $INTERFACE->createLog();
 });
 
 //----------- USER -------------------------------

@@ -260,4 +260,14 @@ class SystemInterface extends OdaRestInterface {
             $this->dieInError($ex.'');
         }
     }
+    /**
+     */
+     function createLog(){
+        try {
+            $id = $this->BD_ENGINE->logTrace($this->inputs["type"], $this->inputs["msg"]);
+            $this->addDataStr($id);
+        } catch (Exception $ex) {
+            $this->dieInError($ex.'');
+        }
+     }
 }

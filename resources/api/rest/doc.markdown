@@ -104,6 +104,11 @@
 * `/sys/report/interfaceMetric`
     * type : GET
     * public : false
+
+* `/sys/log/`
+    * type : POST
+    * public : false
+    * mandatory params : "type","msg"
     
 
 ## User
