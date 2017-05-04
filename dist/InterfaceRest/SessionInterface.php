@@ -94,9 +94,19 @@ class SessionInterface extends OdaRestInterface {
     function check() {
         try {
             $retour = $this->checkSession($this->inputs);
-
-            //--------------------------------------------------------------------------
-            $params = new \stdClass();
+            $params = new stdClass();
+            $params->value = $retour;
+            $this->addDataStr($params);
+        } catch (Exception $ex) {
+            $this->dieInError($ex.'');
+        }
+    }
+    /**
+     */
+    function delete($key) {
+        try {
+            $retour = $this->deleteSession($key);
+            $params = new stdClass();
             $params->value = $retour;
             $this->addDataStr($params);
         } catch (Exception $ex) {

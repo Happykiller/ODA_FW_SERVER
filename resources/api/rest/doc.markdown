@@ -73,6 +73,10 @@
     * public : false
     * mandatory params : "code_user","key"
 
+* `/session/:key`
+    * type : DELETE
+    * public : false
+
 ## System
 
 * `/sys/page/trace`

@@ -164,6 +164,15 @@ $slim->get('/session/check', function () use ($slim) {
     $INTERFACE->check();
 });
 
+//TODO do not specify key, or do it public
+$slim->delete('/session/:key', function ($key) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $params->modePublic = false;
+    $INTERFACE = new SessionInterface($params);
+    $INTERFACE->delete($key);
+});
+
 //----------- SYSTEM -------------------------------
 
 $slim->post('/sys/page/trace', function () use ($slim) {
