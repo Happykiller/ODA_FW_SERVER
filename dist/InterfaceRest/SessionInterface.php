@@ -38,7 +38,7 @@ class SessionInterface extends OdaRestInterface {
                 $this->dieInError('User disabled.', $this::STATE_ERROR_AUTH);
             }else{
                 if(OdaLib::startsWith($this->inputs["password"],"authByGoogle-")){
-                    $mail = str_replace("authByGoogle-", "", $this->inputs["mdp"]);
+                    $mail = str_replace("authByGoogle-", "", $this->inputs["password"]);
                     if($mail !== $retour->data->mail){
                         $this->dieInError('Auth impossible.(mail incorrect)',$this::STATE_ERROR_AUTH);
                     }
