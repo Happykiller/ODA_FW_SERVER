@@ -11,3 +11,6 @@ Basically is of create a REST web server from DB (mysql is better)
 3 - "php vendor/happykiller/oda/deploy/installer.php"
 
 4 - Edit "config/config.php"
+
+# For more
+Visit: http://oda.happykiller.net/
