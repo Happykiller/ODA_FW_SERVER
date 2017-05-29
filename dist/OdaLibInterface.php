@@ -597,6 +597,8 @@ class OdaLibInterface {
                             $params->typeSQL = OdaLibBd::SQL_GET_ONE;
                             $retour = $this->BD_ENGINE->reqODASQL($params);
 
+                            //Get the rule if the user indice is lower or equal than indice specify
+                            //Ex if user indice is 30 (user) and the rule indice is 40 (respon), the acces is denied, the open false
                             if(($retour->data) && (!$retour->data->open) && ($retour->data->indice <= $this->user->indice)){
                                 $this->dieInError('Indice user not enough.', self::STATE_ERROR_AUTH);
                             }
