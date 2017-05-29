@@ -42,4 +42,10 @@ class OdaPrepareInterface {
      * @var string 
      */
     public $fileName = "";
+    /**
+     * For inherit right from rank and route
+     * @example admin
+     * @var String
+     */
+    public $inheritRightRoute = "";
 }

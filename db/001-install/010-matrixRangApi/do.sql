@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS `@prefix@api_tab_rang_api` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `interface` varchar(255) NOT NULL,
+  `methode` varchar(255) NOT NULL,
   `id_rang` int(11) NOT NULL,
   `open` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)

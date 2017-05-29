@@ -1,8 +1,9 @@
 <?php
 namespace Oda;
-use \Exception;
-use Oda\SimpleObject\OdaUser;
-use \stdClass;
+use \Exception
+ , Oda\SimpleObject\OdaUser
+ , Slim\Http\Request
+ , \stdClass;
 /**
  * LIBODA Librairy - main class
  *
@@ -122,6 +123,12 @@ class OdaLibInterface {
      * @var Int
      */
     private $transactionRecord;
+    /**
+     * For inherit right from rank and route
+     * @example admin
+     * @var String
+     */
+    private $inheritRightRoute;
 
     /**
      * @param type \Oda\OdaPrepareInterface
@@ -132,11 +139,11 @@ class OdaLibInterface {
             $this->params = $params;
             $this->modeDebug = $params->modeDebug;
             $this->modePublic = $params->modePublic;
+            $this->inheritRightRoute = $params->inheritRightRoute;
             $this->modeSortie = $params->modeSortie;
             $this->fileName = $params->fileName;
             $this->object_retour = new SimpleObject\OdaRetourInterface();
             $this->callerMethode = $_SERVER['REQUEST_METHOD'];
-            $this->name = $this->getInstanceName();
 
             self::$config = SimpleObject\OdaConfig::getInstance();
 
@@ -579,10 +586,13 @@ class OdaLibInterface {
                                 FROM `api_tab_rang_api` a, `api_tab_rangs` b
                                 WHERE 1=1
                                 AND a.`id_rang` = b.`id`
-                                AND :interface like concat('%',a.`interface`, '%')
+                                AND :interface like concat(a.`interface`, '%')
+                                AND a.`methode` = :methode
                             ;";
+                            
                             $params->bindsValue = [
-                                "interface" => $this->name
+                                "interface" => $this->params->slim->request->getPathInfo(),
+                                "methode" => $this->params->slim->request->getMethod()
                             ];
                             $params->typeSQL = OdaLibBd::SQL_GET_ONE;
                             $retour = $this->BD_ENGINE->reqODASQL($params);
@@ -737,7 +747,7 @@ class OdaLibInterface {
      * @param string $p_parameterName
      * @return string|int $parameterValue
      */
-    public function getParameter ($p_parameterName) {
+    public function getParameter($p_parameterName) {
         try {
             $parameterValue = null;
 
@@ -798,29 +808,5 @@ class OdaLibInterface {
         $this->object_retour->strErreur = $message;
         $this->object_retour->statut = $errorCode;
         die();
-    }
-
-    /*
-     * return the instance name after api/
-     * @return string
-     */
-    public function getInstanceName(){
-        try {
-            if(isset($_SERVER["REDIRECT_URL"])){
-                $REQUEST = $_SERVER["REDIRECT_URL"];
-            }else{
-                $REQUEST = $_SERVER["SCRIPT_NAME"];
-            }
-
-            $instanceName = strstr($REQUEST, 'api/');
-
-            $instanceName = str_replace('api/', '', $instanceName);
-
-            return $instanceName;
-        } catch (Exception $ex) {
-            $this->object_retour->strErreur = $ex.'';
-            $this->object_retour->statut = self::STATE_ERROR;
-            die();
-        }
     }
 }
