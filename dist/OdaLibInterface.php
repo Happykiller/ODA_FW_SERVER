@@ -586,7 +586,7 @@ class OdaLibInterface {
                                 FROM `api_tab_rang_api` a, `api_tab_rangs` b
                                 WHERE 1=1
                                 AND a.`id_rang` = b.`id`
-                                AND :interface like concat(a.`interface`, '%')
+                                AND :interface like a.`interface`
                                 AND a.`methode` = :methode
                             ;";
                             
