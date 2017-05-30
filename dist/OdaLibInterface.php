@@ -3,6 +3,7 @@ namespace Oda;
 use \Exception
  , Oda\SimpleObject\OdaUser
  , Slim\Http\Request
+ , Slim\Slim
  , \stdClass;
 /**
  * LIBODA Librairy - main class
@@ -181,9 +182,7 @@ class OdaLibInterface {
 
             return $this;
         } catch (Exception $ex){
-            $this->object_retour->strErreur = $ex.'';
-            $this->object_retour->statut = self::STATE_ERROR;
-            die();
+            $this->dieInError($ex.'');
         }
     }
     /**
@@ -338,9 +337,7 @@ class OdaLibInterface {
 
             return $arrayOut;
         } catch (Exception $ex) {
-            $this->object_retour->strErreur = $ex.'';
-            $this->object_retour->statut = self::STATE_ERROR;
-            die();
+            $this->dieInError($ex.'');
         }
     }
     /*
@@ -365,9 +362,7 @@ class OdaLibInterface {
 
             return $strUrl;
         } catch (Exception $ex) {
-            $this->object_retour->strErreur = $ex.'';
-            $this->object_retour->statut = self::STATE_ERROR;
-            die();
+            $this->dieInError($ex.'');
         }
     }
     /**
@@ -393,9 +388,7 @@ class OdaLibInterface {
                 }
             }
         } catch (Exception $ex) {
-            $this->object_retour->strErreur = $ex.'';
-            $this->object_retour->statut = self::STATE_ERROR;
-            die();
+            $this->dieInError($ex.'');
         }
     }
 
@@ -416,9 +409,7 @@ class OdaLibInterface {
                 $this->object_retour->data = $p_params;
             }
         } catch (Exception $ex) {
-            $this->object_retour->strErreur = $ex.'';
-            $this->object_retour->statut = self::STATE_ERROR;
-            die();
+            $this->dieInError($ex.'');
         }
     }
     /**
@@ -452,9 +443,7 @@ class OdaLibInterface {
                 $this->object_retour->data = $p_params;
             }
         } catch (Exception $ex) {
-            $this->object_retour->strErreur = $ex.'';
-            $this->object_retour->statut = self::STATE_ERROR;
-            die();
+            $this->dieInError($ex.'');
         }
     }
     /**
@@ -492,9 +481,7 @@ class OdaLibInterface {
             }
 
         } catch (Exception $ex) {
-            $this->object_retour->strErreur = $ex.'';
-            $this->object_retour->statut = self::STATE_ERROR;
-            die();
+            $this->dieInError($ex.'');
         }
     }
     /**
@@ -519,9 +506,7 @@ class OdaLibInterface {
                 $retour = $this->BD_ENGINE->reqODASQL($params);
             }
         } catch (Exception $ex) {
-            $this->object_retour->strErreur = $ex.'';
-            $this->object_retour->statut = self::STATE_ERROR;
-            die();
+            $this->dieInError($ex.'');
         }
     }
     /**
@@ -586,19 +571,19 @@ class OdaLibInterface {
                                 FROM `api_tab_rang_api` a, `api_tab_rangs` b
                                 WHERE 1=1
                                 AND a.`id_rang` = b.`id`
-                                AND :interface like a.`interface`
+                                AND a.`interface` = :interface
                                 AND a.`methode` = :methode
                             ;";
-                            
+
                             $params->bindsValue = [
-                                "interface" => $this->params->slim->request->getPathInfo(),
+                                "interface" => Slim::getInstance()->router()->getCurrentRoute()->getPattern(),
                                 "methode" => $this->params->slim->request->getMethod()
                             ];
                             $params->typeSQL = OdaLibBd::SQL_GET_ONE;
                             $retour = $this->BD_ENGINE->reqODASQL($params);
 
-                            //Get the rule if the user indice is lower or equal than indice specify
-                            //Ex if user indice is 30 (user) and the rule indice is 40 (respon), the acces is denied, the open false
+                            //Get acces if the user indice is lower than indice need
+                            //Ex if user indice is 30 (user) and the rule indice is 40 (respon), the acces is denied
                             if(($retour->data) && (!$retour->data->open) && ($retour->data->indice <= $this->user->indice)){
                                 $this->dieInError('Indice user not enough.', self::STATE_ERROR_AUTH);
                             }
@@ -607,9 +592,7 @@ class OdaLibInterface {
                 }
             }
         } catch ( Exception $ex ) {
-            $this->object_retour->strErreur = $ex.'';
-            $this->object_retour->statut = self::STATE_ERROR;
-            die();
+            $this->dieInError($ex.'');
         }
     }
     /**
@@ -635,9 +618,7 @@ class OdaLibInterface {
 
             return $retour->nombre;
         } catch ( Exception $ex ) {
-            $this->object_retour->strErreur = $ex.'';
-            $this->object_retour->statut = self::STATE_ERROR;
-            die();
+            $this->dieInError($ex.'');
         }
     }
     /**
@@ -661,9 +642,7 @@ class OdaLibInterface {
 
             return $retour->nombre;
         } catch ( Exception $ex ) {
-            $this->object_retour->strErreur = $ex.'';
-            $this->object_retour->statut = self::STATE_ERROR;
-            die();
+            $this->dieInError($ex.'');
         }
     }
     /**
@@ -774,9 +753,7 @@ class OdaLibInterface {
 
             return $parameterValue;
         } catch (Exception $ex) {
-            $this->object_retour->strErreur = $ex.'';
-            $this->object_retour->statut = self::STATE_ERROR;
-            die();
+            $this->dieInError($ex.'');
         }
     }
 
@@ -795,9 +772,7 @@ class OdaLibInterface {
 
             return $id;
         } catch (Exception $ex) {
-            $this->object_retour->strErreur = $ex.'';
-            $this->object_retour->statut = self::STATE_ERROR;
-            die();
+            $this->dieInError($ex.'');
         }
     }
 

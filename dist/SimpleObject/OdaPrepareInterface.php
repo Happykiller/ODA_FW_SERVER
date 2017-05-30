@@ -1,6 +1,10 @@
 <?php
 namespace Oda\SimpleObject;
 
+use \Exception
+ , Slim\Slim
+ , \stdClass;
+
 class OdaPrepareInterface {
     /**
      * Mode debug, false by default
@@ -48,4 +52,21 @@ class OdaPrepareInterface {
      * @var String
      */
     public $inheritRightRoute = "";
+    /**
+     * @var \Slim\Slim 
+     */
+    public $slim = null;
+
+    /**
+     * @param type \Slim\Slim
+     * @return \Oda\OdaPrepareInterface
+     */
+    public function __construct(Slim $slim = null){
+        try {
+            $this->slim = $slim;
+            return $this;
+        } catch (Exception $ex){
+            $this->dieInError($ex.'');
+        }
+    }
 }
