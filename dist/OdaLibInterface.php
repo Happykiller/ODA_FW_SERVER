@@ -586,6 +586,27 @@ class OdaLibInterface {
                             //Ex if user indice is 30 (user) and the rule indice is 40 (respon), the acces is denied
                             if(($retour->data) && (!$retour->data->open) && ($retour->data->indice <= $this->user->indice)){
                                 $this->dieInError('Indice user not enough.', self::STATE_ERROR_AUTH);
+                            }else{
+                                if($this->inheritRightRoute != ""){
+                                    //Check if the user rank can access to route
+                                    $params = new SimpleObject\OdaPrepareReqSql();
+                                    $params->sql = "SELECT a.`id`, b.`id_menu`, b.`id_menu` like concat('%;',a.`id`,';%') as 'present'
+                                        FROM `api_tab_menu` a, `api_tab_menu_rangs_droit` b
+                                        WHERE 1=1
+                                        AND a.`Lien` = :inheritRightRoute
+                                        AND b.`id_rang` = :rankId
+                                    ;";
+                                    $params->bindsValue = [
+                                        "inheritRightRoute" => $this->inheritRightRoute,
+                                        "rankId" => $this->user->rankId
+                                    ];
+                                    $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+                                    $retour = $this->BD_ENGINE->reqODASQL($params);
+
+                                    if(($retour->data) && (!$retour->data->present)){
+                                        $this->dieInError("Affiliated route:'".$this->inheritRightRoute."' not allowed for user:'".$this->user->codeUser."'.", self::STATE_ERROR_AUTH);
+                                    }
+                                }
                             }
                         }
                     }
