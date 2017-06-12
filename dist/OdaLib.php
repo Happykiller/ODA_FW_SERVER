@@ -511,4 +511,39 @@ class OdaLib {
         
         echo nl2br(str_replace(' ','&nbsp;',htmlentities($string)));
     }
+
+    /**
+     * @name var_debug
+     * @param Variable
+     */
+    static function traceLog($errstr, $errno = E_USER_NOTICE){
+        if(!ini_get('date.timezone')){
+            date_default_timezone_set('GMT');
+        }
+
+        $logfile = './log_'.date("j.n.Y").'.log';
+
+        $msg;
+
+        switch ($errno) {
+            case E_USER_ERROR:
+                $msg = date("y-m-d H:i:s") . " >> ".$_SERVER['PHP_SELF']." >> ERROR >> [$errno] $errstr". PHP_EOL;
+                break;
+
+            case E_USER_WARNING:
+                $msg = date("y-m-d H:i:s") . " >> ".$_SERVER['PHP_SELF']." >> WARNING >> $errstr". PHP_EOL;
+                break;
+
+            case E_USER_NOTICE:
+                $msg = date("y-m-d H:i:s") . " >> ".$_SERVER['PHP_SELF']." >> NOTICE >> $errstr". PHP_EOL;
+                break;
+
+            default:
+                $msg = date("y-m-d H:i:s") . " >> ".$_SERVER['PHP_SELF']." >> UNKNOWN >> $errstr". PHP_EOL;
+                break;
+        }
+
+        echo $msg;
+        file_put_contents($logfile, $msg, FILE_APPEND | LOCK_EX);
+    }
 }

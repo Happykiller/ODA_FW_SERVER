@@ -43,6 +43,10 @@ class OdaConfig {
      * @var OdaMailgunConf 
      */
     public $MAILGUN;
+    /**
+     * @var OdaWebsocketConf 
+     */
+    public $websocket;
     
     /**
      * class constructor
@@ -54,6 +58,7 @@ class OdaConfig {
         $this->BD_ENGINE = new OdaConnection();
         $this->BD_AUTH = new OdaConnection();
         $this->MAILGUN = new OdaMailgunConf();
+        $this->websocket = new OdaWebsocketConf();
     }
     /**
      * Destructor
@@ -74,6 +79,7 @@ class OdaConfig {
             self::$instance->BD_ENGINE = new OdaConnection();
             self::$instance->BD_AUTH = new OdaConnection();
             self::$instance->MAILGUN = new OdaMailgunConf();
+            self::$instance->websocket = new OdaWebsocketConf();
         }
         return self::$instance; 
     }
@@ -223,4 +229,32 @@ class OdaMailgunConf {
         
         return $boolReturn;
     }
+}
+class OdaWebsocketConf {    
+    /**
+     * @var string 
+     */
+    public $host;
+    /**
+     * @var int 
+     */
+    public $port;
+    /**
+     * @var string 
+     */
+    public $instanceName;
+    
+    /**
+     * class constructor
+     * @return OdaWebsocketConf $this
+     */
+    public function __construct(){
+    }
+    /**
+     * Destructor
+     * @access public
+     * @return null
+     */
+    public function __destruct(){
+    }   
 }
