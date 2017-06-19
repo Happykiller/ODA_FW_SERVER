@@ -103,7 +103,7 @@ class UserInterface extends OdaRestInterface {
                 "firstName" => $this->inputs["firstName"],
                 "lastName" => $this->inputs["lastName"],
                 "mail" => $this->inputs["mail"],
-                "password" => $this->inputs["password"],
+                "password" => password_hash($this->inputs["password"], PASSWORD_DEFAULT),
                 "userCode" => $userCode
             ];
             $params->typeSQL = OdaLibBd::SQL_INSERT_ONE;
